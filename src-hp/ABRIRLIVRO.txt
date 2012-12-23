@@ -1,0 +1,14 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Abre um livro, exibindo seu índice
+
+OBJ\-> DROP 0. {} {} \-> versao \<-nome opcoes \<-indice \<-paginas \<-anexos \<-strings n lista \<-posIndice
+\<<
+	@ Valida a versão
+	IF versao 1. \=/ THEN
+		"Vers\227o incompat\237vel" DOERR
+	END
+	
+	MONTARINDICERAIZ
+\>>
+\>>

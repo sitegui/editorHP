@@ -1,0 +1,59 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Compila uma página, gerando uma imagem
+@ Recebe um objeto do tipo página
+
+0. 131. 0. 0. 0. \-> \<-n \<-largura tipo \<-altura \<-y
+\<<
+	OBJ\-> '\<-n' STO
+	1. \<-n START
+		@ Percorre cada objeto, gerando uma imagem prévia
+		OBJ\-> DROP 'tipo' STO
+		CASE
+			tipo 0. == THEN PREOBJTXT END
+			tipo 1. == THEN PREOBJEQ END
+			tipo 2. == THEN PREOBJIMG END
+			tipo 3. == THEN PREOBJCABECALHO END
+			tipo 4. == THEN PREOBJREGUA END
+		END
+	NEXT
+	
+	@ Percorre cada objeto visível, gerando a página final
+	\<-largura R\->B \<-altura R\->B BLANK PICT STO
+	0. \<-n 1. - FOR j
+		\<-n j - ROLL OBJ\-> DROP 'tipo' STO
+		CASE
+			tipo 0. == THEN 0. 0. \-> lado img w h
+			\<<
+				@ Pega o tamanho
+				img SIZE B\->R 'h' STO B\->R 'w' STO
+				@ Calcula a posição horizontal
+				CASE
+					lado -1. == THEN 0. END
+					lado 0. == THEN \<-largura w - 2. / FLOOR END
+					lado 1. == THEN \<-largura w - END
+				END
+				@ Insere no local
+				R\->B \<-y R\->B 2. \->LIST
+				PICT SWAP img GOR
+				@ Atualiza a altura da inserção
+				'\<-y' h 8. + STO+
+			\>> END
+			tipo 1. == THEN \-> cor h
+			\<<
+				@ Gera a régua
+				\<-largura R\->B h R\->B BLANK
+				IF cor THEN
+					NEG
+				END
+				@ Insere no local
+				PICT SWAP 0. R\->B \<-y R\->B 2. \->LIST SWAP GOR
+				@ Atualiza a altura da inserção
+				'\<-y' h 8. + STO+
+			\>> END
+		END
+	NEXT
+	
+	{} PVIEW
+\>>
+\>>

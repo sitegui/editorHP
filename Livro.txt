@@ -1,0 +1,38 @@
+%%HP: T(3)A(R)F(.);
+{
+1.
+"Teste"
+""
+{
+	{"Primeiro" 1. 1.}
+	{"Segundo"
+		{"2a" 2. 1.}
+		{"2b"
+			{"2bI" 2. 1.}
+			{"2bII" 2. 1.}
+		0.}
+	0.}
+}
+{
+	{
+		{0. 1. "=Primeiro=" 3.}
+		{-1. "Um Parágrafo" 0.}
+		{0. "'a = \v/(b^2+c^2)'" 1.}
+		{1. 3. 4.}
+		{-1. "Um segundo parágrafo" 0.}
+		{1. GROB 13 5 F541144095411541FD71 2.}
+	}
+	{
+		{0. 1. "=Segundo=" 3.}
+		{-1. "Outro Parágrafo" 0.}
+		{0. "'a^2 = b^2+c^2'" 1.}
+	}
+}
+{
+	{"Sen-cos" "'sin(\Gh)^2 + cos(\Gh)^2 = 1'"}
+	{"Pitágoras" "'a^2 = b^2+c^2'"}
+	{"Dobrar" "\<< 2 * \>>"}
+	{"Acentos" "\"áçêñtòs\""}
+}
+{"=PRIMEIRO=;UM PARAGRAFO;UM SEGUNDO PARAGRAFO" "=SEGUNDO=;OUTRO PARAGRAFO"}
+}
