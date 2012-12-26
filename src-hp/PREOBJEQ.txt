@@ -3,7 +3,12 @@
 @ Compila um objeto do tipo equação
 
 @ Transforma em imagem
-STR\-> 0. \->GROB
+IFERR STR\-> THEN
+	DROP
+	"[\019\002\019Erro na equa\231\227o\019\002\019]" 2. \->GROB
+ELSE
+	0. \->GROB
+END
 @ Pega o tamanho
 DUP SIZE B\->R 8. + '\<-altura' STO+ B\->R
 @ Salva, se maior

@@ -2,7 +2,9 @@
 \<<
 @ Monta a lista de anexos
 IF  "Anexos" \<-anexos 0. CLLCD CHOOSE THEN
-	STR\->
+	IFERR STR\-> THEN
+		"Formato inv\225lido" MSGBOX
+	END
 ELSE
 	MONTARINDICERAIZ
 END

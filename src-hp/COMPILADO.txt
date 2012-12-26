@@ -4,6 +4,36 @@
 CLLCD "Abrindo..." 1. DISP
 STR\->
 DIR
+  MONTARINDICE
+  \<< 0. 0. { } \-> subindice n lista
+    \<< \<-indice 'subindice' STO \<-posIndice OBJ\-> 1. SWAP
+      START subindice SWAP GET 'subindice' STO
+      NEXT subindice OBJ\-> 2. - 'n' STO
+      IF
+      THEN \<-paginas SWAP GET SWAP DROP COMPILARPAGINA SUBIRINDICE
+      ELSE 1. n
+        FOR j 1. GET n 2. + j - 2. \->LIST 1. \->LIST 'lista' STO+
+        NEXT { { ".." 0. } } 'lista' STO+
+        IF lista 2. CLLCD CHOOSE
+        THEN
+          IF DUP
+          THEN '\<-posIndice' STO+ MONTARINDICE
+          ELSE DROP SUBIRINDICE
+          END
+        END
+      END
+    \>>
+  \>>
+  MONTARANEXOS
+  \<<
+    IF "Anexos" \<-anexos 0. CLLCD CHOOSE
+    THEN
+      IFERR STR\->
+      THEN "Formato inv\225lido" MSGBOX
+      END
+    ELSE MONTARINDICERAIZ
+    END
+  \>>
   COMPILARPAGINA
   \<< 0. 131. 0. 0. 0. \-> \<-n \<-largura tipo \<-altura \<-y
     \<< OBJ\-> '\<-n' STO 1. \<-n
@@ -88,7 +118,11 @@ DIR
   \<< DUP SIZE B\->R 8. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 0. 3. \->LIST \<-n ROLLD
   \>>
   PREOBJEQ
-  \<< STR\-> 0. \->GROB DUP SIZE B\->R 8. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 0. 3. \->LIST \<-n ROLLD
+  \<<
+    IFERR STR\->
+    THEN DROP "[\019\002\019Erro na equa\231\227o\019\002\019]" 2. \->GROB
+    ELSE 0. \->GROB
+    END DUP SIZE B\->R 8. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 0. 3. \->LIST \<-n ROLLD
   \>>
   PREOBJCABECALHO
   \<< 2. \->GROB DUP SIZE B\->R 8. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO SWAP DROP 0. 3. \->LIST \<-n ROLLD
@@ -115,33 +149,6 @@ a ser buscado" ""
         ELSE DROP MONTARANEXOS
         END
       END
-    END
-  \>>
-  MONTARINDICE
-  \<< 0. 0. { } \-> subindice n lista
-    \<< \<-indice 'subindice' STO \<-posIndice OBJ\-> 1. SWAP
-      START subindice SWAP GET 'subindice' STO
-      NEXT subindice OBJ\-> 2. - 'n' STO
-      IF
-      THEN \<-paginas SWAP GET SWAP DROP COMPILARPAGINA SUBIRINDICE
-      ELSE 1. n
-        FOR j 1. GET n 2. + j - 2. \->LIST 1. \->LIST 'lista' STO+
-        NEXT { { ".." 0. } } 'lista' STO+
-        IF lista 2. CLLCD CHOOSE
-        THEN
-          IF DUP
-          THEN '\<-posIndice' STO+ MONTARINDICE
-          ELSE DROP SUBIRINDICE
-          END
-        END
-      END
-    \>>
-  \>>
-  MONTARANEXOS
-  \<<
-    IF "Anexos" \<-anexos 0. CLLCD CHOOSE
-    THEN STR\->
-    ELSE MONTARINDICERAIZ
     END
   \>>
 END
