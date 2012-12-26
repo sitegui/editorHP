@@ -4,6 +4,46 @@
 CLLCD "Abrindo..." 1. DISP
 STR\->
 DIR
+  COMPILARPAGINA
+  \<< 0. 131. 0. 0. 0. \-> \<-n \<-largura tipo \<-altura \<-y
+    \<< OBJ\-> '\<-n' STO "Gerando..." 1. DISP 1. \<-n
+      START OBJ\-> DROP 'tipo' STO
+        CASE tipo 0. ==
+          THEN PREOBJTXT
+          END tipo 1. ==
+          THEN PREOBJEQ
+          END tipo 2. ==
+          THEN PREOBJIMG
+          END tipo 3. ==
+          THEN PREOBJCABECALHO
+          END tipo 4. ==
+          THEN PREOBJREGUA
+          END
+        END
+      NEXT \<-largura R\->B \<-altura R\->B BLANK PICT STO "Montando..." 1. DISP 0. \<-n 1. -
+      FOR j
+        IF \<-n j - ROLL OBJ\-> DROP
+        THEN \-> cor h
+          \<< \<-largura R\->B h R\->B BLANK
+            IF cor
+            THEN NEG
+            END PICT SWAP 0. R\->B \<-y R\->B 2. \->LIST SWAP GOR '\<-y' h 8. + STO+
+          \>>
+        ELSE 0. 0. \-> lado img w h
+          \<< img SIZE B\->R 'h' STO B\->R 'w' STO
+            CASE lado -1. ==
+              THEN 0.
+              END lado 0. ==
+              THEN \<-largura w - 2. / FLOOR
+              END lado 1. ==
+              THEN \<-largura w -
+              END
+            END R\->B \<-y R\->B 2. \->LIST PICT SWAP img GOR '\<-y' h 8. + STO+
+          \>>
+        END
+      NEXT { } PVIEW
+    \>>
+  \>>
   MONTARINDICE
   \<< 0. 0. { } \-> subindice n lista
     \<< \<-indice 'subindice' STO \<-posIndice OBJ\-> 1. SWAP
@@ -33,48 +73,6 @@ DIR
       END
     ELSE MONTARINDICERAIZ
     END
-  \>>
-  COMPILARPAGINA
-  \<< 0. 131. 0. 0. 0. \-> \<-n \<-largura tipo \<-altura \<-y
-    \<< OBJ\-> '\<-n' STO 1. \<-n
-      START OBJ\-> DROP 'tipo' STO
-        CASE tipo 0. ==
-          THEN PREOBJTXT
-          END tipo 1. ==
-          THEN PREOBJEQ
-          END tipo 2. ==
-          THEN PREOBJIMG
-          END tipo 3. ==
-          THEN PREOBJCABECALHO
-          END tipo 4. ==
-          THEN PREOBJREGUA
-          END
-        END
-      NEXT \<-largura R\->B \<-altura R\->B BLANK PICT STO 0. \<-n 1. -
-      FOR j \<-n j - ROLL OBJ\-> DROP 'tipo' STO
-        CASE tipo 0. ==
-          THEN 0. 0. \-> lado img w h
-            \<< img SIZE B\->R 'h' STO B\->R 'w' STO
-              CASE lado -1. ==
-                THEN 0.
-                END lado 0. ==
-                THEN \<-largura w - 2. / FLOOR
-                END lado 1. ==
-                THEN \<-largura w -
-                END
-              END R\->B \<-y R\->B 2. \->LIST PICT SWAP img GOR '\<-y' h 8. + STO+
-            \>>
-          END tipo 1. ==
-          THEN \-> cor h
-            \<< \<-largura R\->B h R\->B BLANK
-              IF cor
-              THEN NEG
-              END PICT SWAP 0. R\->B \<-y R\->B 2. \->LIST SWAP GOR '\<-y' h 8. + STO+
-            \>>
-          END
-        END
-      NEXT { } PVIEW
-    \>>
   \>>
   BUSCAR
   \<< { } \-> string opcoes
