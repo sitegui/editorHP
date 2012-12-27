@@ -7,7 +7,7 @@ DIR
   COMPILARPAGINA
   \<< 0. 131. 0. 0. 0. \-> \<-n \<-largura tipo \<-altura \<-y
     \<< OBJ\-> '\<-n' STO "Gerando..." 1. DISP 1. \<-n
-      START OBJ\-> DROP 'tipo' STO
+      FOR j OBJ\-> DROP 'tipo' STO
         CASE tipo 0. ==
           THEN PREOBJTXT
           END tipo 1. ==
@@ -19,15 +19,15 @@ DIR
           END tipo 4. ==
           THEN PREOBJREGUA
           END
-        END
+        END \<-n j - 2. DISP
       NEXT \<-largura R\->B \<-altura R\->B BLANK PICT STO "Montando..." 1. DISP 0. \<-n 1. -
-      FOR j
+      FOR j \<-n j - 2. DISP
         IF \<-n j - ROLL OBJ\-> DROP
         THEN \-> cor h
           \<< \<-largura R\->B h R\->B BLANK
             IF cor
             THEN NEG
-            END PICT SWAP 0. R\->B \<-y R\->B 2. \->LIST SWAP GOR '\<-y' h 8. + STO+
+            END PICT SWAP 0. R\->B \<-y R\->B 2. \->LIST SWAP GOR '\<-y' h 6. + STO+
           \>>
         ELSE 0. 0. \-> lado img w h
           \<< img SIZE B\->R 'h' STO B\->R 'w' STO
@@ -38,7 +38,7 @@ DIR
               END lado 1. ==
               THEN \<-largura w -
               END
-            END R\->B \<-y R\->B 2. \->LIST PICT SWAP img GOR '\<-y' h 8. + STO+
+            END R\->B \<-y R\->B 2. \->LIST PICT SWAP img GOR '\<-y' h 6. + STO+
           \>>
         END
       NEXT { } PVIEW
@@ -107,23 +107,27 @@ DIR
     END
   \>>
   PREOBJTXT
-  \<< 2. \->GROB DUP SIZE B\->R 8. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 0. 3. \->LIST \<-n ROLLD
+  \<< 1. \->GROB DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 0. 3. \->LIST \<-n ROLLD
   \>>
   PREOBJREGUA
-  \<< DUP 8. + '\<-altura' STO+ 1. 3. \->LIST \<-n ROLLD
+  \<< DUP 6. + '\<-altura' STO+ 1. 3. \->LIST \<-n ROLLD
   \>>
   PREOBJIMG
-  \<< DUP SIZE B\->R 8. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 0. 3. \->LIST \<-n ROLLD
+  \<< DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 0. 3. \->LIST \<-n ROLLD
   \>>
   PREOBJEQ
   \<<
     IFERR STR\->
     THEN DROP "[\019\002\019Erro na equa\231\227o\019\002\019]" 2. \->GROB
     ELSE 0. \->GROB
-    END DUP SIZE B\->R 8. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 0. 3. \->LIST \<-n ROLLD
+    END DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 0. 3. \->LIST \<-n ROLLD
   \>>
   PREOBJCABECALHO
-  \<< 2. \->GROB DUP SIZE B\->R 8. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO SWAP DROP 0. 3. \->LIST \<-n ROLLD
+  \<<
+    IF SWAP 4. <
+    THEN 2.
+    ELSE 1.
+    END \->GROB DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 0. 3. \->LIST \<-n ROLLD
   \>>
   MONTARINDICERAIZ
   \<< \<-indice 1.

@@ -15,7 +15,7 @@
 }
 {
 	{
-		{0. 1. "=Primeiro=" 3.}
+		{0. 1. "\019\001\019Primeiro\019\001\019" 3.}
 		{-1. "Um Parágrafo" 0.}
 		{0. "'a = \v/(b^2+c^2)'" 1.}
 		{-1. "Uma equação inválida" 0.}
@@ -25,7 +25,7 @@
 		{1. GROB 13 5 F541144095411541FD71 2.}
 	}
 	{
-		{0. 1. "=Segundo=" 3.}
+		{0. 1. "\019\001\019Segundo\019\001\019" 3.}
 		{-1. "Outro Parágrafo" 0.}
 		{0. "'a^2 = b^2+c^2'" 1.}
 	}
@@ -37,5 +37,5 @@
 	{"Acentos" "\"áçêñtòs\""}
 	{"Erro" "2 * \>>"}
 }
-{"=PRIMEIRO=;UM PARAGRAFO;UMA EQUACAO INVALIDA;UM SEGUNDO PARAGRAFO" "=SEGUNDO=;OUTRO PARAGRAFO"}
+{"PRIMEIRO;UM PARAGRAFO;UMA EQUACAO INVALIDA;UM SEGUNDO PARAGRAFO" "SEGUNDO;OUTRO PARAGRAFO"}
 }

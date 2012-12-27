@@ -3,11 +3,16 @@
 @ Compila um objeto do tipo cabeçalho
 
 @ Transforma em imagem
-2. \->GROB
+IF SWAP 4. < THEN
+	2.
+ELSE
+	1.
+END
+\->GROB
 @ Pega o tamanho
-DUP SIZE B\->R 8. + '\<-altura' STO+ B\->R
+DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R
 @ Salva, se maior
 \<-largura MAX '\<-largura' STO
 @ Salva numa lista
-SWAP DROP 0. 3. \->LIST \<-n ROLLD
+0. 3. \->LIST \<-n ROLLD
 \>>

@@ -3,7 +3,7 @@
 @ Compila um objeto do tipo imagem
 
 @ Pega o tamanho
-DUP SIZE B\->R 8. + '\<-altura' STO+ B\->R
+DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R
 @ Salva, se maior
 \<-largura MAX '\<-largura' STO
 @ Salva numa lista

@@ -7,7 +7,7 @@
 \<<
 	OBJ\-> '\<-n' STO
 	"Gerando..." 1. DISP
-	1. \<-n START
+	1. \<-n FOR j
 		@ Percorre cada objeto, gerando uma imagem prévia
 		OBJ\-> DROP 'tipo' STO
 		CASE
@@ -17,12 +17,14 @@
 			tipo 3. == THEN PREOBJCABECALHO END
 			tipo 4. == THEN PREOBJREGUA END
 		END
+		\<-n j - 2. DISP
 	NEXT
 	
 	@ Percorre cada objeto visível, gerando a página final
 	\<-largura R\->B \<-altura R\->B BLANK PICT STO
 	"Montando..." 1. DISP
 	0. \<-n 1. - FOR j
+		\<-n j - 2. DISP
 		IF \<-n j - ROLL OBJ\-> DROP THEN
 			@ Régua
 			\-> cor h
@@ -35,7 +37,7 @@
 				@ Insere no local
 				PICT SWAP 0. R\->B \<-y R\->B 2. \->LIST SWAP GOR
 				@ Atualiza a altura da inserção
-				'\<-y' h 8. + STO+
+				'\<-y' h 6. + STO+
 			\>>
 		ELSE
 			@ Imagem
@@ -53,7 +55,7 @@
 				R\->B \<-y R\->B 2. \->LIST
 				PICT SWAP img GOR
 				@ Atualiza a altura da inserção
-				'\<-y' h 8. + STO+
+				'\<-y' h 6. + STO+
 			\>>
 		END
 	NEXT

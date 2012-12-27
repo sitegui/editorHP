@@ -3,9 +3,9 @@
 @ Compila um objeto do tipo texto
 
 @ Transforma em imagem
-2. \->GROB
+1. \->GROB
 @ Pega o tamanho
-DUP SIZE B\->R 8. + '\<-altura' STO+ B\->R
+DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R
 @ Salva, se maior
 \<-largura MAX '\<-largura' STO
 @ Salva numa lista
