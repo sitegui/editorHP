@@ -1,0 +1,109 @@
+/* Botão básico */
+.botao-vermelho, .botao-verde, .botao-azul, .minibotao-vermelho, .minibotao-verde, .minibotao-azul {
+	display:inline-block;
+	border:thin #444 solid;
+	background-color:gray;
+	color:#EEE;
+	cursor:pointer;
+	background-image:linear-gradient(to top, #333, #666);
+	background-image:-webkit-linear-gradient(bottom, #333, #666);
+}
+.botao-vermelho, .botao-verde, .botao-azul {
+	padding:0 15px;
+	line-height:30px;
+	border-radius:10px;
+	font-size:medium;
+}
+.minibotao-vermelho, .minibotao-verde, .minibotao-azul {
+	padding:0 10px;
+	font-size:small;
+	border-radius:7px;
+	line-height:18px;
+}
+.botao-vermelho:hover, .botao-verde:hover, .botao-azul:hover,
+.minibotao-vermelho:hover, .minibotao-verde:hover, .minibotao-azul:hover {
+	color:#FFF;
+}
+.botao-vermelho:hover, .minibotao-vermelho:hover {
+	border:thin #644 solid;
+	background-image:linear-gradient(to top, #533, #966);
+	background-image:-webkit-linear-gradient(bottom, #533, #966);
+}
+.botao-verde:hover, .minibotao-verde:hover {
+	border:thin #464 solid;
+	background-image:linear-gradient(to top, #353, #696);
+	background-image:-webkit-linear-gradient(bottom, #353, #696);
+}
+.botao-azul:hover, .minibotao-azul:hover {
+	border:thin #446 solid;
+	background-image:linear-gradient(to top, #335, #669);
+	background-image:-webkit-linear-gradient(bottom, #335, #669);
+}
+.botao-vermelho:active, .minibotao-vermelho:active {
+	background-image:linear-gradient(to top, #855, #644);
+	background-image:-webkit-linear-gradient(bottom, #855, #644);
+}
+.botao-verde:active, .minibotao-verde:active {
+	background-image:linear-gradient(to top, #585, #464);
+	background-image:-webkit-linear-gradient(bottom, #585, #464);
+}
+.botao-azul:active, .minibotao-azul:active {
+	background-image:linear-gradient(to top, #558, #446);
+	background-image:-webkit-linear-gradient(bottom, #558, #446);
+}
+
+/* Botão 2 */
+.botao2 {
+	display:inline-block;
+	font-size:0;
+}
+.botao2:after {
+	content:"x";
+	height:0;
+	position:absolute;
+	width:0;
+	overflow:hidden;
+	clear:both;
+}
+.botao2Esq, .botao2Dir {
+	font-size:medium;
+	display:inline-block;
+	border-color:#444;
+	border-style:solid;
+	background-color:gray;
+	color:#EEE;
+	background-image:linear-gradient(to top, #333, #666);
+	background-image:-webkit-linear-gradient(bottom, #333, #666);
+	cursor:pointer;
+	line-height:30px;
+}
+.botao2Esq {
+	padding:0 5px 0 15px;
+	border-width:thin 0 thin thin;
+	border-top-left-radius:10px;
+	border-bottom-left-radius:10px;
+}
+.botao2Dir {
+	padding:0 10px 0 5px;
+	border-width:thin thin thin 0;
+	border-top-right-radius:10px;
+	border-bottom-right-radius:10px;
+}
+.botao2:hover > * {
+	color:#FFF;
+	border-color:#446;
+	background-image:linear-gradient(to top, #335, #669);
+	background-image:-webkit-linear-gradient(bottom, #335, #669);
+}
+.botao2:active > * {
+	background-image:linear-gradient(to top, #558, #446);
+	background-image:-webkit-linear-gradient(bottom, #558, #446);
+}
+.botao2Dir:hover {
+	background-image:linear-gradient(to top, #446, #77B);
+	background-image:-webkit-linear-gradient(bottom, #446, #77B);
+}
+.botao2Dir:active {
+	background-image:linear-gradient(to top, #669, #335);
+	background-image:-webkit-linear-gradient(bottom, #669, #335);
+}

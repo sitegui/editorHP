@@ -1,0 +1,304 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>EditorHP</title>
+<link rel="stylesheet" href="css.css">
+</head>
+
+<body>
+<!-- Menu -->
+<div class="menu">
+	<div class="menuBotao botao2">
+		<div id="menuAbrir" class="botao2Esq">Abrir</div>
+		<div id="menuAbrirMais" class="botao2Dir">&#9660;</div>
+	</div>
+	<div class="menuBotao botao2">
+		<div id="menuSalvar" class="botao2Esq">Salvar</div>
+		<div id="menuSalvarMais" class="botao2Dir">&#9660;</div>
+	</div>
+	<div id="menuAjuda" class="menuBotao botao-azul">Ajuda</div>
+	
+	<!-- abas -->
+	<div id="abas">
+		<div class="aba" style="left:0px;width:100px">
+			<div class="aba-nome">Aba um</div>
+			<div class="aba-fechar minibotao-vermelho">&times;</div>
+		</div>
+		<div class="aba aba-foco" style="left:100px;width:100px">
+			<span class="aba-nome">Aba dois</span>
+			<div class="aba-fechar minibotao-vermelho">&times;</div>
+		</div>
+		<div class="aba" style="left:200px;width:100px">
+			<div class="aba-nome">Aba três com um nome grande</div>
+			<div class="aba-fechar minibotao-vermelho">&times;</div>
+		</div>
+		<div class="aba aba-mais" style="left:300px">+</div>
+	</div>
+</div>
+
+<!-- Submenus dos menus -->
+<div id="submenuAbrir" class="submenu" style="display:none">
+	<div class="submenu-item">Upload</div>
+	<div class="submenu-item">Link</div>
+	<div class="submenu-item">Novo</div>
+</div>
+<div id="submenuSalvar" class="submenu" style="display:none">
+	<div class="submenu-item">Gerar link</div>
+	<div class="submenu-item">Somente salvar</div>
+	<div class="submenu-item">Salvar todos</div>
+	<div class="submenu-item">Salvar como</div>
+</div>
+
+<!-- Submenus de edição -->
+<div id="submenuEdicao" class="submenu-pequeno" style="display:none">
+	<div class="submenu-item">Inserir</div>
+	<div class="submenu-item">Excluir <span class="submenu-atalho">Del</span></div>
+	<div class="submenu-divisoria"></div>
+	<div class="submenu-item">Copiar <span class="submenu-atalho">Ctrl+C</span></div>
+	<div class="submenu-item-desabilitado">Colar <span class="submenu-atalho">Ctrl+V</span></div>
+	<div class="submenu-item">Recortar <span class="submenu-atalho">Ctrl+X</span></div>
+</div>
+
+<!-- Submenus de caracteres -->
+<div id="submenuCaracteres" class="submenu caracteres" style="display:none">
+	<table>
+		<tr>
+			<td>&#x2221;</td>
+			<td>&#x0304;</td>
+			<td>&#x2207;</td>
+			<td>&#x221A;</td>
+			<td>&#x222B;</td>
+			<td>&#x03A3;</td>
+			<td>&#x25B6;</td>
+			<td>&#x03C0;</td>
+		</tr><tr>
+			<td>&#x2202;</td>
+			<td>&#x2264;</td>
+			<td>&#x2265;</td>
+			<td>&#x2260;</td>
+			<td>&#x03B1;</td>
+			<td>&#x2192;</td>
+			<td>&#x2190;</td>
+			<td>&#x2193;</td>
+		</tr><tr>
+			<td>&#x2191;</td>
+			<td>&#x03B3;</td>
+			<td>&#x03B4;</td>
+			<td>&#x03B5;</td>
+			<td>&#x03B7;</td>
+			<td>&#x03B8;</td>
+			<td>&#x03BB;</td>
+			<td>&#x03C1;</td>
+		</tr><tr>
+			<td>&#x03C3;</td>
+			<td>&#x03C4;</td>
+			<td>&#x03C9;</td>
+			<td>&#x0394;</td>
+			<td>&#x03A0;</td>
+			<td>&#x03A9;</td>
+			<td>&#x25AA;</td>
+			<td>&#x221E;</td>
+		</tr><tr>
+			<td>&#x20AC;</td>
+			<td>«</td>
+			<td>°</td>
+			<td>µ</td>
+			<td>»</td>
+			<td>×</td>
+			<td>Ø</td>
+			<td>ß</td>
+		</tr><tr>
+			<td>÷</td>
+		</tr>
+	</table>
+</div>
+
+<!-- Miniaturas das páginas -->
+<div class="paginas">
+	<div class="painel-titulo">Páginas</div>
+	<div class="painel-botoes">
+		<div id="paginas-opcoes" class="minibotao-azul">&#9660;</div>
+		<div id="paginas-remover" class="minibotao-vermelho">-</div>
+		<div id="paginas-acrescentar" class="minibotao-verde">+</div>
+	</div>
+	<div id="paginas" class="painel-conteudo">
+		<div class="pagina"><div class="pagina-conteudo">Página 1</div></div>
+		<div class="pagina pagina-selecionada"><div class="pagina-conteudo">Página 2</div></div>
+		<div class="pagina"><div class="pagina-conteudo">Página 3</div></div>
+	</div>
+</div>
+
+<!-- Ferramentas -->
+<div class="ferramentas">
+	<div class="painel-titulo">Formatação</div>
+	<div class="painel-conteudo">
+		<div class="ferramentas-linha1">
+			<div class="ferramenta"><p>Parágrafo</p></div>
+			<div class="ferramenta"><pre>Equação</pre></div>
+			<div class="ferramenta ferramenta-selecionada"><h1>Título 1</h1></div>
+			<div class="ferramenta"><h2>Título 2</h2></div>
+			<div class="ferramenta"><h3>Título 3</h3></div>
+			<div class="ferramenta"><h4>Título 4</h4></div>
+			<div class="ferramenta"><h5>Título 5</h5></div>
+			<div class="ferramenta"><h6>Título 6</h6></div>
+		</div>
+		<div class="ferramentas-linha2">
+			<div class="ferramentas-linha2-parte1">
+				<span class="ferramentas-tituloGrupo">Inserir</span>
+				<div class="botao-azul">&#x1f4f7;</div>
+				<div class="botao-azul">&#x1f4cf;</div>
+				<div class="botao-azul">&#x2380;</div>
+			</div>
+			<div class="ferramentas-linha2-parte2">
+				<span class="ferramentas-tituloGrupo">Alinhamento</span>
+				<div class="ferramentas-grupoAlinhamento">
+					<div class="botao-azul alinhar-esquerda">&larr;</div>
+					<div class="botao-azul alinhar-centro">&harr;</div>
+					<div class="botao-azul alinhar-direita">&rarr;</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Edição -->
+<div class="edicao">
+	<div id="edicao" class="edicao-conteudo" contenteditable="true"></div>
+</div>
+
+<!-- Índices -->
+<div class="indices">
+	<div class="painel-titulo">Índices</div>
+	<div class="painel-botoes">
+		<div id="indices-opcoes" class="minibotao-azul">&#9660;</div>
+		<div id="indices-remover" class="minibotao-vermelho">-</div>
+		<div id="indices-acrescentar" class="minibotao-verde">+</div>
+	</div>
+	<div id="indices" class="painel-conteudo">
+		<div class="indice1">Primeiro</div>
+		<div class="indice1 indice-selecionado">Segundo</div>
+		<div class="indice2">2a</div>
+		<div class="indice2">2b</div>
+		<div class="indice3">2bI</div>
+		<div class="indice3">2bII</div>
+	</div>
+</div>
+
+<!-- Anexos -->
+<div class="anexos">
+	<div class="painel-titulo">Anexos</div>
+	<div class="painel-botoes">
+		<div id="anexos-remover" class="minibotao-vermelho">-</div>
+		<div id="anexos-acrescentar" class="minibotao-verde">+</div>
+	</div>
+	<div id="anexos" class="painel-conteudo">
+		<div class="anexo">Primeiro</div>
+		<div class="anexo anexo-selecionado">Segundo</div>
+		<div class="anexo">Terceiro</div>
+		<div class="anexo">Quarto</div>
+	</div>
+</div>
+
+<div id="fundoJanela" style="display:none"></div>
+
+<!-- Janela de abrir -->
+<div id="janelaAbrir" class="janela" style="display:none">
+	<div class="janela-titulo">Abrir arquivo</div>
+	<div class="janela-fechar minibotao-vermelho">&times;</div>
+	<div class="janela-barra">
+		<div class="janela-lista janela-lista-selecionado">Recente</div>
+		<div class="janela-lista">Upload</div>
+		<div class="janela-lista">Link</div>
+		<div class="janela-lista">Novo</div>
+	</div>
+	<div class="janela-painel">
+		<div class="janela-painel-conteudo">
+			<div id="janelaAbrir-recente">
+				<div class="janela-listaRecente">
+					Arquivo um <span class="janela-listaRecente-modificado">(4 dias atrás)</span>
+					<div class="janela-listaRecente-baixar minibotao-azul">&#x2B07;</div>
+					<div class="janela-listaRecente-excluir minibotao-vermelho">&times;</div>
+				</div>
+				<div class="janela-listaRecente">
+					Arquivo dois <span class="janela-listaRecente-modificado">(5 dias atrás)</span>
+					<div class="janela-listaRecente-baixar minibotao-azul">&#x2B07;</div>
+					<div class="janela-listaRecente-excluir minibotao-vermelho">&times;</div>
+				</div>
+				<div class="janela-listaRecente">
+					Arquivo três <span class="janela-listaRecente-modificado">(6 dias atrás)</span>
+					<div class="janela-listaRecente-baixar minibotao-azul">&#x2B07;</div>
+					<div class="janela-listaRecente-excluir minibotao-vermelho">&times;</div>
+				</div>
+			</div>
+			<div id="janelaAbrir-upload" style="display:none">
+				<p>Selecione um arquivo *.hp do seu computador</p>
+				<input type="file" id="janelaAbrir-upload-arquivo"> <div class="botao-verde">Abrir</div>
+			</div>
+			<div id="janelaAbrir-link" style="display:none">
+				<p>Cole o link compartilhado abaixo</p>
+				<input size="40" id="janelaAbrir-link-input"> <div class="botao-verde">Abrir</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Janela de ajuda -->
+<div id="janelaAjuda" class="janela" style="display:none">
+	<div class="janela-titulo">Ajuda</div>
+	<div class="janela-fechar minibotao-vermelho">&times;</div>
+	<div class="janela-barra">
+		<div class="janela-lista janela-lista-selecionado">Tópico 1</div>
+		<div class="janela-lista">Tópico 2</div>
+		<div class="janela-lista">Tópico 3</div>
+		<div class="janela-lista">Tópico 4</div>
+	</div>
+	<div class="janela-painel">
+		<div class="janela-painel-conteudo">
+			<div id="janelaAjuda-parte1">
+				Parte 1
+			</div>
+			<div id="janelaAjuda-parte2" style="display:none">
+				Parte 2
+			</div>
+			<div id="janelaAjuda-parte3" style="display:none">
+				Parte 3
+			</div>
+			<div id="janelaAjuda-parte4" style="display:none">
+				Parte 4
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Janela de confirma/cancela básica -->
+<div id="janelaBasica" class="janelaMenor" style="display:none">
+	<div class="janela-titulo" id="janelaBasica-titulo">Título</div>
+	<div class="janela-fechar minibotao-vermelho">&times;</div>
+	<div class="janelaBasica-conteudo">
+		<div id="janelaBasica-conteudo">Conteúdo</div>
+		<div class="janelaBasica-cancelar botao-vermelho">Cancelar</div>
+		<div class="janelaBasica-confirmar botao-verde">Confirmar</div>
+	</div>
+</div>
+
+<!-- Janela de ajuste da imagem -->
+<div id="janelaAjusteImagem" class="janela" style="display:none">
+	<div class="janela-titulo">Ajustar imagem</div>
+	<div class="janela-fechar minibotao-vermelho">&times;</div>
+	<div class="janelaBasica-conteudo">
+		Filtro: <select id="janelaAjusteImagem-filtro">
+			<option value="basico">Básico</option>
+			<option value="areas">Áreas</option>
+		</select>
+		Ajuste: <input size="5" id="janelaAjusteImagem-ajuste">
+		Tamanho: <input size="7" id="janelaAjusteImagem-tamanho">
+		<div style="text-align:center;margin:25px">
+			<canvas id="janelaAjusteImagem-canvas"></canvas>
+		</div>
+		<div class="janelaBasica-cancelar botao-vermelho">Cancelar</div>
+		<div class="janelaBasica-confirmar botao-verde">Confirmar</div>
+	</div>
+</div>
+</body>
+</html>

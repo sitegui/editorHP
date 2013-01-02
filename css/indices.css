@@ -1,0 +1,40 @@
+.indices {
+	width:25%;
+	height:55%;
+	top:15%;
+	right:0;
+}
+.indice1, .indice2, .indice3, .indice4, .indice5 {
+	background-color:rgba(255,255,255,.5);
+	border-radius:5px;
+	padding:3px;
+	margin:5px 0;
+	cursor:pointer;
+	position:relative;
+	border:3px transparent solid;
+}
+.indice1:hover, .indice2:hover, .indice3:hover, .indice4:hover, .indice5:hover {
+	background-color:rgba(255,255,255,.75);
+}
+.indice-selecionado {
+	border-color:rgba(0,0,255,.5);
+}
+.indice2 {
+	left:15%;
+	width:85%;
+}
+.indice3 {
+	font-size:small;
+	left:30%;
+	width:70%;
+}
+.indice4 {
+	font-size:small;
+	left:45%;
+	width:55%;
+}
+.indice5 {
+	font-size:x-small;
+	left:60%;
+	width:40%;
+}

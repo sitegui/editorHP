@@ -1,0 +1,59 @@
+/* Abas */
+.aba {
+	background-image:linear-gradient(to top, #333, #666);
+	background-image:-webkit-linear-gradient(bottom, #333, #666);
+	position:absolute;
+	bottom:0;
+	border:thin #444 solid;
+	background-color:gray;
+	color:#EEE;
+	cursor:pointer;
+	border-top-right-radius:7px;
+	border-top-left-radius:7px;
+	font-size:small;
+	padding:3px;
+}
+
+.aba:hover {
+	color:#FFF;
+	border:thin #448 solid;
+	background-image:linear-gradient(to top, #335, #669);
+	background-image:-webkit-linear-gradient(bottom, #335, #669);
+}
+
+.aba-foco {
+	font-weight:bold;
+	color:#FFF;
+	border:thin #448 solid;
+	background-image:linear-gradient(to top, #558, #446);
+	background-image:-webkit-linear-gradient(bottom, #558, #446);
+}
+
+.aba-nome {
+	display:inline-block;
+	width:calc(100% - 25px);
+	width:-webkit-calc(100% - 25px);
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+}
+
+.aba-fechar {
+	font-size:x-small;
+	vertical-align:top;
+	float:right;
+	background:none;
+	padding:0 3px;
+	border-color:transparent;
+}
+
+.aba-mais {
+	width:30px;
+	text-align:center;
+}
+
+.aba-mais:hover {
+	border:thin #484 solid;
+	background-image:linear-gradient(to top, #353, #696);
+	background-image:-webkit-linear-gradient(bottom, #353, #696);
+}

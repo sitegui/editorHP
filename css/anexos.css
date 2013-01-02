@@ -1,0 +1,21 @@
+.anexos {
+	width:25%;
+	height:30%;
+	top:70%;
+	right:0;
+}
+.anexo {
+	background-color:rgba(255,255,255,.5);
+	border-radius:5px;
+	padding:3px;
+	margin:5px 0;
+	cursor:pointer;
+	position:relative;
+	border:3px transparent solid;
+}
+.anexo:hover {
+	background-color:rgba(255,255,255,.75);
+}
+.anexo-selecionado {
+	border-color:rgba(0,0,255,.5);
+}

@@ -1,0 +1,52 @@
+.menu {
+	width:100%;
+	height:15%;
+	top:0;
+	left:0;
+}
+.menuBotao {
+	position:relative;
+	top:20px;
+	margin-left:50px;
+}
+.submenu, .submenu-pequeno {
+	position:absolute;
+	z-index:1;
+	background-image:url(debut_dark.png);
+	box-shadow:3px 3px 5px black;
+	border-radius:10px;
+	overflow:hidden;
+}
+.submenu-pequeno {
+	border-radius:5px;
+	font-size:small;
+}
+.submenu-item {
+	cursor:pointer;
+	padding:5px;
+	background-color:rgba(255,255,255,.5);
+	margin:5px;
+	border-radius:5px;
+}
+.submenu-item-desabilitado {
+	padding:5px;
+	color:#666;
+	background-color:rgba(255,255,255,.5);
+	margin:5px;
+	border-radius:5px;
+}
+.submenu-pequeno > .submenu-item, .submenu-pequeno > .submenu-item-desabilitado {
+	padding:3px;
+	margin:3px;
+	border-radius:3px;
+}
+.submenu-item:hover {
+	background-color:rgba(255,255,255,.75);
+}
+.submenu-atalho {
+	font-size:smaller;
+	color:#333;
+}
+.submenu-divisoria {
+	border:thin gray solid;
+}

@@ -1,0 +1,35 @@
+.painel-botoes {
+	position:absolute;
+	top:0;
+	right:0;
+	width:100%;
+	height:30px;
+	text-align:right;
+	padding:5px;
+	z-index:1;
+}
+.painel-titulo {
+	position:absolute;
+	top:0;
+	right:0;
+	width:100%;
+	height:30px;
+	text-align:center;
+	padding:5px;
+	color:white;
+	font-size:medium;
+	background-color:rgba(0,0,0,.5);
+}
+.painel-conteudo {
+	position:absolute;
+	top:30px;
+	left:0;
+	width:100%;
+	height:calc(100% - 30px);
+	height:-webkit-calc(100% - 30px);
+	overflow:hidden;
+	padding:5px;
+}
+.painel-conteudo:hover {
+	overflow:auto;
+}
