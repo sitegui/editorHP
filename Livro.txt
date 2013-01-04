@@ -19,7 +19,7 @@
 		{-1. {"Um Parágrafo" "de várias linhas"} 0.}
 		{0. "'a = \v/(b^2+c^2)'" 1.}
 		{-1. {"Uma equação inválida"} 0.}
-		{0. "a = \v/(b^2+c^2)'" 1.}
+		{0. "}" 1.}
 		{1. 3. 4.}
 		{-1. {"Um segundo parágrafo"} 0.}
 		{GROB 13 5 F541144095411541FD71 2.}
