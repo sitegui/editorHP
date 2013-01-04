@@ -3,6 +3,9 @@
 	height:85%;
 	top:15%;
 	left:0;
+	-moz-user-select:none;
+	-webkit-user-select:none;
+	user-select:none;
 }
 .pagina {
 	background-color:rgba(0,0,0,.5);
@@ -20,6 +23,17 @@
 	font-size:xx-small;
 	padding:10px;
 	border:medium transparent solid;
+	position:relative;
+	overflow:hidden;
+}
+.pagina-conteudo:hover {
+	overflow:auto;
+}
+.pagina-numero {
+	position:absolute;
+	top:0;
+	right:0;
+	padding:3px;
 }
 .pagina-selecionada > .pagina-conteudo {
 	border-color:rgba(0,0,255,.5);

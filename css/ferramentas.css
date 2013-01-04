@@ -4,6 +4,18 @@
 	top:15%;
 	left:25%;
 }
+.ferramentas-mascara {
+	position:absolute;
+	z-index:1;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+}
+.ferramentas-conteudo {
+	opacity:.5;
+	transition:opacity .5s;
+}
 .ferramentas-linha1 {
 	display:table;
 	border-spacing:5px;

@@ -46,6 +46,9 @@ html {
 	.painel-titulo {
 		display:none;
 	}
+	.painel-botoes {
+		padding-right:25px;
+	}
 	.ferramentas > .painel-conteudo {
 		padding-top:5px;
 	}

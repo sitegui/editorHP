@@ -21,34 +21,42 @@
 	border-radius:7px;
 	line-height:18px;
 }
-.botao-vermelho:hover, .botao-verde:hover, .botao-azul:hover,
-.minibotao-vermelho:hover, .minibotao-verde:hover, .minibotao-azul:hover {
-	color:#FFF;
+.botao-inativo {
+	color:#999;
+	cursor:default;
+	background-image:linear-gradient(to top, #444, #555);
+	background-image:-webkit-linear-gradient(bottom, #444, #555);
 }
-.botao-vermelho:hover, .minibotao-vermelho:hover {
+.botao-vermelho:not(.botao-inativo):hover, .minibotao-vermelho:not(.botao-inativo):hover {
+	color:#FFF;
 	border:thin #644 solid;
 	background-image:linear-gradient(to top, #533, #966);
 	background-image:-webkit-linear-gradient(bottom, #533, #966);
 }
-.botao-verde:hover, .minibotao-verde:hover {
+.botao-verde:not(.botao-inativo):hover, .minibotao-verde:not(.botao-inativo):hover {
+	color:#FFF;
 	border:thin #464 solid;
 	background-image:linear-gradient(to top, #353, #696);
 	background-image:-webkit-linear-gradient(bottom, #353, #696);
 }
-.botao-azul:hover, .minibotao-azul:hover {
+.botao-azul:not(.botao-inativo):hover, .minibotao-azul:not(.botao-inativo):hover {
+	color:#FFF;
 	border:thin #446 solid;
 	background-image:linear-gradient(to top, #335, #669);
 	background-image:-webkit-linear-gradient(bottom, #335, #669);
 }
-.botao-vermelho:active, .minibotao-vermelho:active {
+.botao-vermelho:not(.botao-inativo):active, .minibotao-vermelho:not(.botao-inativo):active,
+.botao-vermelho.botao-ativo:not(:hover), .minibotao-vermelho.botao-ativo:not(:hover) {
 	background-image:linear-gradient(to top, #855, #644);
 	background-image:-webkit-linear-gradient(bottom, #855, #644);
 }
-.botao-verde:active, .minibotao-verde:active {
+.botao-verde:not(.botao-inativo):active, .minibotao-verde:not(.botao-inativo):active,
+.botao-verde.botao-ativo:not(:hover), .minibotao-verde.botao-ativo:not(:hover) {
 	background-image:linear-gradient(to top, #585, #464);
 	background-image:-webkit-linear-gradient(bottom, #585, #464);
 }
-.botao-azul:active, .minibotao-azul:active {
+.botao-azul:not(.botao-inativo):active, .minibotao-azul:not(.botao-inativo):active,
+.botao-azul.botao-ativo:not(:hover), .minibotao-azul.botao-ativo:not(:hover) {
 	background-image:linear-gradient(to top, #558, #446);
 	background-image:-webkit-linear-gradient(bottom, #558, #446);
 }
@@ -122,7 +130,7 @@
 }
 .submenu, .submenu-pequeno {
 	position:absolute;
-	z-index:1;
+	z-index:2;
 	background-image:url(debut_dark.png);
 	box-shadow:3px 3px 5px black;
 	border-radius:10px;
@@ -278,7 +286,7 @@
 .janelaBasica-conteudo {
 	background-color:rgba(255,255,255,.5);
 	position:absolute;
-	padding:10px;
+	padding:25px;
 	top:15%;
 	left:5%;
 	width:90%;
@@ -311,6 +319,8 @@
 	border-top-left-radius:7px;
 	font-size:small;
 	padding:3px;
+	transition:width .5s, left .5s, opacity .5s;
+	-webkit-transition:width .5s, left .5s, opacity .5s;
 }
 
 .aba:hover {
@@ -321,7 +331,6 @@
 }
 
 .aba-foco {
-	font-weight:bold;
 	color:#FFF;
 	border:thin #448 solid;
 	background-image:linear-gradient(to top, #558, #446);
@@ -362,6 +371,9 @@
 	height:85%;
 	top:15%;
 	left:0;
+	-moz-user-select:none;
+	-webkit-user-select:none;
+	user-select:none;
 }
 .pagina {
 	background-color:rgba(0,0,0,.5);
@@ -379,6 +391,17 @@
 	font-size:xx-small;
 	padding:10px;
 	border:medium transparent solid;
+	position:relative;
+	overflow:hidden;
+}
+.pagina-conteudo:hover {
+	overflow:auto;
+}
+.pagina-numero {
+	position:absolute;
+	top:0;
+	right:0;
+	padding:3px;
 }
 .pagina-selecionada > .pagina-conteudo {
 	border-color:rgba(0,0,255,.5);
@@ -455,6 +478,18 @@
 	height:20%;
 	top:15%;
 	left:25%;
+}
+.ferramentas-mascara {
+	position:absolute;
+	z-index:1;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+}
+.ferramentas-conteudo {
+	opacity:.5;
+	transition:opacity .5s;
 }
 .ferramentas-linha1 {
 	display:table;
@@ -557,10 +592,12 @@
 	width:100%;
 	height:100%;
 	padding:25px;
-	overflow:auto;
-	font-size:large;
 	outline:none;
 	border:none;
+	overflow:hidden;
+}
+.edicao-conteudo:hover {
+	overflow:auto;
 }
 
 /* Estilos dos elementos */
@@ -682,6 +719,9 @@ html {
 	}
 	.painel-titulo {
 		display:none;
+	}
+	.painel-botoes {
+		padding-right:25px;
 	}
 	.ferramentas > .painel-conteudo {
 		padding-top:5px;

@@ -11,10 +11,12 @@
 	width:100%;
 	height:100%;
 	padding:25px;
-	overflow:auto;
-	font-size:large;
 	outline:none;
 	border:none;
+	overflow:hidden;
+}
+.edicao-conteudo:hover {
+	overflow:auto;
 }
 
 /* Estilos dos elementos */

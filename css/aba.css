@@ -12,6 +12,8 @@
 	border-top-left-radius:7px;
 	font-size:small;
 	padding:3px;
+	transition:width .5s, left .5s, opacity .5s;
+	-webkit-transition:width .5s, left .5s, opacity .5s;
 }
 
 .aba:hover {
@@ -22,7 +24,6 @@
 }
 
 .aba-foco {
-	font-weight:bold;
 	color:#FFF;
 	border:thin #448 solid;
 	background-image:linear-gradient(to top, #558, #446);

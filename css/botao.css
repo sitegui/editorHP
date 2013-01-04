@@ -20,34 +20,42 @@
 	border-radius:7px;
 	line-height:18px;
 }
-.botao-vermelho:hover, .botao-verde:hover, .botao-azul:hover,
-.minibotao-vermelho:hover, .minibotao-verde:hover, .minibotao-azul:hover {
-	color:#FFF;
+.botao-inativo {
+	color:#999;
+	cursor:default;
+	background-image:linear-gradient(to top, #444, #555);
+	background-image:-webkit-linear-gradient(bottom, #444, #555);
 }
-.botao-vermelho:hover, .minibotao-vermelho:hover {
+.botao-vermelho:not(.botao-inativo):hover, .minibotao-vermelho:not(.botao-inativo):hover {
+	color:#FFF;
 	border:thin #644 solid;
 	background-image:linear-gradient(to top, #533, #966);
 	background-image:-webkit-linear-gradient(bottom, #533, #966);
 }
-.botao-verde:hover, .minibotao-verde:hover {
+.botao-verde:not(.botao-inativo):hover, .minibotao-verde:not(.botao-inativo):hover {
+	color:#FFF;
 	border:thin #464 solid;
 	background-image:linear-gradient(to top, #353, #696);
 	background-image:-webkit-linear-gradient(bottom, #353, #696);
 }
-.botao-azul:hover, .minibotao-azul:hover {
+.botao-azul:not(.botao-inativo):hover, .minibotao-azul:not(.botao-inativo):hover {
+	color:#FFF;
 	border:thin #446 solid;
 	background-image:linear-gradient(to top, #335, #669);
 	background-image:-webkit-linear-gradient(bottom, #335, #669);
 }
-.botao-vermelho:active, .minibotao-vermelho:active {
+.botao-vermelho:not(.botao-inativo):active, .minibotao-vermelho:not(.botao-inativo):active,
+.botao-vermelho.botao-ativo:not(:hover), .minibotao-vermelho.botao-ativo:not(:hover) {
 	background-image:linear-gradient(to top, #855, #644);
 	background-image:-webkit-linear-gradient(bottom, #855, #644);
 }
-.botao-verde:active, .minibotao-verde:active {
+.botao-verde:not(.botao-inativo):active, .minibotao-verde:not(.botao-inativo):active,
+.botao-verde.botao-ativo:not(:hover), .minibotao-verde.botao-ativo:not(:hover) {
 	background-image:linear-gradient(to top, #585, #464);
 	background-image:-webkit-linear-gradient(bottom, #585, #464);
 }
-.botao-azul:active, .minibotao-azul:active {
+.botao-azul:not(.botao-inativo):active, .minibotao-azul:not(.botao-inativo):active,
+.botao-azul.botao-ativo:not(:hover), .minibotao-azul.botao-ativo:not(:hover) {
 	background-image:linear-gradient(to top, #558, #446);
 	background-image:-webkit-linear-gradient(bottom, #558, #446);
 }
