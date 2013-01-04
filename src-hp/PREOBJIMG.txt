@@ -3,9 +3,9 @@
 @ Compila um objeto do tipo imagem
 
 @ Pega o tamanho
-DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R
+DUP SIZE B\->R 6. + '\<-altura' STO+
 @ Salva, se maior
-\<-largura MAX '\<-largura' STO
-@ Salva numa lista
-0. 3. \->LIST \<-n ROLLD
+B\->R \<-largura MAX '\<-largura' STO
+@ Salva numa lista (força alinhamento no centro)
+0. SWAP 0. 3. \->LIST \<-n ROLLD
 \>>
