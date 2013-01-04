@@ -15,7 +15,7 @@
 	@ Mostra o resultado
 	IF opcoes SIZE THEN
 		WHILE "Resultados" opcoes 1. CLLCD CHOOSE REPEAT
-			'\<-paginas' SWAP GET COMPILARPAGINA
+			GETPAGINACOMPILADA
 		END
 	ELSE
 		"Nada encontrado" MSGBOX

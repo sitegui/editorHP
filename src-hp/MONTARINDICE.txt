@@ -13,7 +13,7 @@
 	subindice OBJ\-> 2. - 'n' STO
 	IF THEN
 		@ É uma folha
-		\<-paginas SWAP GET SWAP DROP COMPILARPAGINA
+		SWAP DROP GETPAGINACOMPILADA
 		SUBIRINDICE
 	ELSE
 		@ É um sub-índice, monta a lista de escolhas
