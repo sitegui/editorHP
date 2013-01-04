@@ -5,10 +5,9 @@ var InterfaceMenus = {}
 InterfaceMenus.init = function () {
 	// Menu abrir
 	get("menuAbrir").onclick = function (evento) {
-		if (evento.target.id == "menuAbrirMais") {
-			Interface.abrirMenu("submenuAbrir", "menuAbrir")
-			evento.stopPropagation()
-		} else
+		if (evento.target.id == "menuAbrirMais")
+			Interface.abrirMenu(evento, "submenuAbrir", "menuAbrir")
+		else
 			Interface.abrirJanela("janelaAbrir", "recentes")
 	}
 	get("submenuAbrir-upload").onclick = function () {
@@ -23,11 +22,10 @@ InterfaceMenus.init = function () {
 	
 	// Menu salvar
 	get("menuSalvar").onclick = function (evento) {
-		if (evento.target.id == "menuSalvarMais") {
+		if (evento.target.id == "menuSalvarMais")
 			// TODO: desabilitar botões sem ação (salvar, salvarTodos)
-			Interface.abrirMenu("submenuSalvar", "menuSalvar")
-			evento.stopPropagation()
-		} else
+			Interface.abrirMenu(evento, "submenuSalvar", "menuSalvar")
+		else
 			console.log("Salvar e baixar")
 	}
 	get("submenuSalvar-link").onclick = function () {

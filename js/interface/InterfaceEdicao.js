@@ -61,13 +61,24 @@ InterfaceEdicao.init = function () {
 	}
 	
 	get("edicao").onblur = function () {
+		var pos, pagina, novosElementos, elementosAntigos
+		
 		clearInterval(intervalo)
 		get("ferramentasConteudo").style.opacity = ".5"
 		get("ferramentasMascara").style.display = ""
-		Interface.abaFoco.paginaFoco.elementos = Compilador.normalizar(get("edicao"))
-		InterfacePaginas.atualizarPagina(Interface.abaFoco.paginaFoco)
-		InterfaceEdicao.atualizar()
-		// TODO: criar Ctrl+Z
+		
+		pagina = Interface.abaFoco.paginaFoco
+		novosElementos = Compilador.normalizar(get("edicao"))
+		elementosAntigos = pagina.elementos
+		pos = Interface.abaFoco.livro.paginas.indexOf(pagina)+1
+		
+		new Acao("alteração da página "+pos, function () {
+			pagina.elementos = novosElementos
+			InterfacePaginas.atualizarPagina(pagina)
+		}, function () {
+			pagina.elementos = elementosAntigos
+			InterfacePaginas.atualizarPagina(pagina)
+		})
 	}
 	
 	get("ferramentas").onmousedown = anular
@@ -93,10 +104,13 @@ InterfaceEdicao.init = function () {
 	get("ferramenta-centro").onclick = executar("justifyCenter")
 	get("ferramenta-direita").onclick = executar("justifyRight")
 	
+	// Desfazer e refazer
+	get("ferramenta-desfazer").onclick = InterfaceEdicao.desfazer
+	get("ferramenta-refazer").onclick = InterfaceEdicao.refazer
+	
 	// Abre a janela de inserção de caractere
 	get("ferramenta-caractere").onclick = function (evento) {
-		Interface.abrirMenu("submenuCaracteres", "ferramenta-caractere")
-		evento.stopPropagation()
+		Interface.abrirMenu(evento, "submenuCaracteres", "ferramenta-caractere")
 	}
 	
 	// Botões para inserir caractere
@@ -112,7 +126,48 @@ InterfaceEdicao.init = function () {
 	}
 }
 
+// Atualiza os botões de desfazer/refazer
+InterfaceEdicao.atualizarDesfazer = function () {
+	var undo, redo
+	undo = Acao.getDesfazer()
+	redo = Acao.getRefazer()
+	if (undo == null) {
+		get("ferramenta-desfazer").classList.add("botao-inativo")
+		get("ferramenta-desfazer").title = "Nada pode ser desfeito"
+	} else {
+		get("ferramenta-desfazer").classList.remove("botao-inativo")
+		get("ferramenta-desfazer").title = "Desfazer "+undo
+	}
+	if (redo == null) {
+		get("ferramenta-refazer").classList.add("botao-inativo")
+		get("ferramenta-refazer").title = "Nada pode ser refeito"
+	} else {
+		get("ferramenta-refazer").classList.remove("botao-inativo")
+		get("ferramenta-refazer").title = "Refazer "+redo
+	}
+}
+
+// Desfaz uma ação realizada na aba atual
+InterfaceEdicao.desfazer = function () {
+	Acao.desfazer(Interface.abaFoco)
+	InterfaceEdicao.atualizarDesfazer()
+}
+
+// Refaz uma ação desfeita na aba atual
+InterfaceEdicao.refazer = function () {
+	Acao.refazer(Interface.abaFoco)
+	InterfaceEdicao.atualizarDesfazer()
+}
+
 // Mostra a página no campo de edição
 InterfaceEdicao.atualizar = function () {
-	get("edicao").innerHTML = Compilador.gerarHTML(Interface.abaFoco.paginaFoco)
+	var edicao = get("edicao")
+	if (Interface.abaFoco.paginaFoco) {
+		edicao.classList.remove("edicao-inativo")
+		edicao.contentEditable = "true"
+		edicao.innerHTML = Compilador.gerarHTML(Interface.abaFoco.paginaFoco)
+	} else {
+		edicao.classList.add("edicao-inativo")
+		edicao.contentEditable = "false"
+	}
 }

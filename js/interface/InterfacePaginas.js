@@ -1,18 +1,150 @@
 // Controla a exibição das miniaturas
 var InterfacePaginas = {}
 
+// Define os ouvintes para os botões
+InterfacePaginas.init = function () {
+	get("paginas-remover").onclick = InterfacePaginas.remover
+	get("paginas-acrescentar").onclick = InterfacePaginas.acrescentar
+	get("paginas-opcoes").onclick = function () {
+		opcoes = {}
+		opcoes.titulo = "Auto paginação"
+		opcoes.conteudo = "A função de auto paginação divide o livro automaticamente em páginas de acordo com os cabeçalhos presentes no texto<br><br>"+
+			"<input type='checkbox' id='js-check'"+(Interface.abaFoco.livro.autoPaginacao ? " checked" : "")+"> <label for='js-check'>Ativar auto paginação</label>"
+		opcoes.onconfirmar = function () {
+			var antes = Interface.abaFoco.livro.autoPaginacao, novo = get("js-check").checked
+			if (novo == antes)
+				return
+			new Acao((novo ? "ativação" : "desativação")+" da auto paginação", function () {
+				Interface.abaFoco.livro.autoPaginacao = novo
+			}, function () {
+				Interface.abaFoco.livro.autoPaginacao = antes
+			})
+		}
+		Interface.abrirJanela("janelaBasica", opcoes)
+	}
+	get("paginas").oncontextmenu = function (evento) {
+		Interface.abrirMenu(evento, "submenuEdicao")
+		
+		// Ajusta o estado das opções
+		get("submenuEdicao-inserir").classList.remove("submenu-item-desabilitado")
+		get("submenuEdicao-excluir").classList.remove("submenu-item-desabilitado")
+		get("submenuEdicao-copiar").classList.remove("submenu-item-desabilitado")
+		get("submenuEdicao-colar").classList[Editor.tipoColagem=="paginas" ? "remove" : "add"]("submenu-item-desabilitado")
+		get("submenuEdicao-recortar").classList.remove("submenu-item-desabilitado")
+		
+		// Define os ouvintes
+		get("submenuEdicao-inserir").onclick = InterfacePaginas.acrescentar
+		get("submenuEdicao-excluir").onclick = InterfacePaginas.remover
+		get("submenuEdicao-copiar").onclick = InterfacePaginas.copiar
+		get("submenuEdicao-colar").onclick = InterfacePaginas.colar
+		get("submenuEdicao-recortar").onclick = InterfacePaginas.recortar
+		evento.preventDefault()
+	}
+}
+
+// Remove as páginas selecionadas
+InterfacePaginas.remover = function () {
+	var i, selecao = {}, divs, n = 0
+	
+	// Pega a posição das páginas selecionadas
+	divs = get("paginas").childNodes
+	for (i=0; i<divs.length; i++)
+		if (divs.item(i).dataset.pagina in Interface.abaFoco.paginasSelecionadas) {
+			selecao[i] = Interface.abaFoco.livro.paginas[i]
+			n++
+		}
+	
+	new Acao("remoção de "+n+" páginas", function () {
+		var i, n = 0
+		for (i in selecao) {
+			Interface.abaFoco.livro.paginas.splice(i-n, 1)
+			n++
+		}
+		InterfacePaginas.montarMiniaturas()
+		InterfacePaginas.atualizarPagina(Interface.abaFoco.livro.paginas[i-n < 0 ? 0 : i-n])
+	}, function () {
+		var i
+		for (i in selecao)
+			Interface.abaFoco.livro.paginas.splice(i, 0, selecao[i])
+		InterfacePaginas.montarMiniaturas()
+		InterfacePaginas.atualizarPagina(Interface.abaFoco.livro.paginas[i])
+	})
+}
+
+// Adiciona um nova página
+InterfacePaginas.acrescentar = function () {
+	var pagina = new Pagina, pos
+	pos = Interface.abaFoco.livro.paginas.indexOf(Interface.abaFoco.paginaFoco)
+	new Acao("inserção de uma página", function () {
+		Interface.abaFoco.livro.paginas.splice(pos+1, 0, pagina)
+		InterfacePaginas.montarMiniaturas()
+		InterfacePaginas.atualizarPagina(pagina)
+	}, function () {
+		Interface.abaFoco.livro.paginas.splice(pos+1, 1)
+		InterfacePaginas.montarMiniaturas()
+		InterfacePaginas.atualizarPagina(Interface.abaFoco.livro.paginas[pos < 0 ? 0 : pos])
+	})
+}
+
+// Copia as páginas selecionadas
+InterfacePaginas.copiar = function () {
+	var i
+	
+	Editor.tipoColagem = "paginas"
+	Editor.colagem = []
+	for (i=0; i<Interface.abaFoco.livro.paginas.length; i++)
+		if (Interface.abaFoco.livro.paginas[i].id in Interface.abaFoco.paginasSelecionadas)
+			Editor.colagem.push(Interface.abaFoco.livro.paginas[i])
+}
+
+// Cola as páginas copiadas anteriormente
+InterfacePaginas.colar = function () {
+	var pos, paginas
+	
+	if (Editor.tipoColagem != "paginas")
+		return
+	
+	// Pega a posição e as páginas a serem inseridas
+	pos = Interface.abaFoco.livro.paginas.indexOf(Interface.abaFoco.paginaFoco)
+	paginas = Editor.colagem.map(function (pag) {
+		return pag.clonar()
+	})
+	
+	// Cria a ação
+	new Acao("colagem de "+paginas.length+" páginas", function () {
+		var i
+		for (i=paginas.length-1; i>=0; i--)
+			Interface.abaFoco.livro.paginas.splice(pos+1, 0, paginas[i])
+		InterfacePaginas.montarMiniaturas()
+		InterfacePaginas.atualizarPagina(paginas[paginas.length-1])
+	}, function () {
+		Interface.abaFoco.livro.paginas.splice(pos+1, paginas.length)
+		InterfacePaginas.montarMiniaturas()
+		InterfacePaginas.atualizarPagina(Interface.abaFoco.livro.paginas[pos<0 ? 0 : pos])
+	})
+}
+
+// Recorta as páginas
+InterfacePaginas.recortar = function () {
+	InterfacePaginas.copiar()
+	InterfacePaginas.remover()
+}
+
 // Monta todas as miniaturas do livro aberto
 InterfacePaginas.montarMiniaturas = function () {
-	var i, paginas, div
+	var i, paginas, div, divPai
 	
 	paginas = Interface.abaFoco.livro.paginas
-	get("paginas").innerHTML = ""
+	divPai = get("paginas")
+	divPai.innerHTML = ""
 	for (i=0; i<paginas.length; i++) {
 		div = InterfacePaginas.gerarDiv(paginas[i], i+1)
 		if (div.dataset.pagina in Interface.abaFoco.paginasSelecionadas)
 			div.classList.add("pagina-selecionada")
-		get("paginas").appendChild(div)
+		divPai.appendChild(div)
 	}
+	
+	divPai.classList[divPai.scrollHeight>divPai.clientHeight ? "add" : "remove"]("painel-comRolagem")
 }
 
 // Atualiza o layout de páginas selecionadas (não muda o conteúdo)
@@ -28,17 +160,30 @@ InterfacePaginas.atualizarLayout = function () {
 	}
 }
 
-// Atualiza o conteúdo de uma página somente
+// Foca e atualiza o conteúdo de uma página somente
+// Se pagina for undefined, retira o foco de tudo
 InterfacePaginas.atualizarPagina = function (pagina) {
 	var i, divs
+	
+	// Foca na página desejada
+	if (!pagina) {
+		Interface.abaFoco.paginaFoco = null
+		Interface.abaFoco.paginasSelecionadas = {}
+		pagina = {id: ""}
+	} else {
+		Interface.abaFoco.paginaFoco = pagina
+		Interface.abaFoco.paginasSelecionadas = {}
+		Interface.abaFoco.paginasSelecionadas[pagina.id] = true
+	}
+	InterfaceEdicao.atualizar()
 	
 	divs = get("paginas").childNodes
 	for (i=0; i<divs.length; i++)
 		if (divs.item(i).dataset.pagina == pagina.id) {
-			divs.item(i).classList[(pagina.id in Interface.abaFoco.paginasSelecionadas) ? "add" : "remove"]("pagina-selecionada")
+			divs.item(i).classList.add("pagina-selecionada")
 			divs.item(i).childNodes.item(0).innerHTML = Compilador.gerarMiniHTML(pagina, i+1)
-			break
-		}
+		} else
+			divs.item(i).classList.remove("pagina-selecionada")
 }
 
 // Monta a div da página
@@ -89,6 +234,7 @@ InterfacePaginas.gerarDiv = function (pagina, num) {
 		
 		Interface.abaFoco.paginaFoco = pagina
 		InterfacePaginas.atualizarLayout()
+		InterfaceEdicao.atualizar()
 	}
 	
 	return div

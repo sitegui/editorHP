@@ -30,6 +30,10 @@
 	overflow:hidden;
 	padding:5px;
 }
+.painel-comRolagem {
+	padding-right:22px;
+}
 .painel-conteudo:hover {
 	overflow:auto;
+	padding-right:5px;
 }

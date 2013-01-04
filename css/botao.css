@@ -7,6 +7,9 @@
 	cursor:pointer;
 	background-image:linear-gradient(to top, #333, #666);
 	background-image:-webkit-linear-gradient(bottom, #333, #666);
+	-moz-user-select:none;
+	-webkit-user-select:none;
+	user-select:none;
 }
 .botao-vermelho, .botao-verde, .botao-azul {
 	padding:0 15px;

@@ -3,6 +3,7 @@
 	height:15%;
 	top:0;
 	left:0;
+	font-size:0;
 }
 .menuBotao {
 	position:relative;
@@ -29,18 +30,15 @@
 	border-radius:5px;
 }
 .submenu-item-desabilitado {
-	padding:5px;
+	cursor:default;
 	color:#666;
-	background-color:rgba(255,255,255,.5);
-	margin:5px;
-	border-radius:5px;
 }
-.submenu-pequeno > .submenu-item, .submenu-pequeno > .submenu-item-desabilitado {
+.submenu-pequeno > .submenu-item {
 	padding:3px;
 	margin:3px;
 	border-radius:3px;
 }
-.submenu-item:hover {
+.submenu-item:not(.submenu-item-desabilitado):hover {
 	background-color:rgba(255,255,255,.75);
 }
 .submenu-atalho {

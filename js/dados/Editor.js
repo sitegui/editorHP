@@ -4,9 +4,15 @@ var Editor = {}
 // Indica o número de novos livros criados
 Editor.numNovosLivros = 0
 
+// Contém uma referência ao elementos copiados (deve-se clona-los antes de colar)
+Editor.colagem = []
+
+// Indica o tipo de elementos copiados ("paginas")
+Editor.tipoColagem = ""
+
 // Cria um livro vazio
 Editor.criarNovoLivro = function () {
-	var livro, pagina, indice, cabecalho, texto, aba
+	var livro, pagina, indice, cabecalho, texto, aba, i
 	
 	// Cria o livro
 	Editor.numNovosLivros++
@@ -14,26 +20,22 @@ Editor.criarNovoLivro = function () {
 	livro.nome = "Sem título "+Editor.numNovosLivros
 	livro.criacao = Date.now()
 	livro.modificacao = Date.now()
-	
+		
 	// Cria elementos básicos
-	pagina = new Pagina
-	cabecalho = new Cabecalho
-	cabecalho.texto = "Olá"
-	texto = new Texto
-	texto.texto = "Basta escrever seu texto aqui"
-	pagina.elementos.push(cabecalho)
-	pagina.elementos.push(texto)
-	indice = new FolhaIndice
-	indice.nome = "Olá"
-	indice.pagina = pagina
-	livro.paginas.push(pagina)
-	livro.paginas.push(pagina.clonar())
-	livro.paginas.push(pagina.clonar())
-	livro.paginas.push(pagina.clonar())
-	livro.paginas.push(pagina.clonar())
-	livro.paginas.push(pagina.clonar())
-	livro.paginas.push(pagina.clonar())
-	livro.indices.push(indice)
+	for (i=1; i<=5; i++) {
+		pagina = new Pagina
+		cabecalho = new Cabecalho
+		cabecalho.texto = "Página "+i
+		texto = new Texto
+		texto.texto = "Basta escrever seu texto aqui"
+		pagina.elementos.push(cabecalho)
+		pagina.elementos.push(texto)
+		indice = new FolhaIndice
+		indice.nome = "Página "+i
+		indice.pagina = pagina
+		livro.paginas.push(pagina)
+		livro.indices.push(indice)
+	}
 	
 	// Exibe
 	aba = new Aba(livro)

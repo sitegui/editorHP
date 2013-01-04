@@ -12,6 +12,7 @@
 <script src="js/dados/Pagina.js"></script>
 <script src="js/dados/Anexo.js"></script>
 <script src="js/dados/Arquivo.js"></script>
+<script src="js/dados/Acao.js"></script>
 <script src="js/interface/JanelaBasica.js"></script>
 <script src="js/interface/Interface.js"></script>
 <script src="js/interface/InterfaceAbas.js"></script>
@@ -43,10 +44,12 @@ xhr.onload = function () {
 		<div id="menuSalvarMais" class="botao2Dir">&#9660;</div>
 	</div>
 	<div id="menuAjuda" class="menuBotao botao-azul">Ajuda</div>
+	<div id="ferramenta-desfazer" class="menuBotao botao-azul desfazer" title="Desfazer">&#x21b6;</div>
+	<div id="ferramenta-refazer" class="menuBotao botao-azul refazer" title="Refazer">&#x21b7;</div>
 	
 	<!-- abas -->
 	<div id="abas">
-		<div class="aba aba-mais" id="abaMais" title="Novo arquivo">+</div>
+		<div class="aba aba-mais" id="abaMais" title="Novo livro">+</div>
 	</div>
 </div>
 
@@ -65,62 +68,62 @@ xhr.onload = function () {
 
 <!-- Submenus de edição -->
 <div id="submenuEdicao" class="submenu-pequeno" style="display:none">
-	<div class="submenu-item">Inserir</div>
-	<div class="submenu-item">Excluir <span class="submenu-atalho">Del</span></div>
+	<div class="submenu-item" id="submenuEdicao-inserir">Inserir</div>
+	<div class="submenu-item" id="submenuEdicao-excluir">Excluir <span class="submenu-atalho">Del</span></div>
 	<div class="submenu-divisoria"></div>
-	<div class="submenu-item">Copiar <span class="submenu-atalho">Ctrl+C</span></div>
-	<div class="submenu-item-desabilitado">Colar <span class="submenu-atalho">Ctrl+V</span></div>
-	<div class="submenu-item">Recortar <span class="submenu-atalho">Ctrl+X</span></div>
+	<div class="submenu-item" id="submenuEdicao-copiar">Copiar <span class="submenu-atalho">Ctrl+C</span></div>
+	<div class="submenu-item" id="submenuEdicao-colar">Colar <span class="submenu-atalho">Ctrl+V</span></div>
+	<div class="submenu-item" id="submenuEdicao-recortar">Recortar <span class="submenu-atalho">Ctrl+X</span></div>
 </div>
 
 <!-- Submenus de caracteres -->
 <div id="submenuCaracteres" class="submenu caracteres" style="display:none">
 	<table>
 		<tr>
-			<td>&#x2221;</td>
-			<td>&#x2207;</td>
-			<td>&#x221A;</td>
-			<td>&#x222B;</td>
-			<td>&#x03A3;</td>
-			<td>&#x25B6;</td>
-			<td>&#x03C0;</td>
-			<td>&#x2202;</td>
+			<td title="\<)">&#x2221;</td>
+			<td title="\.V">&#x2207;</td>
+			<td title="\v/">&#x221A;</td>
+			<td title="\.S">&#x222B;</td>
+			<td title="\GS">&#x03A3;</td>
+			<td title="\|>">&#x25B6;</td>
+			<td title="\pi">&#x03C0;</td>
+			<td title="\.d">&#x2202;</td>
 		</tr><tr>
-			<td>&#x2264;</td>
-			<td>&#x2265;</td>
-			<td>&#x2260;</td>
-			<td>&#x03B1;</td>
-			<td>&#x2192;</td>
-			<td>&#x2190;</td>
-			<td>&#x2193;</td>
-			<td>&#x2191;</td>
+			<td title="\<=">&#x2264;</td>
+			<td title="\>=">&#x2265;</td>
+			<td title="\=/">&#x2260;</td>
+			<td title="\Ga">&#x03B1;</td>
+			<td title="\->">&#x2192;</td>
+			<td title="\<-">&#x2190;</td>
+			<td title="\|v">&#x2193;</td>
+			<td title="\|^">&#x2191;</td>
 		</tr><tr>
-			<td>&#x03B3;</td>
-			<td>&#x03B4;</td>
-			<td>&#x03B5;</td>
-			<td>&#x03B7;</td>
-			<td>&#x03B8;</td>
-			<td>&#x03BB;</td>
-			<td>&#x03C1;</td>
-			<td>&#x03C3;</td>
+			<td title="\Gg">&#x03B3;</td>
+			<td title="\Gd">&#x03B4;</td>
+			<td title="\Ge">&#x03B5;</td>
+			<td title="\Gn">&#x03B7;</td>
+			<td title="\Gh">&#x03B8;</td>
+			<td title="\Gl">&#x03BB;</td>
+			<td title="\Gr">&#x03C1;</td>
+			<td title="\Gs">&#x03C3;</td>
 		</tr><tr>
-			<td>&#x03C4;</td>
-			<td>&#x03C9;</td>
-			<td>&#x0394;</td>
-			<td>&#x03A0;</td>
-			<td>&#x03A9;</td>
-			<td>&#x25AA;</td>
-			<td>&#x221E;</td>
-			<td>&#x20AC;</td>
+			<td title="\Gt">&#x03C4;</td>
+			<td title="\Gw">&#x03C9;</td>
+			<td title="\GD">&#x0394;</td>
+			<td title="\PI">&#x03A0;</td>
+			<td title="\GW">&#x03A9;</td>
+			<td title="\[]">&#x25AA;</td>
+			<td title="\oo">&#x221E;</td>
+			<td title="\160">&#x20AC;</td>
 		</tr><tr>
-			<td>«</td>
-			<td>°</td>
-			<td>µ</td>
-			<td>»</td>
-			<td>×</td>
-			<td>Ø</td>
-			<td>ß</td>
-			<td>÷</td>
+			<td title="\<<">«</td>
+			<td title="\^o">°</td>
+			<td title="\Gm">µ</td>
+			<td title="\>>">»</td>
+			<td title="\.x">×</td>
+			<td title="\0/">Ø</td>
+			<td title="\Gb">ß</td>
+			<td title="\:-">÷</td>
 		</tr>
 	</table>
 </div>
@@ -129,9 +132,9 @@ xhr.onload = function () {
 <div class="paginas">
 	<div class="painel-titulo">Páginas</div>
 	<div class="painel-botoes">
-		<div id="paginas-opcoes" class="minibotao-azul">&#9660;</div>
-		<div id="paginas-remover" class="minibotao-vermelho">-</div>
-		<div id="paginas-acrescentar" class="minibotao-verde">+</div>
+		<div id="paginas-opcoes" class="minibotao-azul" title="Mais opções">&#9660;</div>
+		<div id="paginas-remover" class="minibotao-vermelho" title="Remover páginas">-</div>
+		<div id="paginas-acrescentar" class="minibotao-verde" title="Adicionar página">+</div>
 	</div>
 	<div id="paginas" class="painel-conteudo"></div>
 </div>

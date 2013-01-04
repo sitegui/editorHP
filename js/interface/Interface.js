@@ -23,26 +23,45 @@ Interface.init = function () {
 	InterfaceMenus.init()
 	InterfaceAbas.init()
 	InterfaceEdicao.init()
+	InterfacePaginas.init()
 }
 
 // Atualiza toda a interface (usado quando se abre um outro livro)
 Interface.atualizar = function () {
 	InterfacePaginas.montarMiniaturas()
 	InterfaceEdicao.atualizar()
+	InterfaceEdicao.atualizarDesfazer()
 }
 
 // Abre o menu especificado abaixo do elemento
 // menu e base são elementos HTML ou um id
+// Se base não for enviado, abre perto do mouse
 Interface.menuAberto = null
-Interface.abrirMenu = function (submenu, base) {
+Interface.abrirMenu = function (evento, submenu, base) {
 	Interface.fecharMenu()
 	submenu = get(submenu)
-	base = get(base)
+	
+	submenu.style.cssText = ""
 	submenu.style.display = ""
-	submenu.style.top = (base.getBoundingClientRect().top+base.clientHeight+3)+"px"
-	submenu.style.left = base.getBoundingClientRect().left+"px"
-	submenu.style.minWidth = base.clientWidth+"px"
+	if (base) {
+		base = get(base)
+		submenu.style.top = (base.getBoundingClientRect().top+base.clientHeight+3)+"px"
+		submenu.style.left = base.getBoundingClientRect().left+"px"
+		submenu.style.minWidth = base.clientWidth+"px"
+	} else {
+		if (evento.clientY+submenu.clientHeight > document.body.clientHeight)
+			submenu.style.bottom = (document.body.clientHeight-evento.clientY)+"px"
+		else
+			submenu.style.top = evento.clientY+"px"
+		if (evento.clientX+submenu.clientWidth > document.body.clientWidth)
+			submenu.style.right = (document.body.clientWidth-evento.clientX)+"px"
+		else
+			submenu.style.left = evento.clientX+"px"
+	}
 	Interface.menuAberto = submenu
+	
+	// Evita que o menu feche nesse clique
+	evento.stopPropagation()
 }
 
 // Controla menus abertos

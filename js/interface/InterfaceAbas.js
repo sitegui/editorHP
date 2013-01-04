@@ -68,6 +68,9 @@ function Aba(livro) {
 	this.livro = livro
 	this.paginaFoco = livro.paginas.length ? livro.paginas[0] : null
 	this.paginasSelecionadas = {}
+	this.historico = []
+	this.posHistorico = 0
+	this.idAcaoSalvo = ""
 	if (livro.paginas.length)
 		this.paginasSelecionadas[livro.paginas[0].id] = true
 }
