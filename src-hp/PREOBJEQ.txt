@@ -14,5 +14,5 @@ DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R
 @ Salva, se maior
 \<-largura MAX '\<-largura' STO
 @ Salva numa lista
-0. 3. \->LIST \<-n ROLLD
+1. 0. 4. \->LIST \<-n ROLLD
 \>>

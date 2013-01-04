@@ -41,7 +41,7 @@
 			\>>
 		ELSE
 			@ Imagem
-			0. 0. \-> lado img w h
+			0. 0. \-> lado img eElemento w h
 			\<<
 				@ Pega o tamanho
 				img SIZE B\->R 'h' STO B\->R 'w' STO
@@ -55,7 +55,7 @@
 				R\->B \<-y R\->B 2. \->LIST
 				PICT SWAP img GOR
 				@ Atualiza a altura da inserção
-				'\<-y' h 6. + STO+
+				'\<-y' h IF eElemento THEN 6. ELSE 0. END + STO+
 			\>>
 		END
 	NEXT
