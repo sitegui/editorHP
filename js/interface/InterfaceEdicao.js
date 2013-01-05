@@ -26,10 +26,10 @@ InterfaceEdicao.atualizarFerramentas = function () {
 		if (no.nodeName == "P") {
 			ferramenta = "ferramenta-texto"
 			break
-		} else if (no.nodeName == "PRE") {
+		} else if (no.nodeName == "H6") {
 			ferramenta = "ferramenta-equacao"
 			break
-		} else if (no.nodeName.match(/^H[1-6]$/)) {
+		} else if (no.nodeName.match(/^H[1-5]$/)) {
 			ferramenta = "ferramenta-"+no.nodeName.toLowerCase()
 			break
 		}
@@ -58,6 +58,7 @@ InterfaceEdicao.init = function () {
 		intervalo = setInterval(InterfaceEdicao.atualizarFerramentas, 1e3)
 		get("ferramentasConteudo").style.opacity = "1"
 		get("ferramentasMascara").style.display = "none"
+		InterfaceEdicao.atualizarFerramentas()
 	}
 	
 	get("edicao").onblur = function () {
@@ -93,13 +94,12 @@ InterfaceEdicao.init = function () {
 	
 	// Formatação
 	get("ferramenta-texto").onclick = executar("formatBlock", "P")
-	get("ferramenta-equacao").onclick = executar("formatBlock", "PRE")
+	get("ferramenta-equacao").onclick = executar("formatBlock", "H6")
 	get("ferramenta-h1").onclick = executar("formatBlock", "H1")
 	get("ferramenta-h2").onclick = executar("formatBlock", "H2")
 	get("ferramenta-h3").onclick = executar("formatBlock", "H3")
 	get("ferramenta-h4").onclick = executar("formatBlock", "H4")
 	get("ferramenta-h5").onclick = executar("formatBlock", "H5")
-	get("ferramenta-h6").onclick = executar("formatBlock", "H6")
 	get("ferramenta-esquerda").onclick = executar("justifyLeft")
 	get("ferramenta-centro").onclick = executar("justifyCenter")
 	get("ferramenta-direita").onclick = executar("justifyRight")
@@ -107,6 +107,17 @@ InterfaceEdicao.init = function () {
 	// Desfazer e refazer
 	get("ferramenta-desfazer").onclick = InterfaceEdicao.desfazer
 	get("ferramenta-refazer").onclick = InterfaceEdicao.refazer
+	
+	// Inserção de régua
+	get("ferramenta-regua").onclick = function (evento) {
+		Interface.abrirMenu(evento, "submenuRegua", "ferramenta-regua")
+	}
+	get("submenuRegua-fina").onmousedown = anular
+	get("submenuRegua-media").onmousedown = anular
+	get("submenuRegua-grossa").onmousedown = anular
+	get("submenuRegua-fina").onclick = executar("insertHTML", "<hr size='1' color='black'>")
+	get("submenuRegua-media").onclick = executar("insertHTML", "<hr size='3' color='black'>")
+	get("submenuRegua-grossa").onclick = executar("insertHTML", "<hr size='5' color='black'>")
 	
 	// Abre a janela de inserção de caractere
 	get("ferramenta-caractere").onclick = function (evento) {

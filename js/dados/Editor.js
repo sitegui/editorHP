@@ -10,6 +10,16 @@ Editor.colagem = []
 // Indica o tipo de elementos copiados ("paginas")
 Editor.tipoColagem = ""
 
+// Evita que a pessoa feche sem salvar algum arquivo
+addEventListener("beforeunload", function (evento) {
+	var i
+	for (i=0; i<InterfaceAbas.abas.length; i++)
+		if (InterfaceAbas.abas[i].livro.modificado) {
+			evento.preventDefault()
+			return
+		}
+})
+
 // Cria um livro vazio
 Editor.criarNovoLivro = function () {
 	var livro, pagina, indice, cabecalho, texto, aba, i
@@ -20,9 +30,10 @@ Editor.criarNovoLivro = function () {
 	livro.nome = "Sem título "+Editor.numNovosLivros
 	livro.criacao = Date.now()
 	livro.modificacao = Date.now()
+	livro.novo = true
 		
 	// Cria elementos básicos
-	for (i=1; i<=5; i++) {
+	for (i=1; i<=3; i++) {
 		pagina = new Pagina
 		cabecalho = new Cabecalho
 		cabecalho.texto = "Página "+i
@@ -41,7 +52,6 @@ Editor.criarNovoLivro = function () {
 	aba = new Aba(livro)
 	InterfaceAbas.abas.push(aba)
 	Interface.abaFoco = aba
-	InterfaceAbas.atualizarLayout()
 	
 	return livro
 }

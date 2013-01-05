@@ -68,11 +68,9 @@ Cabecalho.prototype.clonar = function () {
 // Régua
 function Regua() {
 	this.altura = 1
-	this.preto = true
 }
 Regua.prototype.clonar = function () {
 	var novo = new Regua
 	novo.altura = this.altura
-	novo.preto = this.preto
 	return novo
 }

@@ -41,7 +41,7 @@ Compilador.inflar = function (str) {
 				case 0:
 					elemento = new Texto
 					elemento.alinhamento = temp[0]
-					elemento.texto = temp.slice(1, temp.length-1).join("\n")
+					elemento.texto = temp[1].join("\n")
 					break
 				case 1:
 					elemento = new Equacao
@@ -60,8 +60,7 @@ Compilador.inflar = function (str) {
 					break
 				case 4:
 					elemento = new Regua
-					elemento.preto = Boolean(temp[0])
-					elemento.altura = temp[1]
+					elemento.altura = temp[0]
 					break
 			}
 			pagina.elementos.push(elemento)
@@ -100,8 +99,100 @@ Compilador.inflar = function (str) {
 	return livro
 }
 
-// Compila um livro
+// Compila um livro para um string
 Compilador.compilar = function (livro) {
+	var obj, paginas, i, elementos, elementos2, j, elemento, alinhamento, linhas, indices, anexos, strings
+	obj = []
+	
+	// Coloca a string dentro de uma string
+	var escapar = function (str) {
+		return "\""+str.replace(/"/g, "\\\"").replace(/\\/g, "\\\\")+"\""
+	}
+	
+	// Compila um índice recursivamente
+	var gerarIndice = function (indice) {
+		var subs, i
+		if (indice instanceof FolhaIndice) {
+			return "{"+escapar(indice.nome)+" "+(livro.paginas.indexOf(indice.pagina)+1)+". 1.}"
+		} else {
+			subs = []
+			for (i=0; i<indice.indices; i++)
+				subs.push(gerarIndice(indice.indices[i]))
+			return "{"+escapar(indice.nome)+" "+subs.join(" ")+" 0.}"
+		}
+	}
+	
+	// Gera um string de busca para uma string
+	var gerarBusca = function (str) {
+		return str
+		.replace(/[ÁÀÂÃÄÅ]/gi, "A")
+		.replace(/Æ/gi, "AE")
+		.replace(/Ç/gi, "C")
+		.replace(/[ÈÉÊË]/gi, "E")
+		.replace(/[ÌÍÎÏ]/gi, "I")
+		.replace(/Ð/gi, "D")
+		.replace(/Ñ/gi, "N")
+		.replace(/[ÒÓÔÕÖ]/gi, "O")
+		.replace(/[ÙÚÛÜ]/gi, "U")
+		.replace(/Ý/gi, "Y")
+		.replace(/[a-z]+/g, function (str) {
+			return str.toUpperCase()
+		})
+		.replace(/\s+/g, " ")
+	}
+	
+	// Dados básicos
+	obj[0] = "1."
+	obj[1] = escapar(livro.nome)
+	obj[2] = "{"+livro.criacao+" "+livro.modificacao+" "+Number(livro.autoPaginacao)+" "+Number(livro.autoIndexacao)+"}"
+	
+	// Monta os índices
+	indices = []
+	for (i=0; i<livro.indices.length; i++)
+		indices.push(gerarIndice(livro.indices[i]))
+	obj[3] = "{"+indices.join(" ")+"}"
+	
+	// Monta as páginas e as strings de busca
+	paginas = []
+	strings = []
+	for (i=0; i<livro.paginas.length; i++) {
+		elementos = []
+		elementos2 = []
+		for (j=0; j<livro.paginas[i].elementos.length; j++) {
+			elemento = livro.paginas[i].elementos[j]
+			alinhamento = "-1."
+			switch (elemento.alinhamento) {
+				case 0: alinhamento = "0."; break
+				case 1: alinhamento = "1."; break
+			}
+			if (elemento instanceof Texto) {
+				// TODO: quebrar linhas
+				linhas = "{"+elemento.texto.split("\n").map(escapar).join(" ")+"}"
+				elementos.push("{"+alinhamento+" "+linhas+" 0.}")
+				elementos2.push(gerarBusca(elemento.texto))
+			} else if (elemento instanceof Equacao)
+				elementos.push("{"+alinhamento+" "+escapar(elemento.texto)+" 1.}")
+			else if (elemento instanceof Imagem)
+				elementos.push("{"+elemento.cache+" 2.}")
+			else if (elemento instanceof Cabecalho) {
+				elementos.push("{"+alinhamento+" "+elemento.nivel+". "+escapar(elemento.texto)+" 3.}")
+				elementos2.push(gerarBusca(elemento.texto))
+			} else if (elemento instanceof Regua)
+				elementos.push("{"+elemento.altura+". 4.}")
+		}
+		paginas.push("{"+elementos.join(" ")+"}")
+		strings.push(escapar(elementos2.join(";")))
+	}
+	obj[4] = "{"+paginas.join(" ")+"}"
+	obj[6] = "{"+strings.join(" ")+"}"
+	
+	// Monta os anexos
+	anexos = []
+	for (i=0; i<livro.anexos; i++)
+		anexos.push("{"+escapar(livro.anexos[i].nome)+" "+escapar(livro.anexos[i].conteudo)+"}")
+	obj[5] = "{"+anexos.join(" ")+"}"
+	
+	return "{"+obj.join(" ")+"}"
 }
 
 // Gera HTML de uma página
@@ -126,13 +217,13 @@ Compilador.gerarHTML = function (pagina) {
 		if (el instanceof Texto)
 			html += "<p "+getAlinhamento(el)+">"+escaparHTML(el).replace(/\n/g, "<br>")+"</p>"
 		else if (el instanceof Equacao)
-			html += "<pre "+getAlinhamento(el)+">"+escaparHTML(el)+"</pre>"
+			html += "<h6 "+getAlinhamento(el)+">"+escaparHTML(el)+"</h6>"
 		else if (el instanceof Imagem)
 			html += "<img>" // TODO
 		else if (el instanceof Cabecalho)
 			html += "<h"+el.nivel+" "+getAlinhamento(el)+">"+escaparHTML(el)+"</h"+el.nivel+">"
 		else if (el instanceof Regua)
-			html += "<hr height='"+el.altura+"' color='"+(el.preto ? "black" : "white")+"'>"
+			html += "<hr size='"+el.altura+"'>"
 	}
 	
 	return html
@@ -160,7 +251,7 @@ Compilador.gerarMiniHTML = function (pagina, num) {
 		if (el instanceof Texto)
 			html += "<p "+getAlinhamento(el)+">"+escaparHTML(el).replace(/\n/g, "<br>")+"</p>"
 		else if (el instanceof Equacao)
-			html += "<pre "+getAlinhamento(el)+">"+escaparHTML(el)+"</pre>"
+			html += "<h6 style='font-size:inherit' "+getAlinhamento(el)+">"+escaparHTML(el)+"</h6>"
 		else if (el instanceof Imagem)
 			html += "<img>" // TODO
 		else if (el instanceof Cabecalho) {
@@ -170,11 +261,10 @@ Compilador.gerarMiniHTML = function (pagina, num) {
 				case 3: estilo = "font-size:larger;text-transform:italic"; break
 				case 4: estilo = "font-weight:bold"; break
 				case 5: estilo = ""; break
-				case 6: estilo = "text-transform:italic"; break
 			}
 			html += "<p "+getAlinhamento(el)+" style='"+estilo+"'>"+escaparHTML(el)+"</p>"
 		} else if (el instanceof Regua)
-			html += "<hr height='"+el.altura+"' color='"+(el.preto ? "black" : "white")+"'>"
+			html += "<hr size='"+el.altura+"'>"
 	}
 	
 	return html
@@ -187,7 +277,7 @@ Compilador.normalizar = function (raiz) {
 	var lista, no, i, validos, primeiro, agrupar, elementos, elemento
 	
 	// Percorre a árvore enraizando elementos válidos
-	validos = ["P", "PRE", "IMG", "H1", "H2", "H3", "H4", "H5", "H6", "HR"]
+	validos = ["P", "IMG", "H1", "H2", "H3", "H4", "H5", "H6", "HR"]
 	lista = [raiz]
 	while (lista.length) {
 		no = lista.pop()
@@ -241,8 +331,8 @@ Compilador.normalizar = function (raiz) {
 	return elementos
 }
 
-// Interpreta o livro a partir de um arquivo enviado pelo usuário
-// Função assíncrona, executa onsucesso quando acabar (o livro vai como argumento)
+// Abre um arquivo enviado pelo usuário
+// Função assíncrona, executa onsucesso quando acabar (o conteúdo do arquivo vai como argumento)
 Compilador.abrirUpload = function (arquivo, onsucesso) {
 	var xhr, dados
 	
@@ -253,13 +343,40 @@ Compilador.abrirUpload = function (arquivo, onsucesso) {
 	xhr.open("POST", "abrirUpload.php")
 	xhr.send(dados)
 	xhr.onload = function () {
-		onsucesso(Compilador.abrirString(xhr.responseText))
+		onsucesso(xhr.responseText)
 	}
 }
 
-// Gera um arquivo de download
-Compilador.gerarDownload = function (str) {
-}
+// Gera um arquivo de download a partir de um objeto arquivo
+Compilador.gerarDownload = (function () {
+	var iframe, form, input, input2
+	
+	// Monta o formulário quando a página estiver carregada
+	addEventListener("load", function () {
+		iframe = document.createElement("iframe")
+		iframe.name = "iframeDownload"
+		form = document.createElement("form")
+		form.target = "iframeDownload"
+		form.method = "post"
+		form.action = "gerarDownload.php"
+		form.style.display = "none"
+		input = document.createElement("input")
+		input.name = "livro"
+		input2 = document.createElement("input")
+		input2.name = "nome"
+		form.appendChild(input)
+		form.appendChild(input2)
+		form.appendChild(iframe)
+		document.body.appendChild(form)
+	})
+	
+	return function (arquivo) {
+		// Envia
+		input.value = arquivo.conteudo
+		input2.value = arquivo.nome
+		form.submit()
+	}
+})()
 
 // Interpreta o livro a partir de um link
 Compilador.abrirLink = function (link) {
@@ -291,7 +408,7 @@ Métodos para uso interno
 Compilador.enraizarNo = function (no, raiz) {
 	var pai, esq, dir, validos
 	
-	validos = ["P", "PRE", "IMG", "H1", "H2", "H3", "H4", "H5", "H6", "HR"]
+	validos = ["P", "IMG", "H1", "H2", "H3", "H4", "H5", "H6", "HR"]
 	pai = no.parentNode
 	while (pai != raiz) {
 		if (pai.firstChild != no) {
@@ -323,7 +440,7 @@ Compilador.enraizarNo = function (no, raiz) {
 	}
 }
 
-// Normaliza um elemento HTML válido (P, PRE, IMG, H1, H2, H3, H4, H5, H6, HR)
+// Normaliza um elemento HTML válido (P, IMG, H1, H2, H3, H4, H5, H6, HR)
 Compilador.normalizarElemento = function (no) {
 	var elemento, texto, alinhamento = -1, css
 	
@@ -344,7 +461,7 @@ Compilador.normalizarElemento = function (no) {
 			elemento.texto = texto
 			elemento.alinhamento = alinhamento
 			return elemento
-		case "PRE":
+		case "H6":
 			texto = Compilador.sanitizar(no.textContent.trim())
 			if (texto == "")
 				return null
@@ -359,7 +476,6 @@ Compilador.normalizarElemento = function (no) {
 		case "H3":
 		case "H4":
 		case "H5":
-		case "H6":
 			texto = Compilador.sanitizar(no.textContent.trim())
 			if (texto == "")
 				return null
@@ -370,7 +486,6 @@ Compilador.normalizarElemento = function (no) {
 			return elemento
 		case "HR":
 			elemento = new Regua
-			elemento.preto = no.color=="black"
 			elemento.altura = Number(no.size)
 			return elemento
 	}

@@ -47,7 +47,11 @@ Acao.desfazer = function (aba) {
 		if (acao.undo) {
 			acao.undo.call(aba)
 			aba.posHistorico--
-			aba.livro.modificado = (aba.posHistorico && aba.historico[aba.posHistorico-1]!=aba.posHistorico) || aba.posHistorico!=""
+			if ((aba.posHistorico && aba.historico[aba.posHistorico-1].id!=aba.idAcaoSalvo)
+				|| (!aba.posHistorico && aba.idAcaoSalvo!=""))
+				aba.livro.modificado = true
+			else
+				aba.livro.modificado = false
 		}
 	}
 }
@@ -60,7 +64,11 @@ Acao.refazer = function (aba) {
 		if (acao.redo) {
 			acao.redo.call(aba)
 			aba.posHistorico++
-			aba.livro.modificado = (aba.posHistorico && aba.historico[aba.posHistorico-1]!=aba.posHistorico) || aba.posHistorico!=""
+			if ((aba.posHistorico && aba.historico[aba.posHistorico-1].id!=aba.idAcaoSalvo)
+				|| (!aba.posHistorico && aba.idAcaoSalvo!=""))
+				aba.livro.modificado = true
+			else
+				aba.livro.modificado = false
 		}
 	}
 }

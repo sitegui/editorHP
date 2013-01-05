@@ -1028,12 +1028,12 @@
 </XPD:OBJ>
 <XPD:OBJ name="Attributes[5]" type="UMLAttribute" guid="a3X9pHMwiUe4VtxwH65mkgAA">
 <XPD:ATTR name="Name" type="string">criacao</XPD:ATTR>
-<XPD:ATTR name="TypeExpression" type="string">Date</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">int</XPD:ATTR>
 <XPD:REF name="Owner">L+ekYHA3ekOCRc8Q+pJiBwAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Attributes[6]" type="UMLAttribute" guid="FEKqoVN7LUOvxmHi8lVz8gAA">
-<XPD:ATTR name="Name" type="string">alteracao</XPD:ATTR>
-<XPD:ATTR name="TypeExpression" type="string">Date</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">modificacao</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">int</XPD:ATTR>
 <XPD:REF name="Owner">L+ekYHA3ekOCRc8Q+pJiBwAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Attributes[7]" type="UMLAttribute" guid="+86Os+rqVkqurUebOuDOEwAA">
@@ -1924,12 +1924,9 @@
 </XPD:OBJ>
 <XPD:ATTR name="#TypedFeatures" type="integer">1</XPD:ATTR>
 <XPD:REF name="TypedFeatures[0]">rYQZ1ykfJkmjkno23AUoaQAA</XPD:REF>
-<XPD:ATTR name="#TypedParameters" type="integer">5</XPD:ATTR>
-<XPD:REF name="TypedParameters[0]" pathname="aba">oO0yN9vLn0mzj2kT2geC9gAA</XPD:REF>
-<XPD:REF name="TypedParameters[1]" pathname="aba">gOGKCQItPUef2HSD6y4BZQAA</XPD:REF>
-<XPD:REF name="TypedParameters[2]" pathname="aba">G61pjlwm106xGCXzSYIFtwAA</XPD:REF>
-<XPD:REF name="TypedParameters[3]">50Ffi73qRU2bfzRt2wZnBQAA</XPD:REF>
-<XPD:REF name="TypedParameters[4]">WH150oGbdESQvu8pVSj+ZgAA</XPD:REF>
+<XPD:ATTR name="#TypedParameters" type="integer">2</XPD:ATTR>
+<XPD:REF name="TypedParameters[0]">50Ffi73qRU2bfzRt2wZnBQAA</XPD:REF>
+<XPD:REF name="TypedParameters[1]">WH150oGbdESQvu8pVSj+ZgAA</XPD:REF>
 <XPD:ATTR name="#Attributes" type="integer">7</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="dgMYoXTdAEqpy9kFnvCemgAA">
 <XPD:ATTR name="Name" type="string">div</XPD:ATTR>

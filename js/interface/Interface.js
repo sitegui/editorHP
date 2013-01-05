@@ -8,7 +8,10 @@ var Interface = {}
 		return foco
 	}, set: function (novo) {
 		foco = novo
-		Interface.atualizar()
+		InterfaceAbas.atualizarLayout()
+		InterfacePaginas.montarMiniaturas()
+		InterfaceEdicao.atualizar()
+		InterfaceEdicao.atualizarDesfazer()
 	}, enumerable: true})
 })()
 
@@ -24,13 +27,6 @@ Interface.init = function () {
 	InterfaceAbas.init()
 	InterfaceEdicao.init()
 	InterfacePaginas.init()
-}
-
-// Atualiza toda a interface (usado quando se abre um outro livro)
-Interface.atualizar = function () {
-	InterfacePaginas.montarMiniaturas()
-	InterfaceEdicao.atualizar()
-	InterfaceEdicao.atualizarDesfazer()
 }
 
 // Abre o menu especificado abaixo do elemento
@@ -76,6 +72,7 @@ addEventListener("click", Interface.fecharMenu)
 // Abre a janela desejada (envia o argumento para o ouvinte de abertura da janela)
 Interface.janelaAberta = null
 Interface.abrirJanela = function (janela, argumento) {
+	Interface.fecharJanela()
 	get("fundoJanela").style.display = ""
 	janela = get(janela)
 	janela.style.display = ""

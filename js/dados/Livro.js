@@ -6,10 +6,11 @@ function Livro() {
 	this.paginas = []
 	this.anexos = []
 	this.indices = []
-	this.criacao = null
-	this.modificacao = null
+	this.criacao = 0
+	this.modificacao = 0
 	this.autoPaginacao = true
 	this.autoIndexacao = true
+	this.novo = false // Indice se o livro foi criado do zero
 	Object.defineProperty(this, "modificado", {get: function () {
 		return modificado
 	}, set: function (novo) {
@@ -36,6 +37,7 @@ Livro.prototype.clonar = function () {
 	novo.modificacao = this.modificacao
 	novo.autoPaginacao = this.autoPaginacao
 	novo.autoIndexacao = this.autoIndexacao
+	novo.novo = this.novo
 	
 	// Copia páginas, anexos e indices
 	novo.paginas = this.paginas.map(function (pagina) {

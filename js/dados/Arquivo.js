@@ -2,13 +2,28 @@
 function Arquivo() {
 	this.conteudo = ""
 	this.nome = ""
-	this.modificado = 0
+	this.modificacao = 0
+	this.id = ""
 	this.versao = 0
 }
 
-// Abre o arquivo para um livro
-Arquivo.prototype.abrir = function () {
-	return Compilador.inflar(this.conteudo)
+// Salva o livro no arquivo (sobreescreve se já exisitir)
+// Retorna um objeto arquivo
+Arquivo.salvarLivro = function (livro) {
+	var arquivo
+	
+	livro.modificacao = Date.now()
+	livro.modificado = false
+	
+	arquivo = new Arquivo
+	arquivo.conteudo = Compilador.compilar(livro)
+	arquivo.nome = livro.nome
+	arquivo.id = livro.id
+	arquivo.modificacao = livro.modificacao
+	arquivo.versao = 1
+	Arquivo.arquivos[livro.id] = arquivo
+	
+	return arquivo
 }
 
 // Guarda todos os arquivos recentes, indexados pelo id
@@ -25,18 +40,18 @@ Arquivo.carregarArquivos = function () {
 			novo = new Arquivo
 			novo.conteudo = obj[id].conteudo
 			novo.nome = obj[id].nome
-			novo.modificado = obj[id].modificado
+			novo.modificacao = obj[id].modificacao
 			novo.versao = obj[id].versao
-			Arquivos.arquivos[id] = novo
+			novo.id = obj[id].id
+			Arquivo.arquivos[id] = novo
 		}
 	}
 }
 
-// Salva os arquivos no navegador
-Arquivo.salvar = function () {
-	localStorage.setItem("editorHP-arquivos", JSON.stringify(Arquivo.arquivos))
-}
-
 // Define os ouvintes
 Arquivo.carregarArquivos()
-addEventListener("unload", Arquivo.salvar)
+
+// Salva os arquivos no navegador logo antes de sair
+addEventListener("unload", function () {
+	localStorage.setItem("editorHP-arquivos", JSON.stringify(Arquivo.arquivos))
+})

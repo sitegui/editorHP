@@ -322,6 +322,9 @@
 	padding:3px;
 	transition:width .5s, left .5s, opacity .5s;
 	-webkit-transition:width .5s, left .5s, opacity .5s;
+	-moz-user-select:none;
+	-webkit-user-select:none;
+	user-select:none;
 }
 
 .aba:hover {
@@ -646,10 +649,12 @@ h5 {
 	font-weight:normal;
 }
 h6 {
-	margin:0;
-	font-size:large;
+	/* Funciona como um PRE */
+    font-family:"Courier New", Courier, monospace;
+    white-space: pre;
+	margin:1em 0;
+	font-size:medium;
 	font-weight:normal;
-	font-style:italic;
 }
 
 /*** painel.css ***/

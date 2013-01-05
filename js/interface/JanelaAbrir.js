@@ -10,6 +10,27 @@ JanelaAbrir.init = function () {
 		Interface.fecharJanela()
 		Editor.criarNovoLivro()
 	}
+	get("janelaAbrir-upload-arquivo").onchange = get("janelaAbrir-upload-abrir").onclick = function () {
+		// Inicia a abertura
+		Compilador.abrirUpload(get("janelaAbrir-upload-arquivo").files.item(0), function (str) {
+			var livro, aba
+			
+			Interface.fecharJanela()
+			
+			// Abre o livro numa nova aba
+			livro = Compilador.inflar(str)
+			aba = new Aba(livro)
+			InterfaceAbas.abas.push(aba)
+			Interface.abaFoco = aba
+			
+			// Salva no arquivo
+			Arquivo.salvarLivro(livro)
+		})
+		
+		// Desativa o formulário
+		get("janelaAbrir-upload-arquivo").disabled = true
+		get("janelaAbrir-upload-abrir").classList.add("botao-inativo")
+	}
 }
 
 // Abre a página desejada
@@ -29,7 +50,7 @@ JanelaAbrir.onabrir = function (pagina) {
 
 // Mostra a aba de arquivos recentes
 JanelaAbrir.mostrarAbaRecentes = function () {
-	var aba = get("janelaAbrir-abaRecentes")
+	var aba = get("janelaAbrir-abaRecentes"), id, arquivos, i
 	get("janelaAbrir-recentes").classList.add("janela-lista-selecionado")
 	get("janelaAbrir-upload").classList.remove("janela-lista-selecionado")
 	get("janelaAbrir-link").classList.remove("janela-lista-selecionado")
@@ -38,11 +59,19 @@ JanelaAbrir.mostrarAbaRecentes = function () {
 	get("janelaAbrir-abaLink").style.display = "none"
 	
 	// Cria a lista de itens recentes
-	// TODO: pegar dos dados
 	aba.innerHTML = ""
-	aba.appendChild(JanelaAbrir.gerarItemRecente("Arquivo um", Date.now()-1e7))
-	aba.appendChild(JanelaAbrir.gerarItemRecente("Arquivo dois", Date.now()-1e8))
-	aba.appendChild(JanelaAbrir.gerarItemRecente("Arquivo três", Date.now()-1e9))
+	arquivos = []
+	for (id in Arquivo.arquivos)
+		arquivos.push(Arquivo.arquivos[id])
+	arquivos.sort(function (a, b) {
+		return b.modificacao-a.modificacao
+	})
+	for (i=0; i<arquivos.length; i++)
+		aba.appendChild(JanelaAbrir.gerarItemRecente(arquivos[i]))
+	
+	// Mostra mensagem de nada a ser aberto
+	if (aba.innerHTML == "")
+		aba.innerHTML = "Você não tem nenhum arquivo salvo recentemente"
 }
 
 // Mostra a aba de upload de arquivo
@@ -53,6 +82,10 @@ JanelaAbrir.mostrarAbaUpload = function () {
 	get("janelaAbrir-abaRecentes").style.display = "none"
 	get("janelaAbrir-abaUpload").style.display = ""
 	get("janelaAbrir-abaLink").style.display = "none"
+	get("janelaAbrir-upload-arquivo").value = ""
+	get("janelaAbrir-upload-arquivo").disabled = false
+	get("janelaAbrir-upload-arquivo").click()
+	get("janelaAbrir-upload-abrir").classList.remove("botao-inativo")
 }
 
 // Mostra a aba de importar de um link
@@ -66,13 +99,11 @@ JanelaAbrir.mostrarAbaLink = function () {
 }
 
 // Cria um item pra lista de arquivos recentes
-// nome é uma string com o título do livro
-// data é o valor .getTime() de uma data
-JanelaAbrir.gerarItemRecente = function (nome, data) {
+JanelaAbrir.gerarItemRecente = function (arquivo) {
 	var el, elNome, elData, elBaixar, elExcluir, dif, difData
 	
 	// Calcula a diferença das datas
-	dif = (Date.now()-data)/(24*60*60*1e3)
+	dif = (Date.now()-arquivo.modificacao)/(24*60*60*1e3)
 	if (dif < 1)
 		difData = "hoje"
 	else if (dif < 2)
@@ -87,7 +118,7 @@ JanelaAbrir.gerarItemRecente = function (nome, data) {
 	// Cria os elementos
 	el = document.createElement("div")
 	el.className = "janela-listaRecente"
-	elNome = document.createTextNode(nome+" ")
+	elNome = document.createTextNode(arquivo.nome+" ")
 	elData = document.createElement("span")
 	elData.className = "janela-listaRecente-modificado"
 	elData.textContent = "("+difData+")"
@@ -97,6 +128,54 @@ JanelaAbrir.gerarItemRecente = function (nome, data) {
 	elExcluir = document.createElement("div")
 	elExcluir.className = "janela-listaRecente-excluir minibotao-vermelho"
 	elExcluir.innerHTML = "&times;"
+	
+	// Ouvintes
+	elBaixar.onclick = function (evento) {
+		Compilador.gerarDownload(arquivo)
+		evento.stopPropagation()
+	}
+	elExcluir.onclick = function (evento) {
+		var opcoes = {}, i
+		
+		// Verifica se não está sendo editado
+		for (i=0; i<InterfaceAbas.abas.length; i++)
+			if (InterfaceAbas.abas[i].livro.id == arquivo.id) {
+				alert("Esse arquivo esstá aberto no editor, feche-o antes")
+				// Retorna, propagando o evento e focando na aba do arquivo aberto
+				return
+			}
+		
+		opcoes.titulo = "Excluir arquivo"
+		opcoes.conteudo = "Tem certeza que deseja excluir de forma permanente esse arquivo da lista?"
+		opcoes.onconfirmar = function () {
+			delete Arquivo.arquivos[arquivo.id]
+			Interface.abrirJanela("janelaAbrir", "recentes")
+		}
+		opcoes.oncancelar = function () {
+			Interface.abrirJanela("janelaAbrir", "recentes")
+		}
+		Interface.abrirJanela("janelaBasica", opcoes)
+		evento.stopPropagation()
+	}
+	el.onclick = function () {
+		var livro, aba, i
+		
+		Interface.fecharJanela()
+		
+		// Verifica se já não está aberto
+		for (i=0; i<InterfaceAbas.abas.length; i++)
+			if (InterfaceAbas.abas[i].livro.id == arquivo.id) {
+				Interface.abaFoco = InterfaceAbas.abas[i]
+				return
+			}
+		
+		// Abre
+		livro = Compilador.inflar(arquivo.conteudo)
+		livro.id = arquivo.id
+		aba = new Aba(livro)
+		InterfaceAbas.abas.push(aba)
+		Interface.abaFoco = aba
+	}
 	
 	// Junta os elementos
 	el.appendChild(elNome)

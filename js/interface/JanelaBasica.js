@@ -9,17 +9,21 @@ JanelaBasica.init = function () {
 			evento.preventDefault()
 		}
 	}
-	get("janelaBasica-cancelar").onclick = Interface.fecharJanela
 }
 
 // Abre a página desejada
-// Recebe um objeto com as propriedades: titulo, conteudo, onconfirmar
+// Recebe um objeto com as propriedades: titulo, conteudo, onconfirmar, oncancelar (opcional)
 JanelaBasica.onabrir = function (opcoes) {
 	get("janelaBasica-titulo").textContent = opcoes.titulo
 	get("janelaBasica-conteudo").innerHTML = opcoes.conteudo
 	get("janelaBasica-confirmar").onclick = function () {
+		Interface.fecharJanela()
 		if (opcoes.onconfirmar)
 			opcoes.onconfirmar()
+	}
+	get("janelaBasica-cancelar").onclick = get("janelaBasica-fechar").onclick = function () {
 		Interface.fecharJanela()
+		if (opcoes.oncancelar)
+			opcoes.oncancelar()
 	}
 }

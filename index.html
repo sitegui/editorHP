@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>EditorHP</title>
 <link rel="stylesheet" href="css.css">
+<link rel="icon" href="icone.png">
 <script src="js/dados/Editor.js"></script>
 <script src="js/dados/Livro.js"></script>
 <script src="js/dados/Compilador.js"></script>
@@ -21,15 +22,6 @@
 <script src="js/interface/InterfaceEdicao.js"></script>
 <script src="js/interface/JanelaAbrir.js"></script>
 <script src="js/editor.js"></script>
-<script>
-var xhr, str
-xhr = new XMLHttpRequest
-xhr.open("GET", "Livro.txt")
-xhr.send()
-xhr.onload = function () {
-	str = xhr.responseText.substr(xhr.responseText.indexOf("\n")+1)
-}
-</script>
 </head>
 
 <body>
@@ -128,6 +120,12 @@ xhr.onload = function () {
 	</table>
 </div>
 
+<div id="submenuRegua" class="submenu" style="display:none">
+	<div class="submenu-item" id="submenuRegua-fina" title="1 pixel">Fina</div>
+	<div class="submenu-item" id="submenuRegua-media" title="3 pixels">Média</div>
+	<div class="submenu-item" id="submenuRegua-grossa" title="5 pixels">Grossa</div>
+</div>
+
 <!-- Miniaturas das páginas -->
 <div class="paginas">
 	<div class="painel-titulo">Páginas</div>
@@ -145,28 +143,27 @@ xhr.onload = function () {
 	<div class="painel-conteudo ferramentas-conteudo" id="ferramentasConteudo">
 		<div class="ferramentas-mascara" id="ferramentasMascara"></div>
 		<div class="ferramentas-linha1" id="ferramentasFormato">
-			<div class="ferramenta" id="ferramenta-texto"><p>Parágrafo</p></div>
-			<div class="ferramenta" id="ferramenta-equacao"><pre>Equação</pre></div>
-			<div class="ferramenta" id="ferramenta-h1"><h1>Título 1</h1></div>
-			<div class="ferramenta" id="ferramenta-h2"><h2>Título 2</h2></div>
-			<div class="ferramenta" id="ferramenta-h3"><h3>Título 3</h3></div>
-			<div class="ferramenta" id="ferramenta-h4"><h4>Título 4</h4></div>
-			<div class="ferramenta" id="ferramenta-h5"><h5>Título 5</h5></div>
-			<div class="ferramenta" id="ferramenta-h6"><h6>Título 6</h6></div>
+			<div class="ferramenta" id="ferramenta-texto" title="Parágrafo"><p>Parágrafo</p></div>
+			<div class="ferramenta" id="ferramenta-equacao" title="Equação"><h6>Equação</h6></div>
+			<div class="ferramenta" id="ferramenta-h1" title="Título 1"><h1>Título 1</h1></div>
+			<div class="ferramenta" id="ferramenta-h2" title="Título 2"><h2>Título 2</h2></div>
+			<div class="ferramenta" id="ferramenta-h3" title="Título 3"><h3>Título 3</h3></div>
+			<div class="ferramenta" id="ferramenta-h4" title="Título 4"><h4>Título 4</h4></div>
+			<div class="ferramenta" id="ferramenta-h5" title="Título 5"><h5>Título 5</h5></div>
 		</div>
 		<div class="ferramentas-linha2">
 			<div class="ferramentas-linha2-parte1">
 				<span class="ferramentas-tituloGrupo">Inserir</span>
-				<div class="botao-azul" id="ferramenta-imagem">&#x1f4f7;</div>
-				<div class="botao-azul" id="ferramenta-regua">&#x1f4cf;</div>
-				<div class="botao-azul" id="ferramenta-caractere">&#x2380;</div>
+				<div class="botao-azul" id="ferramenta-imagem" title="Inserir imagem">&#x1f4f7;</div>
+				<div class="botao-azul" id="ferramenta-regua" title="Inserir régua horizontal">&#x1f4cf;</div>
+				<div class="botao-azul" id="ferramenta-caractere" title="Inserir caractere especial">&#x2380;</div>
 			</div>
 			<div class="ferramentas-linha2-parte2">
 				<span class="ferramentas-tituloGrupo">Alinhamento</span>
 				<div class="ferramentas-grupoAlinhamento">
-					<div class="botao-azul alinhar-esquerda" id="ferramenta-esquerda">&larr;</div>
-					<div class="botao-azul alinhar-centro" id="ferramenta-centro">&harr;</div>
-					<div class="botao-azul alinhar-direita" id="ferramenta-direita">&rarr;</div>
+					<div class="botao-azul alinhar-esquerda" id="ferramenta-esquerda" title="Alinhar à esquerda">&larr;</div>
+					<div class="botao-azul alinhar-centro" id="ferramenta-centro" title="Centralizar">&harr;</div>
+					<div class="botao-azul alinhar-direita" id="ferramenta-direita" title="Alinhar à direita">&rarr;</div>
 				</div>
 			</div>
 		</div>
@@ -225,11 +222,11 @@ xhr.onload = function () {
 	</div>
 	<div class="janela-painel">
 		<div class="janela-painel-conteudo">
-			<div id="janelaAbrir-abaRecentes" style="display:none">
-			</div>
+			<div id="janelaAbrir-abaRecentes" style="display:none"></div>
 			<div id="janelaAbrir-abaUpload" style="display:none">
 				<p>Selecione um arquivo *.hp do seu computador</p>
-				<input type="file" id="janelaAbrir-upload-arquivo"> <div class="botao-verde">Abrir</div>
+				<input type="file" id="janelaAbrir-upload-arquivo">
+				<div class="botao-verde" id="janelaAbrir-upload-abrir">Abrir</div>
 			</div>
 			<div id="janelaAbrir-abaLink" style="display:none">
 				<p>Cole o link compartilhado abaixo</p>

@@ -14,6 +14,9 @@
 	padding:3px;
 	transition:width .5s, left .5s, opacity .5s;
 	-webkit-transition:width .5s, left .5s, opacity .5s;
+	-moz-user-select:none;
+	-webkit-user-select:none;
+	user-select:none;
 }
 
 .aba:hover {

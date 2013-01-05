@@ -51,7 +51,36 @@ function Aba(livro) {
 		evento.stopPropagation()
 	}
 	div.onclick = function () {
-		that.focar()
+		Interface.abaFoco = that
+	}
+	div.ondblclick = function () {
+		var opcoes = {}
+		
+		if (that.livro.novo) {
+			// Melhor salvar de uma vez, do que renomear depois salvar
+			InterfaceMenus.salvarLivro(that.livro)
+			return
+		}
+		
+		opcoes.titulo = "Renomear "+that.livro.nome
+		opcoes.conteudo = "Novo nome: <input size='50' id='js-nome' value='"+that.livro.nome+"'>"
+		opcoes.onconfirmar = function () {
+			var antes, depois, novoAntes
+			antes = that.livro.nome
+			novoAntes = that.livro.novo
+			depois = Compilador.sanitizar(get("js-nome").value)
+			if (depois)
+				new Acao("renomeação do livro", function () {
+					that.livro.nome = depois
+					that.livro.novo = false
+					InterfaceAbas.atualizarLayout()
+				}, function () {
+					that.livro.nome = antes
+					that.livro.novo = novoAntes
+					InterfaceAbas.atualizarLayout()
+				})
+		}
+		Interface.abrirJanela("janelaBasica", opcoes)
 	}
 	
 	// Monta os elementos
@@ -76,7 +105,6 @@ function Aba(livro) {
 }
 
 // Fecha a aba
-// TODO: perguntar se quer fechar sem salvar
 Aba.prototype.fechar = function () {
 	var pos, that = this
 	
@@ -105,10 +133,4 @@ Aba.prototype.fechar = function () {
 				Editor.criarNovoLivro()
 		InterfaceAbas.atualizarLayout()
 	}
-}
-
-// Abre o arquivo da aba
-Aba.prototype.focar = function () {
-	Interface.abaFoco = this
-	InterfaceAbas.atualizarLayout()
 }

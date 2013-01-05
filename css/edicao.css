@@ -52,8 +52,10 @@ h5 {
 	font-weight:normal;
 }
 h6 {
-	margin:0;
-	font-size:large;
+	/* Funciona como um PRE */
+    font-family:"Courier New", Courier, monospace;
+    white-space: pre;
+	margin:1em 0;
+	font-size:medium;
 	font-weight:normal;
-	font-style:italic;
 }
