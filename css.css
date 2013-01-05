@@ -288,10 +288,10 @@
 	background-color:rgba(255,255,255,.5);
 	position:absolute;
 	padding:25px;
-	top:15%;
+	top:17%;
 	left:5%;
 	width:90%;
-	height:80%;
+	height:76%;
 	overflow:auto;
 }
 .janelaBasica-cancelar {
@@ -614,39 +614,45 @@
 	opacity:1;
 	transition:opacity .5s;
 }
+.edicao-comRolagem {
+	padding-right:42px;
+}
 .edicao-inativo {
 	opacity:.5;
 }
 .edicao-conteudo:hover {
 	overflow:auto;
+	padding-right:25px;
 }
 
 /* Estilos dos elementos */
 h1 {
 	margin:0;
-	font-size:x-large;
+	font-size:large;
 	font-weight:bold;
+	text-decoration:underline;
 }
 h2 {
 	margin:0;
-	font-size:x-large;
-	font-weight:normal;
+	font-size:large;
+	font-weight:bold;
 }
 h3 {
 	margin:0;
-	font-size:x-large;
+	font-size:large;
 	font-weight:normal;
-	font-style:italic;
+	text-decoration:underline;
 }
 h4 {
 	margin:0;
 	font-size:large;
-	font-weight:bold;
+	font-weight:normal;
 }
 h5 {
 	margin:0;
 	font-size:large;
 	font-weight:normal;
+	font-style:italic;
 }
 h6 {
 	/* Funciona como um PRE */

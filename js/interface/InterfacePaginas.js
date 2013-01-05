@@ -163,7 +163,7 @@ InterfacePaginas.atualizarLayout = function () {
 // Foca e atualiza o conteúdo de uma página somente
 // Se pagina for undefined, retira o foco de tudo
 InterfacePaginas.atualizarPagina = function (pagina) {
-	var i, divs
+	var i, divs, divPai
 	
 	// Foca na página desejada
 	if (!pagina) {
@@ -177,13 +177,16 @@ InterfacePaginas.atualizarPagina = function (pagina) {
 	}
 	InterfaceEdicao.atualizar()
 	
-	divs = get("paginas").childNodes
+	divPai = get("paginas")
+	divs = divPai.childNodes
 	for (i=0; i<divs.length; i++)
 		if (divs.item(i).dataset.pagina == pagina.id) {
 			divs.item(i).classList.add("pagina-selecionada")
 			divs.item(i).childNodes.item(0).innerHTML = Compilador.gerarMiniHTML(pagina, i+1)
 		} else
 			divs.item(i).classList.remove("pagina-selecionada")
+	
+	divPai.classList[divPai.scrollHeight>divPai.clientHeight ? "add" : "remove"]("painel-comRolagem")
 }
 
 // Monta a div da página

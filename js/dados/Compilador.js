@@ -21,6 +21,23 @@ var Compilador = {}
 Compilador.inflar = function (str) {
 	var obj, livro, i, pagina, elemento, temp, anexo, gerarIndice
 	
+	// Junta as linhas de um elemento de texto, preservando os \n impostos pelo usuário
+	var juntarLinhas = function (linhas) {
+		var i, j = 0, linhasReais = [""]
+		for (i=0; i<linhas.length; i++) {
+			if (linhas[i].substr(0, 6) == "\x13\x01\x13\x13\x01\x13") {
+				// Inserido pelo usuário
+				linhasReais[j] = linhasReais[j].substr(0, linhasReais[j].length-1)
+				j++
+				linhasReais.push("")
+				linhas[i] = linhas[i].substr(6)
+			}
+			linhasReais[j] += linhas[i]+" "
+		}
+		linhasReais[j] = linhasReais[j].substr(0, linhasReais[j].length-1)
+		return linhasReais.join("\n")
+	}
+	
 	// Contrói o livro
 	obj = Compilador.interpretarString(str)
 	livro = new Livro
@@ -41,7 +58,7 @@ Compilador.inflar = function (str) {
 				case 0:
 					elemento = new Texto
 					elemento.alinhamento = temp[0]
-					elemento.texto = temp[1].join("\n")
+					elemento.texto = juntarLinhas(temp[1])
 					break
 				case 1:
 					elemento = new Equacao
@@ -57,6 +74,10 @@ Compilador.inflar = function (str) {
 					elemento.alinhamento = temp[0]
 					elemento.nivel = temp[1]
 					elemento.texto = temp[2]
+					if (elemento.nivel == 1)
+						elemento.texto = elemento.texto.substr(6, elemento.texto.length-12)
+					else if (elemento.nivel == 2 || elemento.nivel == 3 || elemento.nivel == 5)
+						elemento.texto = elemento.texto.substr(3, elemento.texto.length-6)
 					break
 				case 4:
 					elemento = new Regua
@@ -101,8 +122,9 @@ Compilador.inflar = function (str) {
 
 // Compila um livro para um string
 Compilador.compilar = function (livro) {
-	var obj, paginas, i, elementos, elementos2, j, elemento, alinhamento, linhas, indices, anexos, strings
-	obj = []
+	var paginas, elementos, elementos2, elemento, alinhamento, indices, anexos, strings, texto
+	var i, j
+	var obj = []
 	
 	// Coloca a string dentro de uma string
 	var escapar = function (str) {
@@ -141,6 +163,47 @@ Compilador.compilar = function (livro) {
 		.replace(/\s+/g, " ")
 	}
 	
+	// Quebra o texto em linhas
+	// "um\nlinha grande" -> "{\"um\" \"linha\" \"grande\"}"
+	var quebrarTexto = function (str) {
+		var linhas, i, pos, novo
+		
+		// Já quebra nos \n do usuário
+		linhas = str.split("\n")
+		for (i=0; i<linhas.length; i++) {
+			// Usa o objeto String para marcar que foi uma quebra feita pelo usuário
+			linhas[i] = new String(linhas[i])
+			linhas[i].usuario = true
+		}
+		
+		// Quebra as linhas necessárias
+		for (i=0; i<linhas.length; i++) {
+			pos = linhas[i].lastIndexOf(" ", 33)
+			if (pos == -1)
+				// Não tem como quebrar antes, então tenta quebrar logo depois
+				pos = linhas[i].indexOf(" ", 33)
+			if (linhas[i].length > 33 && pos != -1) {
+				// A linha é maior que o visor e tem onde quebrar
+				novo = new String(linhas[i].substr(pos+1))
+				novo.usuario = false
+				linhas.splice(i+1, 0, novo)
+				novo = new String(linhas[i].substr(0, pos))
+				novo.usuario = linhas[i].usuario
+				linhas[i] = novo
+			}
+		}
+		
+		// Marca com bytes invisíveis os \n do usuário
+		linhas[0] = escapar(linhas[0])
+		for (i=1; i<linhas.length; i++)
+			if (linhas[i].usuario)
+				linhas[i] = escapar("\x13\x01\x13\x13\x01\x13"+linhas[i])
+			else
+				linhas[i] = escapar(linhas[i])
+		
+		return "{"+linhas.join(" ")+"}"
+	}
+	
 	// Dados básicos
 	obj[0] = "1."
 	obj[1] = escapar(livro.nome)
@@ -166,16 +229,21 @@ Compilador.compilar = function (livro) {
 				case 1: alinhamento = "1."; break
 			}
 			if (elemento instanceof Texto) {
-				// TODO: quebrar linhas
-				linhas = "{"+elemento.texto.split("\n").map(escapar).join(" ")+"}"
-				elementos.push("{"+alinhamento+" "+linhas+" 0.}")
+				elementos.push("{"+alinhamento+" "+quebrarTexto(elemento.texto)+" 0.}")
 				elementos2.push(gerarBusca(elemento.texto))
 			} else if (elemento instanceof Equacao)
 				elementos.push("{"+alinhamento+" "+escapar(elemento.texto)+" 1.}")
 			else if (elemento instanceof Imagem)
 				elementos.push("{"+elemento.cache+" 2.}")
 			else if (elemento instanceof Cabecalho) {
-				elementos.push("{"+alinhamento+" "+elemento.nivel+". "+escapar(elemento.texto)+" 3.}")
+				texto = elemento.texto
+				switch (elemento.nivel) {
+					case 1: texto = "\x13\x01\x13\x13\x03\x13"+texto+"\x13\x03\x13\x13\x01\x13"; break
+					case 2: texto = "\x13\x01\x13"+texto+"\x13\x01\x13"; break
+					case 3: texto = "\x13\x03\x13"+texto+"\x13\x03\x13"; break
+					case 5: texto = "\x13\x02\x13"+texto+"\x13\x02\x13"; break
+				}
+				elementos.push("{"+alinhamento+" "+elemento.nivel+". "+escapar(texto)+" 3.}")
 				elementos2.push(gerarBusca(elemento.texto))
 			} else if (elemento instanceof Regua)
 				elementos.push("{"+elemento.altura+". 4.}")
@@ -223,7 +291,7 @@ Compilador.gerarHTML = function (pagina) {
 		else if (el instanceof Cabecalho)
 			html += "<h"+el.nivel+" "+getAlinhamento(el)+">"+escaparHTML(el)+"</h"+el.nivel+">"
 		else if (el instanceof Regua)
-			html += "<hr size='"+el.altura+"'>"
+			html += "<hr size='"+el.altura+"' color='black'>"
 	}
 	
 	return html
@@ -256,15 +324,15 @@ Compilador.gerarMiniHTML = function (pagina, num) {
 			html += "<img>" // TODO
 		else if (el instanceof Cabecalho) {
 			switch (el.nivel) {
-				case 1: estilo = "font-size:larger;font-weight:bold"; break
-				case 2: estilo = "font-size:larger"; break
-				case 3: estilo = "font-size:larger;text-transform:italic"; break
-				case 4: estilo = "font-weight:bold"; break
-				case 5: estilo = ""; break
+				case 1: estilo = "font-weight:bold;text-decoration:underline"; break
+				case 2: estilo = "font-weight:bold"; break
+				case 3: estilo = "text-decoration:underline"; break
+				case 4: estilo = ""; break
+				case 5: estilo = "font-style:italic"; break
 			}
-			html += "<p "+getAlinhamento(el)+" style='"+estilo+"'>"+escaparHTML(el)+"</p>"
+			html += "<p "+getAlinhamento(el)+" style='font-size:larger;"+estilo+"'>"+escaparHTML(el)+"</p>"
 		} else if (el instanceof Regua)
-			html += "<hr size='"+el.altura+"'>"
+			html += "<hr size='"+el.altura+"' color='black'>"
 	}
 	
 	return html

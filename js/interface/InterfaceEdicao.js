@@ -43,6 +43,9 @@ InterfaceEdicao.atualizarFerramentas = function () {
 				divs.item(i).classList.add("ferramenta-selecionada")
 			else
 				divs.item(i).classList.remove("ferramenta-selecionada")
+	
+	// Verifica se a área de edição precisa de barra de rolagem
+	edicao.classList[edicao.scrollHeight>edicao.clientHeight ? "add" : "remove"]("edicao-comRolagem")
 }
 
 // Define os ouvintes para os botões de edição
