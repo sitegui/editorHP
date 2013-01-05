@@ -27,13 +27,10 @@
 		\<-n j - 2. DISP
 		IF \<-n j - ROLL OBJ\-> DROP THEN
 			@ Régua
-			\-> cor h
+			\-> h
 			\<<
 				@ Gera a régua
-				\<-largura R\->B h R\->B BLANK
-				IF cor THEN
-					NEG
-				END
+				\<-largura R\->B h R\->B BLANK NEG
 				@ Insere no local
 				PICT SWAP 0. R\->B \<-y R\->B 2. \->LIST SWAP GOR
 				@ Atualiza a altura da inserção

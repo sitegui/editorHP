@@ -5,5 +5,5 @@
 @ Pega o tamanho
 DUP 6. + '\<-altura' STO+
 @ Salva numa lista
-1. 3. \->LIST \<-n ROLLD
+1. 2. \->LIST \<-n ROLLD
 \>>

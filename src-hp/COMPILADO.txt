@@ -4,6 +4,60 @@
 CLLCD "Abrindo..." 1. DISP
 STR\->
 DIR
+  MONTARINDICERAIZ
+  \<< \<-indice 1.
+    \<< 1. GET NSUB 2. \->LIST
+    \>> DOSUBS
+    IF \<-anexos SIZE
+    THEN { { "Anexos" 0. } } +
+    END { { "Buscar" -1. } } + \<-nome SWAP 1.
+    IF CLLCD CHOOSE
+    THEN
+      IF DUP -1. ==
+      THEN DROP "Digite o termo
+a ser buscado" ""
+        IFERR INPUT
+        THEN DROP DROP
+        ELSE BUSCAR
+        END MONTARINDICERAIZ
+      ELSE
+        IF DUP
+        THEN '\<-posIndice' STO+ MONTARINDICE
+        ELSE DROP MONTARANEXOS
+        END
+      END
+    END
+  \>>
+  MONTARINDICE
+  \<< 0. 0. { } \-> subindice n lista
+    \<< \<-indice 'subindice' STO \<-posIndice OBJ\-> 1. SWAP
+      START subindice SWAP GET 'subindice' STO
+      NEXT subindice OBJ\-> 2. - 'n' STO
+      IF
+      THEN SWAP DROP GETPAGINACOMPILADA SUBIRINDICE
+      ELSE 1. n
+        FOR j 1. GET n 2. + j - 2. \->LIST 1. \->LIST 'lista' STO+
+        NEXT { { ".." 0. } } 'lista' STO+
+        IF lista 2. CLLCD CHOOSE
+        THEN
+          IF DUP
+          THEN '\<-posIndice' STO+ MONTARINDICE
+          ELSE DROP SUBIRINDICE
+          END
+        END
+      END
+    \>>
+  \>>
+  MONTARANEXOS
+  \<<
+    IF "Anexos" \<-anexos 0. CLLCD CHOOSE
+    THEN
+      IFERR STR\->
+      THEN "Formato inv\225lido" MSGBOX
+      END
+    ELSE MONTARINDICERAIZ
+    END
+  \>>
   GETPAGINACOMPILADA
   \<< '\<-cache' OVER GET
     IF DUP 0. ==
@@ -30,11 +84,8 @@ DIR
       NEXT \<-largura R\->B \<-altura R\->B BLANK PICT STO "Montando..." 1. DISP 0. \<-n 1. -
       FOR j \<-n j - 2. DISP
         IF \<-n j - ROLL OBJ\-> DROP
-        THEN \-> cor h
-          \<< \<-largura R\->B h R\->B BLANK
-            IF cor
-            THEN NEG
-            END PICT SWAP 0. R\->B \<-y R\->B 2. \->LIST SWAP GOR '\<-y' h 6. + STO+
+        THEN \-> h
+          \<< \<-largura R\->B h R\->B BLANK NEG PICT SWAP 0. R\->B \<-y R\->B 2. \->LIST SWAP GOR '\<-y' h 6. + STO+
           \>>
         ELSE 0. 0. \-> lado img eElemento w h
           \<< img SIZE B\->R 'h' STO B\->R 'w' STO
@@ -97,7 +148,7 @@ DIR
     \>>
   \>>
   PREOBJREGUA
-  \<< DUP 6. + '\<-altura' STO+ 1. 3. \->LIST \<-n ROLLD
+  \<< DUP 6. + '\<-altura' STO+ 1. 2. \->LIST \<-n ROLLD
   \>>
   PREOBJIMG
   \<< DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 0. SWAP 1. 0. 4. \->LIST \<-n ROLLD
@@ -114,65 +165,7 @@ DIR
     END DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 1. 0. 4. \->LIST \<-n ROLLD
   \>>
   PREOBJCABECALHO
-  \<<
-    IF SWAP 4. <
-    THEN 2.
-    ELSE 1.
-    END \->GROB DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 1. 0. 4. \->LIST \<-n ROLLD
-  \>>
-  MONTARINDICERAIZ
-  \<< \<-indice 1.
-    \<< 1. GET NSUB 2. \->LIST
-    \>> DOSUBS
-    IF \<-anexos SIZE
-    THEN { { "Anexos" 0. } } +
-    END { { "Buscar" -1. } } + \<-nome SWAP 1.
-    IF CLLCD CHOOSE
-    THEN
-      IF DUP -1. ==
-      THEN DROP "Digite o termo
-a ser buscado" ""
-        IFERR INPUT
-        THEN DROP DROP
-        ELSE BUSCAR
-        END MONTARINDICERAIZ
-      ELSE
-        IF DUP
-        THEN '\<-posIndice' STO+ MONTARINDICE
-        ELSE DROP MONTARANEXOS
-        END
-      END
-    END
-  \>>
-  MONTARINDICE
-  \<< 0. 0. { } \-> subindice n lista
-    \<< \<-indice 'subindice' STO \<-posIndice OBJ\-> 1. SWAP
-      START subindice SWAP GET 'subindice' STO
-      NEXT subindice OBJ\-> 2. - 'n' STO
-      IF
-      THEN SWAP DROP GETPAGINACOMPILADA SUBIRINDICE
-      ELSE 1. n
-        FOR j 1. GET n 2. + j - 2. \->LIST 1. \->LIST 'lista' STO+
-        NEXT { { ".." 0. } } 'lista' STO+
-        IF lista 2. CLLCD CHOOSE
-        THEN
-          IF DUP
-          THEN '\<-posIndice' STO+ MONTARINDICE
-          ELSE DROP SUBIRINDICE
-          END
-        END
-      END
-    \>>
-  \>>
-  MONTARANEXOS
-  \<<
-    IF "Anexos" \<-anexos 0. CLLCD CHOOSE
-    THEN
-      IFERR STR\->
-      THEN "Formato inv\225lido" MSGBOX
-      END
-    ELSE MONTARINDICERAIZ
-    END
+  \<< SWAP DROP 2. \->GROB DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 1. 0. 4. \->LIST \<-n ROLLD
   \>>
 END
 'TEMPLIVRO' PGDIR

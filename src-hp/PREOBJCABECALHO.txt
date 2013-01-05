@@ -3,12 +3,7 @@
 @ Compila um objeto do tipo cabeçalho
 
 @ Transforma em imagem
-IF SWAP 4. < THEN
-	2.
-ELSE
-	1.
-END
-\->GROB
+SWAP DROP 2. \->GROB
 @ Pega o tamanho
 DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R
 @ Salva, se maior
