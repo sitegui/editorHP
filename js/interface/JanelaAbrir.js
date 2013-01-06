@@ -25,11 +25,9 @@ JanelaAbrir.init = function () {
 			
 			// Salva no arquivo
 			Arquivo.salvarLivro(livro)
+			Interface.carregando = false
 		})
-		
-		// Desativa o formulário
-		get("janelaAbrir-upload-arquivo").disabled = true
-		get("janelaAbrir-upload-abrir").classList.add("botao-inativo")
+		Interface.carregando = true
 	}
 }
 
@@ -71,7 +69,7 @@ JanelaAbrir.mostrarAbaRecentes = function () {
 	
 	// Mostra mensagem de nada a ser aberto
 	if (aba.innerHTML == "")
-		aba.innerHTML = "Você não tem nenhum arquivo salvo recentemente"
+		aba.innerHTML = "<p>Você não tem nenhum arquivo salvo recentemente</p>"
 }
 
 // Mostra a aba de upload de arquivo
@@ -83,9 +81,7 @@ JanelaAbrir.mostrarAbaUpload = function () {
 	get("janelaAbrir-abaUpload").style.display = ""
 	get("janelaAbrir-abaLink").style.display = "none"
 	get("janelaAbrir-upload-arquivo").value = ""
-	get("janelaAbrir-upload-arquivo").disabled = false
 	get("janelaAbrir-upload-arquivo").click()
-	get("janelaAbrir-upload-abrir").classList.remove("botao-inativo")
 }
 
 // Mostra a aba de importar de um link
@@ -146,7 +142,7 @@ JanelaAbrir.gerarItemRecente = function (arquivo) {
 			}
 		
 		opcoes.titulo = "Excluir arquivo"
-		opcoes.conteudo = "Tem certeza que deseja excluir de forma permanente esse arquivo da lista?"
+		opcoes.conteudo = "<p>Tem certeza que deseja excluir de forma permanente esse arquivo da lista?</p>"
 		opcoes.onconfirmar = function () {
 			delete Arquivo.arquivos[arquivo.id]
 			Interface.abrirJanela("janelaAbrir", "recentes")

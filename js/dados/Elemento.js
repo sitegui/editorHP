@@ -31,18 +31,28 @@ Equacao.prototype.clonar = function () {
 // Imagem
 function Imagem() {
 	this.imagem = null // Chave da imagem original
-	this.alinhamento = Elemento.ESQUERDA
 	this.filtro = null
 	this.ajuste = null
 	this.tamanho = null
+	this.pixels = null // Pixels após a transformação (usado temporariamente para exibi-los no preview)
 	this.cache = null // Texto compilado para a HP
 	this.cacheURL = null // Data URL para o HTML
 }
 Imagem.imagens = {} // Imagens originais
+// Retorna o id da imagem (objeto Image)
+// Se não estiver salo ainda, salva
+Imagem.getId = function (imagem) {
+	var id
+	for (id in Imagem.imagens)
+		if (imagem == Imagem.imagens[id])
+			return id
+	id = String(Math.random())
+	Imagem.imagens[id] = imagem
+	return id
+}
 Imagem.prototype.clonar = function () {
 	var novo = new Imagem
 	novo.imagem = this.imagem
-	novo.alinhamento = this.alinhamento
 	novo.filtro = this.filtro
 	novo.ajuste = this.ajuste
 	novo.tamanho = this.tamanho

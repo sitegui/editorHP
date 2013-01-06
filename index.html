@@ -8,6 +8,7 @@
 <script src="js/dados/Editor.js"></script>
 <script src="js/dados/Livro.js"></script>
 <script src="js/dados/Compilador.js"></script>
+<script src="js/dados/CompiladorParalelo.js"></script>
 <script src="js/dados/Elemento.js"></script>
 <script src="js/dados/Indice.js"></script>
 <script src="js/dados/Pagina.js"></script>
@@ -21,7 +22,19 @@
 <script src="js/interface/InterfacePaginas.js"></script>
 <script src="js/interface/InterfaceEdicao.js"></script>
 <script src="js/interface/JanelaAbrir.js"></script>
+<script src="js/interface/JanelaImagem.js"></script>
 <script src="js/editor.js"></script>
+<script>
+function debugImagens() {
+	var janela = get("janelaBasica"), conteudo = get("janelaBasica-conteudo"), id
+	Interface.abrirJanela("janelaBasica", {titulo: "Imagens", conteudo: ""})
+	conteudo.innerHTML = ""
+	for (id in Imagem.imagens) {
+		Imagem.imagens[id].style.maxWidth = "200px"
+		conteudo.appendChild(Imagem.imagens[id])
+	}
+}
+</script>
 </head>
 
 <body>
@@ -208,7 +221,7 @@
 	</div>
 </div>
 
-<div id="fundoJanela" style="display:none"></div>
+<div id="fundoJanela" class="fundoJanela" style="display:none"></div>
 
 <!-- Janela de abrir -->
 <div id="janelaAbrir" class="janela" style="display:none">
@@ -276,21 +289,33 @@
 </div>
 
 <!-- Janela de ajuste da imagem -->
-<div id="janelaAjusteImagem" class="janela" style="display:none">
+<div id="janelaImagem" class="janelaMaior" style="display:none">
 	<div class="janela-titulo">Ajustar imagem</div>
-	<div class="janela-fechar minibotao-vermelho">&times;</div>
-	<div class="janelaBasica-conteudo">
-		Filtro: <select id="janelaAjusteImagem-filtro">
+	<div class="janela-fechar minibotao-vermelho" id="janelaImagem-fechar" title="Fechar">&times;</div>
+	<div class="janelaImagem-conteudo">
+		<p>Filtro: <select id="janelaImagem-filtro">
 			<option value="basico">Básico</option>
 			<option value="areas">Áreas</option>
-		</select>
-		Ajuste: <input size="5" id="janelaAjusteImagem-ajuste">
-		Tamanho: <input size="7" id="janelaAjusteImagem-tamanho">
+		</select><br>
+		Ajuste: <span class="minibotao-azul" id="janelaImagem-ajuste-menos">-</span> <input size="5" id="janelaImagem-ajuste"> <span class="minibotao-azul" id="janelaImagem-ajuste-mais">+</span> (valor entre -100 e 100)<br>
+		Tamanho: <span class="minibotao-azul" id="janelaImagem-tamanho-menos">-</span> <input size="7" id="janelaImagem-tamanho"> <span class="minibotao-azul" id="janelaImagem-tamanho-mais">+</span> (o visor da HP tem 131 pixels)</p>
 		<div style="text-align:center;margin:25px">
-			<canvas id="janelaAjusteImagem-canvas"></canvas>
+			<canvas id="janelaImagem-canvas"></canvas>
 		</div>
-		<div class="janelaBasica-cancelar botao-vermelho">Cancelar</div>
-		<div class="janelaBasica-confirmar botao-verde">Confirmar</div>
+		<div class="janelaImagem-botoes">
+			<div class="botao-vermelho" id="janelaImagem-cancelar">Cancelar</div>
+			<div class="botao-azul" id="janelaImagem-trocar">Trocar</div>
+			<div class="botao-azul" id="janelaImagem-remover">Remover</div>
+			<div class="janelaImagem-confirmar botao-verde" id="janelaImagem-confirmar">Confirmar</div>
+		</div>
+	</div>
+</div>
+
+<!-- Aviso de carregando -->
+<div id="janelaCarregando" style="display:none">
+	<div class="fundoJanela janelaCarregando-fundo"></div>
+	<div class="janelaCarregando">
+		<div class="janelaCarregando-conteudo">Carregando&hellip;</div>
 	</div>
 </div>
 </body>

@@ -15,6 +15,17 @@ var Interface = {}
 	}, enumerable: true})
 })()
 
+// Indica se alguma operação está em andamento
+;(function () {
+	var carregando = false
+	Object.defineProperty(Interface, "carregando", {get: function () {
+		return carregando
+	}, set: function (novo) {
+		carregando = Boolean(novo)
+		get("janelaCarregando").style.display = carregando ? "" : "none"
+	}, enumerable: true})
+})()
+
 // Define os ouvintes para os botões
 Interface.init = function () {
 	var els, i
@@ -27,6 +38,7 @@ Interface.init = function () {
 	InterfaceAbas.init()
 	InterfaceEdicao.init()
 	InterfacePaginas.init()
+	JanelaImagem.init()
 }
 
 // Abre o menu especificado abaixo do elemento
@@ -85,6 +97,9 @@ Interface.abrirJanela = function (janela, argumento) {
 			break
 		case "janelaBasica":
 			JanelaBasica.onabrir(argumento)
+			break
+		case "janelaImagem":
+			JanelaImagem.onabrir(argumento)
 			break
 	}
 }

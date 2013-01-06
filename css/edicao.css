@@ -17,6 +17,13 @@
 	opacity:1;
 	transition:opacity .5s;
 }
+.edicao-conteudo img {
+	margin:10px;
+}
+.edicao-conteudo:not(edicao-inativo) img:hover {
+	box-shadow:0 0 5px black;
+	cursor:pointer;
+}
 .edicao-comRolagem {
 	padding-right:42px;
 }

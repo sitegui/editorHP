@@ -14,6 +14,8 @@ Fluxo das transformações:
 Toda string salva na estrutura é sanitizada automaticamente
 
 Os métodos para transformar de string em link são gerarLink e abrirLink
+
+O método precompilarPixels converte ImageData no formato da HP
 */
 var Compilador = {}
 
@@ -287,7 +289,9 @@ Compilador.gerarHTML = function (pagina) {
 		else if (el instanceof Equacao)
 			html += "<h6 "+getAlinhamento(el)+">"+escaparHTML(el)+"</h6>"
 		else if (el instanceof Imagem)
-			html += "<img>" // TODO
+			html += "<div align='center'><img src='"+el.cacheURL+"' data-imagem='"+el.imagem+
+			"' onclick='InterfaceEdicao.editarImagem(event)' data-filtro='"+el.filtro+"' data-ajuste='"+el.ajuste+
+			"' data-tamanho='"+el.tamanho+"' data-cache='"+el.cache+"'></div>"
 		else if (el instanceof Cabecalho)
 			html += "<h"+el.nivel+" "+getAlinhamento(el)+">"+escaparHTML(el)+"</h"+el.nivel+">"
 		else if (el instanceof Regua)
@@ -321,7 +325,9 @@ Compilador.gerarMiniHTML = function (pagina, num) {
 		else if (el instanceof Equacao)
 			html += "<h6 style='font-size:inherit' "+getAlinhamento(el)+">"+escaparHTML(el)+"</h6>"
 		else if (el instanceof Imagem)
-			html += "<img>" // TODO
+			html += "<div align='center'><img src='"+el.cacheURL+"' data-imagem='"+el.imagem+
+			"' data-filtro='"+el.filtro+"' data-ajuste='"+el.ajuste+"' style='max-width:"+(el.tamanho/2)+"px'"+
+			" data-tamanho='"+el.tamanho+"' data-cache='"+el.cache+"'></div>"
 		else if (el instanceof Cabecalho) {
 			switch (el.nivel) {
 				case 1: estilo = "font-weight:bold;text-decoration:underline"; break
@@ -468,6 +474,39 @@ Compilador.sanitizar = function (str) {
 	return str2
 }
 
+// Transforma pixels pós-filtro na representação da HP (ex: "GROB 1 1 00")
+Compilador.precompilarPixels = function (pixels) {
+	var w, h, cores, i, str, x, y, b1, b2
+	w = pixels.width
+	h = pixels.height
+	
+	// Pega os pixels e transforma em preto/branco
+	cores = new Array(pixels.data.length/4)
+	for (i=0; i<pixels.data.length; i+=4)
+		cores[i/4] = pixels.data[i+3] > 128
+	
+	// Transforma a imagem
+	str = "GROB "+w+" "+h+" "
+	for (y=0; y<h; y++) {
+		// Percorre de 8 em 8 pixels
+		for (x=0; x<w; x+=8) {
+			i = y*w+x
+			b1 = 1*cores[i]
+			b2 = 0
+			if (x+1 < w) b1 += 2*cores[i+1]
+			if (x+2 < w) b1 += 4*cores[i+2]
+			if (x+3 < w) b1 += 8*cores[i+3]
+			if (x+4 < w) b2 += 1*cores[i+4]
+			if (x+5 < w) b2 += 2*cores[i+5]
+			if (x+6 < w) b2 += 4*cores[i+6]
+			if (x+7 < w) b2 += 8*cores[i+7]
+			str += b1.toString(16).toUpperCase()+b2.toString(16).toUpperCase()
+		}
+	}
+	
+	return str
+}
+
 /*
 Métodos para uso interno
 */
@@ -538,7 +577,14 @@ Compilador.normalizarElemento = function (no) {
 			elemento.alinhamento = alinhamento
 			return elemento
 		case "IMG":
-			// TODO
+			elemento = new Imagem
+			elemento.imagem = no.dataset.imagem
+			elemento.filtro = no.dataset.filtro
+			elemento.ajuste = no.dataset.ajuste
+			elemento.tamanho = no.dataset.tamanho
+			elemento.cache = no.dataset.cache
+			elemento.cacheURL = no.src
+			return elemento
 		case "H1":
 		case "H2":
 		case "H3":

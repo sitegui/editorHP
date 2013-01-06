@@ -63,7 +63,7 @@ function Aba(livro) {
 		}
 		
 		opcoes.titulo = "Renomear "+that.livro.nome
-		opcoes.conteudo = "Novo nome: <input size='50' id='js-nome' value='"+that.livro.nome+"'>"
+		opcoes.conteudo = "<p>Novo nome: <input size='50' id='js-nome' value='"+that.livro.nome+"'></p>"
 		opcoes.onconfirmar = function () {
 			var antes, depois, novoAntes
 			antes = that.livro.nome

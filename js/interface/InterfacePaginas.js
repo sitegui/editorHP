@@ -8,8 +8,8 @@ InterfacePaginas.init = function () {
 	get("paginas-opcoes").onclick = function () {
 		opcoes = {}
 		opcoes.titulo = "Auto paginação"
-		opcoes.conteudo = "A função de auto paginação divide o livro automaticamente em páginas de acordo com os cabeçalhos presentes no texto<br><br>"+
-			"<input type='checkbox' id='js-check'"+(Interface.abaFoco.livro.autoPaginacao ? " checked" : "")+"> <label for='js-check'>Ativar auto paginação</label>"
+		opcoes.conteudo = "<p>A função de auto paginação divide o livro automaticamente em páginas de acordo com os cabeçalhos presentes no texto</p>"+
+			"<p><input type='checkbox' id='js-check'"+(Interface.abaFoco.livro.autoPaginacao ? " checked" : "")+"> <label for='js-check'>Ativar auto paginação</label></p>"
 		opcoes.onconfirmar = function () {
 			var antes = Interface.abaFoco.livro.autoPaginacao, novo = get("js-check").checked
 			if (novo == antes)

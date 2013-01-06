@@ -1,13 +1,25 @@
 // Controla a interface de edição
 var InterfaceEdicao = {}
 
+// Indice se está editando uma imagem
+InterfaceEdicao.editandoImagem = false
+
+// Guarda a seleção feita
+InterfaceEdicao.foco = null
+
 // Atualiza as ferramentas selecionadas
 InterfaceEdicao.atualizarFerramentas = function () {
 	var edicao, no, ferramenta = "", divs, i, alinhamento
 	edicao = get("edicao")
 	
+	if (InterfaceEdicao.editandoImagem)
+		return
+	
+	// Guarda o foco
+	InterfaceEdicao.foco = getSelection().getRangeAt(0)
+	
 	// Pega um elemento que contém toda a seleção
-	no = window.getSelection().getRangeAt(0).commonAncestorContainer
+	no = InterfaceEdicao.foco.commonAncestorContainer
 	while (no.nodeType != Node.ELEMENT_NODE)
 		no = no.parentNode
 	
@@ -61,11 +73,15 @@ InterfaceEdicao.init = function () {
 		intervalo = setInterval(InterfaceEdicao.atualizarFerramentas, 1e3)
 		get("ferramentasConteudo").style.opacity = "1"
 		get("ferramentasMascara").style.display = "none"
-		InterfaceEdicao.atualizarFerramentas()
+		setTimeout(InterfaceEdicao.atualizarFerramentas, 100) // Chrome só define a seleção depois do onfocus
+		document.execCommand("enableObjectResizing", false, false)
 	}
 	
 	get("edicao").onblur = function () {
 		var pos, pagina, novosElementos, elementosAntigos
+		
+		if (InterfaceEdicao.editandoImagem)
+			return
 		
 		clearInterval(intervalo)
 		get("ferramentasConteudo").style.opacity = ".5"
@@ -138,6 +154,12 @@ InterfaceEdicao.init = function () {
 		tds.item(i).onmousedown = anular
 		tds.item(i).onclick = inserirChar(tds.item(i).innerHTML)
 	}
+	
+	// Botão de inserir imagem
+	get("ferramenta-imagem").onclick = function () {
+		InterfaceEdicao.editandoImagem = true
+		JanelaImagem.inserirImagem() // TODO: permitir editar
+	}
 }
 
 // Atualiza os botões de desfazer/refazer
@@ -173,10 +195,29 @@ InterfaceEdicao.refazer = function () {
 	InterfaceEdicao.atualizarDesfazer()
 }
 
+// Foca no campo de edição
+InterfaceEdicao.focar = function () {
+	get("edicao").focus()
+	if (InterfaceEdicao.foco) {
+		getSelection().removeAllRanges()
+		getSelection().addRange(InterfaceEdicao.foco)
+		InterfaceEdicao.foco = null
+	}
+}
+
+// Ouvinte de clique em imagem no campo de edição
+InterfaceEdicao.editarImagem = function (evento) {
+	if (Interface.abaFoco.paginaFoco) {
+		InterfaceEdicao.editandoImagem = true
+		Interface.abrirJanela("janelaImagem", evento.currentTarget)
+	}
+}
+
 // Mostra a página no campo de edição
 InterfaceEdicao.atualizar = function () {
 	var edicao = get("edicao")
 	if (Interface.abaFoco.paginaFoco) {
+		InterfaceEdicao.foco = null
 		edicao.classList.remove("edicao-inativo")
 		edicao.contentEditable = "true"
 		edicao.innerHTML = Compilador.gerarHTML(Interface.abaFoco.paginaFoco)
