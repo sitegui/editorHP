@@ -4,67 +4,6 @@
 CLLCD "Abrindo..." 1. DISP
 STR\->
 DIR
-  MONTARINDICERAIZ
-  \<< \<-indice 1.
-    \<< 1. GET NSUB 2. \->LIST
-    \>> DOSUBS
-    IF \<-anexos SIZE
-    THEN { { "Anexos" 0. } } +
-    END { { "Buscar" -1. } } + \<-nome SWAP 1.
-    IF CLLCD CHOOSE
-    THEN
-      IF DUP -1. ==
-      THEN DROP "Digite o termo
-a ser buscado" ""
-        IFERR INPUT
-        THEN DROP DROP
-        ELSE BUSCAR
-        END MONTARINDICERAIZ
-      ELSE
-        IF DUP
-        THEN '\<-posIndice' STO+ MONTARINDICE
-        ELSE DROP MONTARANEXOS
-        END
-      END
-    END
-  \>>
-  MONTARINDICE
-  \<< 0. 0. { } \-> subindice n lista
-    \<< \<-indice 'subindice' STO \<-posIndice OBJ\-> 1. SWAP
-      START subindice SWAP GET 'subindice' STO
-      NEXT subindice OBJ\-> 2. - 'n' STO
-      IF
-      THEN SWAP DROP GETPAGINACOMPILADA SUBIRINDICE
-      ELSE 1. n
-        FOR j 1. GET n 2. + j - 2. \->LIST 1. \->LIST 'lista' STO+
-        NEXT { { ".." 0. } } 'lista' STO+
-        IF lista 2. CLLCD CHOOSE
-        THEN
-          IF DUP
-          THEN '\<-posIndice' STO+ MONTARINDICE
-          ELSE DROP SUBIRINDICE
-          END
-        END
-      END
-    \>>
-  \>>
-  MONTARANEXOS
-  \<<
-    IF "Anexos" \<-anexos 0. CLLCD CHOOSE
-    THEN
-      IFERR STR\->
-      THEN "Formato inv\225lido" MSGBOX
-      END
-    ELSE MONTARINDICERAIZ
-    END
-  \>>
-  GETPAGINACOMPILADA
-  \<< '\<-cache' OVER GET
-    IF DUP 0. ==
-    THEN DROP '\<-paginas' OVER GET COMPILARPAGINA PICT RCL DUP ROT SWAP '\<-cache' UNROT PUT
-    ELSE SWAP DROP
-    END PICT STO { } PVIEW
-  \>>
   COMPILARPAGINA
   \<< 0. 131. 0. 0. 0. \-> \<-n \<-largura tipo \<-altura \<-y
     \<< OBJ\-> '\<-n' STO "Gerando..." 1. DISP 1. \<-n
@@ -166,6 +105,71 @@ a ser buscado" ""
   \>>
   PREOBJCABECALHO
   \<< SWAP DROP 2. \->GROB DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 1. 0. 4. \->LIST \<-n ROLLD
+  \>>
+  MONTARINDICERAIZ
+  \<< \<-indice 1.
+    \<< 1. GET NSUB 2. \->LIST
+    \>> DOSUBS
+    IF \<-anexos SIZE
+    THEN { { "Anexos" 0. } } +
+    END { { "Buscar" -1. } } + \<-nome SWAP 1.
+    IF CLLCD CHOOSE
+    THEN
+      IF DUP -1. ==
+      THEN DROP "Digite o termo
+a ser buscado" ""
+        IFERR INPUT
+        THEN DROP DROP
+        ELSE BUSCAR
+        END MONTARINDICERAIZ
+      ELSE
+        IF DUP
+        THEN '\<-posIndice' STO+ MONTARINDICE
+        ELSE DROP MONTARANEXOS
+        END
+      END
+    END
+  \>>
+  MONTARINDICE
+  \<< 0. 0. { } \-> subindice n lista
+    \<< \<-indice 'subindice' STO \<-posIndice OBJ\-> 1. SWAP
+      START subindice SWAP GET 'subindice' STO
+      NEXT subindice OBJ\-> 2. - 'n' STO
+      IF
+      THEN SWAP DROP GETPAGINACOMPILADA SUBIRINDICE
+      ELSE 1. n
+        FOR j 1. GET n 2. + j - 2. \->LIST 1. \->LIST 'lista' STO+
+        NEXT { { ".." 0. } } 'lista' STO+
+        IF lista 2. CLLCD CHOOSE
+        THEN
+          IF DUP
+          THEN '\<-posIndice' STO+ MONTARINDICE
+          ELSE DROP SUBIRINDICE
+          END
+        END
+      END
+    \>>
+  \>>
+  MONTARANEXOS
+  \<<
+    IF "Anexos" \<-anexos 0. CLLCD CHOOSE
+    THEN
+      IFERR STR\->
+      THEN "Formato inv\225lido" MSGBOX
+      END
+    ELSE MONTARINDICERAIZ
+    END
+  \>>
+  GETPAGINACOMPILADA
+  \<<
+    IF DUP 0. ==
+    THEN DROP "\205ndice inv\225lido" MSGBOX
+    ELSE '\<-cache' OVER GET
+      IF DUP 0. ==
+      THEN DROP '\<-paginas' OVER GET COMPILARPAGINA PICT RCL DUP ROT SWAP '\<-cache' UNROT PUT
+      ELSE SWAP DROP
+      END PICT STO { } PVIEW
+    END
   \>>
 END
 'TEMPLIVRO' PGDIR

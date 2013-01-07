@@ -3,15 +3,19 @@
 @ Retorna uma página compilada (do cache, se possível)
 @ Recebe o número da página
 
-'\<-cache' OVER GET
 IF DUP 0. == THEN
-	@ Compila a página e salva no cache
-	DROP '\<-paginas' OVER GET COMPILARPAGINA PICT RCL
-	DUP ROT SWAP '\<-cache' UNROT PUT
+	DROP "\205ndice inv\225lido" MSGBOX
 ELSE
-	SWAP DROP
+	'\<-cache' OVER GET
+	IF DUP 0. == THEN
+		@ Compila a página e salva no cache
+		DROP '\<-paginas' OVER GET COMPILARPAGINA PICT RCL
+		DUP ROT SWAP '\<-cache' UNROT PUT
+	ELSE
+		SWAP DROP
+	END
+	
+	@ Exibe na tela
+	PICT STO {} PVIEW
 END
-
-@ Exibe na tela
-PICT STO {} PVIEW
 \>>
