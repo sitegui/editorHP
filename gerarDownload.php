@@ -2,6 +2,8 @@
 // Lê o livro
 $livro = $_POST['livro'];
 
+set_time_limit(60);
+
 // Prepara a relação entre os caracteres
 $mapaHP2PC = array(
 "\x00", "\x01", "\x02", "\x03", "\x04", "\x05", "\x06", "\x07",

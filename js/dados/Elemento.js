@@ -30,13 +30,13 @@ Equacao.prototype.clonar = function () {
 
 // Imagem
 function Imagem() {
-	this.imagem = null // Chave da imagem original
-	this.filtro = null
-	this.ajuste = null
-	this.tamanho = null
+	this.imagem = "" // Chave da imagem original
+	this.filtro = ""
+	this.ajuste = ""
+	this.tamanho = "" // Largura real
 	this.pixels = null // Pixels após a transformação (usado temporariamente para exibi-los no preview)
-	this.cache = null // Texto compilado para a HP
-	this.cacheURL = null // Data URL para o HTML
+	this.cache = "" // Texto compilado para a HP
+	this.cacheURL = "" // Data URL para o HTML
 }
 Imagem.imagens = {} // Imagens originais
 // Retorna o id da imagem (objeto Image)

@@ -50,8 +50,8 @@ JanelaImagem.init = function () {
 	}
 	criarAjuste("janelaImagem-ajuste-menos", "janelaImagem-ajuste", -1, -100, 100)
 	criarAjuste("janelaImagem-ajuste-mais", "janelaImagem-ajuste", 1, -100, 100)
-	criarAjuste("janelaImagem-tamanho-menos", "janelaImagem-tamanho", -2, 1, 1000)
-	criarAjuste("janelaImagem-tamanho-mais", "janelaImagem-tamanho", 2, 1, 1000)
+	criarAjuste("janelaImagem-tamanho-menos", "janelaImagem-tamanho", -2, 3, 500)
+	criarAjuste("janelaImagem-tamanho-mais", "janelaImagem-tamanho", 2, 3, 500)
 	
 	get("janelaImagem-remover").onclick = function () {
 		JanelaImagem.imagem.parentNode.removeChild(JanelaImagem.imagem)
@@ -85,7 +85,7 @@ JanelaImagem.inserirElemento = function () {
 		url = canvas.toDataURL()
 		cache = Compilador.precompilarPixels(elemento.pixels)
 		
-		if (JanelaImagem.imagem.dataset.imagem) {
+		if (JanelaImagem.imagem.parentNode) {
 			// Troca a referência à imagem original
 			if (JanelaImagem.imagem.dataset.novaImagem) {
 				JanelaImagem.imagem.dataset.imagem = JanelaImagem.imagem.dataset.novaImagem
@@ -124,7 +124,7 @@ JanelaImagem.carregarImagem = function () {
 		imagem.onload = function () {
 			var novoId
 			Interface.carregando = false
-			if (JanelaImagem.imagem && JanelaImagem.imagem.dataset.imagem) {
+			if (JanelaImagem.imagem && JanelaImagem.imagem.parentNode) {
 				// Trocou uma imagem que já está na página
 				novoId = Imagem.getId(imagem)
 				imagem = JanelaImagem.imagem
@@ -174,24 +174,34 @@ JanelaImagem.carregarImagem = function () {
 // Abre a janela de edição da imagem
 // Recebe um objeto Image
 JanelaImagem.onabrir = function (imagem) {
-	if (imagem.dataset.imagem) {
-		// Coloca os valores já salvos
+	JanelaImagem.imagem = imagem
+	get("janelaImagem-canvas").style.display = "none"
+	if (imagem.parentNode && imagem.dataset.imagem) {
+		// Imagem já na página, coloca os valores salvos na tela
 		get("janelaImagem-filtro").value = imagem.dataset.filtro
 		get("janelaImagem-ajuste").value = imagem.dataset.ajuste
 		get("janelaImagem-tamanho").value = imagem.dataset.tamanho
+		get("janelaImagem-opcoes").style.display = ""
+		get("janelaImagem-confirmar").style.display = ""
+		get("janelaImagem-aviso").style.display = "none"
+		JanelaImagem.aplicarFiltro()
+	} else if (imagem.parentNode && !imagem.dataset.novaImagem) {
+		// Imagem já na página, mas sem referência à original e sem nova opção
 		get("janelaImagem-remover").style.display = ""
+		get("janelaImagem-confirmar").style.display = "none"
+		get("janelaImagem-opcoes").style.display = "none"
+		get("janelaImagem-aviso").style.display = ""
 	} else {
-		// Coloca os valores padrão
+		// Nova imagem ou imagem antiga sem original mas com alternativa
 		get("janelaImagem-filtro").value = "basico"
 		get("janelaImagem-ajuste").value = "0"
 		get("janelaImagem-tamanho").value = "131"
 		get("janelaImagem-remover").style.display = "none"
+		get("janelaImagem-opcoes").style.display = ""
+		get("janelaImagem-confirmar").style.display = ""
+		get("janelaImagem-aviso").style.display = "none"
+		JanelaImagem.aplicarFiltro()
 	}
-	get("janelaImagem-canvas").style.display = "none"
-	JanelaImagem.imagem = imagem
-	
-	// Monta o primeiro preview
-	JanelaImagem.aplicarFiltro()
 }
 
 /*
@@ -215,13 +225,21 @@ JanelaImagem.finalizarEdicao = function () {
 JanelaImagem.aplicarFiltro = function (onload) {
 	var filtro, ajuste, tamanho, onsucesso, imagem
 	
+	// Pega a imagem
+	if (JanelaImagem.imagem.dataset.novaImagem)
+		imagem = Imagem.imagens[JanelaImagem.imagem.dataset.novaImagem]
+	else if (JanelaImagem.imagem.dataset.imagem)
+		imagem = Imagem.imagens[JanelaImagem.imagem.dataset.imagem]
+	else
+		imagem = JanelaImagem.imagem
+	
 	filtro = get("janelaImagem-filtro").value
 	ajuste = Number(get("janelaImagem-ajuste").value)
 	tamanho = Number(get("janelaImagem-tamanho").value)
 	if (isNaN(ajuste)) ajuste = 0
 	if (isNaN(tamanho)) tamanho = 131
 	ajuste = Math.min(100, Math.max(ajuste, -100))
-	tamanho = Math.min(1000, Math.max(tamanho, 1))
+	tamanho = Math.min(500, Math.max(tamanho, 3))
 	get("janelaImagem-ajuste").value = ajuste
 	get("janelaImagem-tamanho").value = tamanho
 	onsucesso = function (elemento) {
@@ -238,11 +256,5 @@ JanelaImagem.aplicarFiltro = function (onload) {
 	}
 	
 	// Executa
-	if (JanelaImagem.imagem.dataset.novaImagem)
-		imagem = Imagem.imagens[JanelaImagem.imagem.dataset.novaImagem]
-	else if (JanelaImagem.imagem.dataset.imagem)
-		imagem = Imagem.imagens[JanelaImagem.imagem.dataset.imagem]
-	else
-		imagem = JanelaImagem.imagem
 	CompiladorParalelo.aplicarFiltro(imagem, filtro, ajuste, tamanho, onsucesso)
 }

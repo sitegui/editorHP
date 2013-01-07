@@ -16,6 +16,7 @@ Toda string salva na estrutura é sanitizada automaticamente
 Os métodos para transformar de string em link são gerarLink e abrirLink
 
 O método precompilarPixels converte ImageData no formato da HP
+O método transcompilarPixels converte do formato HP para dataURL
 */
 var Compilador = {}
 
@@ -69,7 +70,9 @@ Compilador.inflar = function (str) {
 					break
 				case 2:
 					elemento = new Imagem
+					elemento.tamanho = Number(temp[1])
 					elemento.cache = temp[0]+" "+temp[1]+" "+temp[2]+" "+temp[3]
+					elemento.cacheURL = Compilador.transcompilarPixels(elemento.cache)
 					break
 				case 3:
 					elemento = new Cabecalho
@@ -326,7 +329,7 @@ Compilador.gerarMiniHTML = function (pagina, num) {
 			html += "<h6 style='font-size:inherit' "+getAlinhamento(el)+">"+escaparHTML(el)+"</h6>"
 		else if (el instanceof Imagem)
 			html += "<div align='center'><img src='"+el.cacheURL+"' data-imagem='"+el.imagem+
-			"' data-filtro='"+el.filtro+"' data-ajuste='"+el.ajuste+"' style='max-width:"+(el.tamanho/2)+"px'"+
+			"' data-filtro='"+el.filtro+"' data-ajuste='"+el.ajuste+"' width='"+(el.tamanho/2)+"px'"+
 			" data-tamanho='"+el.tamanho+"' data-cache='"+el.cache+"'></div>"
 		else if (el instanceof Cabecalho) {
 			switch (el.nivel) {
@@ -505,6 +508,46 @@ Compilador.precompilarPixels = function (pixels) {
 	}
 	
 	return str
+}
+
+// Transcompila os pixels do formato da HP para o uma dataURL
+Compilador.transcompilarPixels = function (str) {
+	var w, h, x, y, partes, pixels, canvas, contexto, b1, b2, i, j
+	
+	// Pega o tamanho
+	partes = str.split(" ")
+	w = Number(partes[1])
+	h = Number(partes[2])
+	
+	// Cria um canvas, pega o contexto e aloca os pixels
+	canvas = document.createElement("canvas")
+	contexto = canvas.getContext("2d")
+	pixels = contexto.createImageData(w, h)
+	
+	// Monta os pixels
+	i = 0
+	for (y=0; y<h; y++) {
+		for (x=0; x<w; x+=8) {
+			j = y*w+x
+			b1 = parseInt(partes[3].charAt(i), 16)
+			b2 = parseInt(partes[3].charAt(i+1), 16)
+			pixels.data[4*j+3] = 255*(b1%2)
+			if (x+1 < w) pixels.data[4*j+7] = 255*((b1>>1)%2)
+			if (x+2 < w) pixels.data[4*j+11] = 255*((b1>>2)%2)
+			if (x+3 < w) pixels.data[4*j+15] = 255*((b1>>3)%2)
+			if (x+4 < w) pixels.data[4*j+19] = 255*(b2%2)
+			if (x+5 < w) pixels.data[4*j+23] = 255*((b2>>1)%2)
+			if (x+6 < w) pixels.data[4*j+27] = 255*((b2>>2)%2)
+			if (x+7 < w) pixels.data[4*j+31] = 255*((b2>>3)%2)
+			i+=2
+		}
+	}
+	
+	// Desenha no canvas e pega o resultado
+	canvas.width = w
+	canvas.height = h
+	contexto.putImageData(pixels, 0, 0)
+	return canvas.toDataURL()
 }
 
 /*

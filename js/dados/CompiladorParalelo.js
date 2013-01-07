@@ -9,7 +9,7 @@ CompiladorParalelo.worker.onerror = function (evento) {
 }
 
 // Aplica o filtro na imagem
-// Recebe a imagem (Image), o filtro ("basico" ou "areas"), o ajuste (-100 a 100) e o tamanho (1 a 1000)
+// Recebe a imagem (Image), o filtro ("basico" ou "areas"), o ajuste (-100 a 100) e o tamanho (3 a 500)
 // onsucesso será chamado depois que o trabalho acabar
 // Será passado um elemento Imagem com as propriedades imagem, filtro, ajuste, tamanho e pixels
 // Caso o worker esteja ocupado, coloca a requisição na fila, mas somente a última será executada
@@ -34,7 +34,7 @@ CompiladorParalelo.aplicarFiltro = function (imagem, filtro, ajuste, tamanho, on
 		pixels = funcao.cache.pixels
 	else {
 		canvas = document.createElement("canvas")
-		canvas.width = Math.min(imagem.width, tamanho)
+		canvas.width = tamanho
 		canvas.height = imagem.height*canvas.width/imagem.width
 		contexto = canvas.getContext("2d")
 		contexto.drawImage(imagem, 0, 0, canvas.width, canvas.height)

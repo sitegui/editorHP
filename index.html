@@ -24,17 +24,6 @@
 <script src="js/interface/JanelaAbrir.js"></script>
 <script src="js/interface/JanelaImagem.js"></script>
 <script src="js/editor.js"></script>
-<script>
-function debugImagens() {
-	var janela = get("janelaBasica"), conteudo = get("janelaBasica-conteudo"), id
-	Interface.abrirJanela("janelaBasica", {titulo: "Imagens", conteudo: ""})
-	conteudo.innerHTML = ""
-	for (id in Imagem.imagens) {
-		Imagem.imagens[id].style.maxWidth = "200px"
-		conteudo.appendChild(Imagem.imagens[id])
-	}
-}
-</script>
 </head>
 
 <body>
@@ -293,12 +282,17 @@ function debugImagens() {
 	<div class="janela-titulo">Ajustar imagem</div>
 	<div class="janela-fechar minibotao-vermelho" id="janelaImagem-fechar" title="Fechar">&times;</div>
 	<div class="janelaImagem-conteudo">
-		<p>Filtro: <select id="janelaImagem-filtro">
-			<option value="basico">Básico</option>
-			<option value="areas">Áreas</option>
-		</select><br>
-		Ajuste: <span class="minibotao-azul" id="janelaImagem-ajuste-menos">-</span> <input size="5" id="janelaImagem-ajuste"> <span class="minibotao-azul" id="janelaImagem-ajuste-mais">+</span> (valor entre -100 e 100)<br>
-		Tamanho: <span class="minibotao-azul" id="janelaImagem-tamanho-menos">-</span> <input size="7" id="janelaImagem-tamanho"> <span class="minibotao-azul" id="janelaImagem-tamanho-mais">+</span> (o visor da HP tem 131 pixels)</p>
+		<div id="janelaImagem-opcoes">
+			<p>Filtro: <select id="janelaImagem-filtro">
+				<option value="basico">Básico</option>
+				<option value="areas">Áreas</option>
+			</select><br>
+			Ajuste: <span class="minibotao-azul" id="janelaImagem-ajuste-menos">-</span> <input size="5" id="janelaImagem-ajuste"> <span class="minibotao-azul" id="janelaImagem-ajuste-mais">+</span> (valor entre -100 e 100)<br>
+			Tamanho: <span class="minibotao-azul" id="janelaImagem-tamanho-menos">-</span> <input size="7" id="janelaImagem-tamanho"> <span class="minibotao-azul" id="janelaImagem-tamanho-mais">+</span> (o visor da HP tem 131 pixels)</p>
+		</div>
+		<div id="janelaImagem-aviso">
+			<p>Não é possível essa imagem, pois o arquivo original foi perdido</p>
+		</div>
 		<div style="text-align:center;margin:25px">
 			<canvas id="janelaImagem-canvas"></canvas>
 		</div>
