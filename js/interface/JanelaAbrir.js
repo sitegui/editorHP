@@ -171,6 +171,10 @@ JanelaAbrir.gerarItemRecente = function (arquivo) {
 		aba = new Aba(livro)
 		InterfaceAbas.abas.push(aba)
 		Interface.abaFoco = aba
+		
+		// Se só tinha uma aba antes e era um novo arquivo, pode fecha-la
+		if (InterfaceAbas.abas.length == 2 && InterfaceAbas.abas[0].livro.novo && !InterfaceAbas.abas[0].livro.modificado)
+			InterfaceAbas.abas[0].fechar()
 	}
 	
 	// Junta os elementos

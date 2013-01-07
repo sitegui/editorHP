@@ -13,6 +13,7 @@ var Interface = {}
 		InterfaceEdicao.atualizar()
 		InterfaceEdicao.atualizarDesfazer()
 		InterfaceAnexos.atualizar()
+		InterfaceIndices.atualizar()
 	}, enumerable: true})
 })()
 
@@ -40,6 +41,7 @@ Interface.init = function () {
 	InterfaceEdicao.init()
 	InterfacePaginas.init()
 	InterfaceAnexos.init()
+	InterfaceIndices.init()
 	JanelaImagem.init()
 }
 

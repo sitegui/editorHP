@@ -59,7 +59,7 @@ InterfaceMenus.init = function () {
 			return
 		
 		opcoes.titulo = "Salvar "+livro.nome+" como"
-		opcoes.conteudo = "<p>Novo nome: <input id='js-nome' value='"+livro.nome+"' size='50'></p>"
+		opcoes.conteudo = "<p>Novo nome: <input id='js-nome' value=\""+livro.nome+"\" size='50'></p>"
 		opcoes.onconfirmar = function () {
 			var nome, livro, abaAntiga, arquivo, novaAba
 			

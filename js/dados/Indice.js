@@ -12,11 +12,7 @@ function FolhaIndice() {
 FolhaIndice.prototype.clonar = function (novasPaginas) {
 	var novo = new FolhaIndice, i
 	novo.nome = this.nome
-	for (i=0; i<novasPaginas.length; i++)
-		if (novasPaginas[i].id == this.pagina.id) {
-			novo.pagina = novasPaginas[i]
-			break
-		}
+	novo.pagina = this.pagina
 	return novo
 }
 

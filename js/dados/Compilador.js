@@ -100,7 +100,7 @@ Compilador.inflar = function (str) {
 		var indice, subindice, i
 		if (obj[obj.length-1]) {
 			indice = new FolhaIndice
-			indice.pagina = livro.paginas[obj[1]-1]
+			indice.pagina = livro.paginas[obj[1]-1] || null
 		} else {
 			indice = new SubIndice
 			for (i=1; i<obj.length-1; i++)
@@ -138,12 +138,12 @@ Compilador.compilar = function (livro) {
 	
 	// Compila um índice recursivamente
 	var gerarIndice = function (indice) {
-		var subs, i
+		var subs, i, pos
 		if (indice instanceof FolhaIndice) {
 			return "{"+escapar(indice.nome)+" "+(livro.paginas.indexOf(indice.pagina)+1)+". 1.}"
 		} else {
 			subs = []
-			for (i=0; i<indice.indices; i++)
+			for (i=0; i<indice.indices.length; i++)
 				subs.push(gerarIndice(indice.indices[i]))
 			return "{"+escapar(indice.nome)+" "+subs.join(" ")+" 0.}"
 		}
@@ -281,7 +281,7 @@ Compilador.gerarHTML = function (pagina) {
 	}
 	
 	escaparHTML = function (elemento) {
-		return elemento.texto.replace(/&/g, "&amp;").replace(/</g, "&lt;")
+		return Compilador.desanitizar(elemento.texto).replace(/&/g, "&amp;").replace(/</g, "&lt;")
 	}
 	
 	html = ""
@@ -317,7 +317,7 @@ Compilador.gerarMiniHTML = function (pagina, num) {
 	}
 	
 	escaparHTML = function (elemento) {
-		return elemento.texto.replace(/&/g, "&amp;").replace(/</g, "&lt;")
+		return Compilador.desanitizar(elemento.texto).replace(/&/g, "&amp;").replace(/</g, "&lt;")
 	}
 	
 	html = "<div class='pagina-numero'>"+num+"</div>"
@@ -475,6 +475,14 @@ Compilador.sanitizar = function (str) {
 		if (str[i] in Compilador.mapaPC2HP)
 			str2 += str[i]
 	return str2
+}
+
+// Um método quase inverso de sanitizar, para tornar caracteres invisíveis em \nnn
+Compilador.desanitizar = function (str) {
+	return str.replace(/[\x00-\x09\x0B-\x1B]/g, function (c) {
+		var n = c.charCodeAt(0)
+		return n<10 ? "\\00"+n : (n<100 ? "\\0"+n : "\\"+n)
+	})
 }
 
 // Transforma pixels pós-filtro na representação da HP (ex: "GROB 1 1 00")

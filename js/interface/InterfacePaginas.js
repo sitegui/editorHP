@@ -62,12 +62,14 @@ InterfacePaginas.remover = function () {
 		}
 		InterfacePaginas.montarMiniaturas()
 		InterfacePaginas.atualizarPagina(Interface.abaFoco.livro.paginas[i-n < 0 ? 0 : i-n])
+		InterfaceIndices.atualizarLayout()
 	}, function () {
 		var i
 		for (i in selecao)
 			Interface.abaFoco.livro.paginas.splice(i, 0, selecao[i])
 		InterfacePaginas.montarMiniaturas()
 		InterfacePaginas.atualizarPagina(Interface.abaFoco.livro.paginas[i])
+		InterfaceIndices.atualizarLayout()
 	})
 }
 
@@ -79,10 +81,12 @@ InterfacePaginas.acrescentar = function () {
 		Interface.abaFoco.livro.paginas.splice(pos+1, 0, pagina)
 		InterfacePaginas.montarMiniaturas()
 		InterfacePaginas.atualizarPagina(pagina)
+		InterfaceIndices.atualizarLayout()
 	}, function () {
 		Interface.abaFoco.livro.paginas.splice(pos+1, 1)
 		InterfacePaginas.montarMiniaturas()
 		InterfacePaginas.atualizarPagina(Interface.abaFoco.livro.paginas[pos < 0 ? 0 : pos])
+		InterfaceIndices.atualizarLayout()
 	})
 }
 
@@ -117,10 +121,12 @@ InterfacePaginas.colar = function () {
 			Interface.abaFoco.livro.paginas.splice(pos+1, 0, paginas[i])
 		InterfacePaginas.montarMiniaturas()
 		InterfacePaginas.atualizarPagina(paginas[paginas.length-1])
+		InterfaceIndices.atualizarLayout()
 	}, function () {
 		Interface.abaFoco.livro.paginas.splice(pos+1, paginas.length)
 		InterfacePaginas.montarMiniaturas()
 		InterfacePaginas.atualizarPagina(Interface.abaFoco.livro.paginas[pos<0 ? 0 : pos])
+		InterfaceIndices.atualizarLayout()
 	})
 }
 
@@ -238,6 +244,7 @@ InterfacePaginas.gerarDiv = function (pagina, num) {
 		Interface.abaFoco.paginaFoco = pagina
 		InterfacePaginas.atualizarLayout()
 		InterfaceEdicao.atualizar()
+		InterfaceIndices.atualizarLayout()
 	}
 	
 	return div

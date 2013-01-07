@@ -29,6 +29,14 @@ InterfaceAnexos.init = function () {
 		get("submenuEdicao-recortar").onclick = InterfaceAnexos.recortar
 		evento.preventDefault()
 	}
+	get("anexos").onclick = function (evento) {
+		// Se clicar fora de todos os anexos, deseleciona todos
+		if (evento.target == evento.currentTarget) {
+			InterfaceAnexos.foco = null
+			InterfaceAnexos.selecao = []
+			InterfaceAnexos.atualizarLayout()
+		}
+	}
 }
 
 // Atualiza a lista de anexos
@@ -182,8 +190,8 @@ InterfaceAnexos.editar = function () {
 	anexo = InterfaceAnexos.getAnexo(InterfaceAnexos.foco)
 	
 	opcoes.titulo = "Editar anexo"
-	opcoes.conteudo = "<p>Nome: <input id='js-nome' value=\""+anexo.nome.replace(/"/g, "&quot;")+"\"></p>"+
-		"<p>Conteúdo (deve ser um valor válido pra HP):<br><input size='80' id='js-conteudo' value=\""+anexo.conteudo.replace(/"/g, "&quot;")+"\"></p>"
+	opcoes.conteudo = "<p>Nome: <input id='js-nome' value=\""+Compilador.desanitizar(anexo.nome).replace(/"/g, "&quot;")+"\"></p>"+
+		"<p>Conteúdo (deve ser um valor válido pra HP):<br><input size='80' id='js-conteudo' value=\""+Compilador.desanitizar(anexo.conteudo).replace(/"/g, "&quot;")+"\"></p>"
 	opcoes.onconfirmar = function () {
 		var nome, conteudo, novoAnexo
 		
@@ -233,8 +241,8 @@ InterfaceAnexos.montarDiv = function (anexo) {
 	
 	div = document.createElement("div")
 	div.className = "anexo"
-	div.textContent = anexo.nome
-	div.title = anexo.conteudo
+	div.textContent = Compilador.desanitizar(anexo.nome)
+	div.title = Compilador.desanitizar(anexo.conteudo)
 	div.dataset.anexo = anexo.id
 	
 	div.onclick = function (evento) {

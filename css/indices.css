@@ -3,6 +3,9 @@
 	height:55%;
 	top:15%;
 	right:0;
+	-moz-user-select:none;
+	-webkit-user-select:none;
+	user-select:none;
 }
 .indice1, .indice2, .indice3, .indice4, .indice5 {
 	background-color:rgba(255,255,255,.5);
@@ -16,7 +19,10 @@
 .indice1:hover, .indice2:hover, .indice3:hover, .indice4:hover, .indice5:hover {
 	background-color:rgba(255,255,255,.75);
 }
-.indice-selecionado {
+.indice-subFoco {
+	border-color:rgba(0,0,255,.2);
+}
+.indice-foco {
 	border-color:rgba(0,0,255,.5);
 }
 .indice2 {
@@ -37,4 +43,14 @@
 	font-size:x-small;
 	left:60%;
 	width:40%;
+}
+.indice-alvo {
+	position:absolute;
+	right:5px;
+}
+.indice-alvo-erro {
+	color:#900;
+	border:thin #644 solid;
+	background-image:linear-gradient(to top, #644, #C88);
+	background-image:-webkit-linear-gradient(bottom, #644, #C88);
 }
