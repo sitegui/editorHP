@@ -37,29 +37,24 @@
 
 /* Estilos dos elementos */
 h1 {
-	margin:0;
 	font-size:large;
 	font-weight:bold;
 	text-decoration:underline;
 }
 h2 {
-	margin:0;
 	font-size:large;
 	font-weight:bold;
 }
 h3 {
-	margin:0;
 	font-size:large;
 	font-weight:normal;
 	text-decoration:underline;
 }
 h4 {
-	margin:0;
 	font-size:large;
 	font-weight:normal;
 }
 h5 {
-	margin:0;
 	font-size:large;
 	font-weight:normal;
 	font-style:italic;
@@ -67,8 +62,7 @@ h5 {
 h6 {
 	/* Funciona como um PRE */
     font-family:"Courier New", Courier, monospace;
-    white-space: pre;
-	margin:1em 0;
+    white-space:pre;
 	font-size:medium;
 	font-weight:normal;
 }

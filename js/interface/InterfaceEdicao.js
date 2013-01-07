@@ -104,6 +104,8 @@ InterfaceEdicao.init = function () {
 		
 		if (Interface.abaFoco.livro.autoPaginacao)
 			Editor.autoPaginar()
+		if (Interface.abaFoco.livro.autoIndexacao)
+			Editor.autoIndexar()
 	}
 	
 	get("ferramentas").onmousedown = anular

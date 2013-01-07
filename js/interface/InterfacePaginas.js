@@ -21,6 +21,8 @@ InterfacePaginas.init = function () {
 			})
 			if (Interface.abaFoco.livro.autoPaginacao)
 				Editor.autoPaginar()
+			if (Interface.abaFoco.livro.autoIndexacao)
+				Editor.autoIndexar()
 		}
 		Interface.abrirJanela("janelaBasica", opcoes)
 	}
@@ -73,6 +75,8 @@ InterfacePaginas.remover = function () {
 		InterfacePaginas.atualizarPagina(Interface.abaFoco.livro.paginas[i])
 		InterfaceIndices.atualizarLayout()
 	})
+	if (Interface.abaFoco.livro.autoIndexacao)
+		Editor.autoIndexar()
 }
 
 // Adiciona um nova página
@@ -90,6 +94,8 @@ InterfacePaginas.acrescentar = function () {
 		InterfacePaginas.atualizarPagina(Interface.abaFoco.livro.paginas[pos < 0 ? 0 : pos])
 		InterfaceIndices.atualizarLayout()
 	})
+	if (Interface.abaFoco.livro.autoIndexacao)
+		Editor.autoIndexar()
 }
 
 // Copia as páginas selecionadas
@@ -130,6 +136,8 @@ InterfacePaginas.colar = function () {
 		InterfacePaginas.atualizarPagina(Interface.abaFoco.livro.paginas[pos<0 ? 0 : pos])
 		InterfaceIndices.atualizarLayout()
 	})
+	if (Interface.abaFoco.livro.autoIndexacao)
+		Editor.autoIndexar()
 }
 
 // Recorta as páginas

@@ -22,8 +22,17 @@ InterfaceIndices.init = function () {
 			}, function () {
 				Interface.abaFoco.livro.autoIndexacao = antes
 			})
+			if (Interface.abaFoco.livro.autoIndexacao)
+				Editor.autoIndexar()
 		}
 		Interface.abrirJanela("janelaBasica", opcoes)
+	}
+	get("indices").onclick = function (evento) {
+		// Se clicar fora de todos os anexos, deseleciona
+		if (evento.target == evento.currentTarget) {
+			InterfaceIndices.foco = null
+			InterfaceIndices.atualizarLayout()
+		}
 	}
 }
 

@@ -26,6 +26,10 @@ JanelaAbrir.init = function () {
 			// Salva no arquivo
 			Arquivo.salvarLivro(livro)
 			Interface.carregando = false
+		
+			// Se só tinha uma aba antes e era um novo arquivo, pode fecha-la
+			if (InterfaceAbas.abas.length == 2 && InterfaceAbas.abas[0].livro.novo && !InterfaceAbas.abas[0].livro.modificado)
+				InterfaceAbas.abas[0].fechar()
 		})
 		Interface.carregando = true
 	}
@@ -48,6 +52,10 @@ JanelaAbrir.init = function () {
 			// Salva no arquivo
 			Arquivo.salvarLivro(livro)
 			Interface.carregando = false
+		
+			// Se só tinha uma aba antes e era um novo arquivo, pode fecha-la
+			if (InterfaceAbas.abas.length == 2 && InterfaceAbas.abas[0].livro.novo && !InterfaceAbas.abas[0].livro.modificado)
+				InterfaceAbas.abas[0].fechar()
 		})
 	}
 }
