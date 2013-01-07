@@ -22,7 +22,7 @@ addEventListener("beforeunload", function (evento) {
 
 // Cria um livro vazio
 Editor.criarNovoLivro = function () {
-	var livro, pagina, indice, cabecalho, texto, aba, i
+	var livro, pagina, indice, cabecalho, texto, aba, i, anexo
 	
 	// Cria o livro
 	Editor.numNovosLivros++
@@ -44,8 +44,12 @@ Editor.criarNovoLivro = function () {
 		indice = new FolhaIndice
 		indice.nome = "Página "+i
 		indice.pagina = pagina
+		anexo = new Anexo
+		anexo.nome = "Anexo "+i
+		anexo.conteudo = Compilador.sanitizar("\\<< "+i+" + \\>>")
 		livro.paginas.push(pagina)
 		livro.indices.push(indice)
+		livro.anexos.push(anexo)
 	}
 	
 	// Exibe

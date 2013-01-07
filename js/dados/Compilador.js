@@ -133,7 +133,7 @@ Compilador.compilar = function (livro) {
 	
 	// Coloca a string dentro de uma string
 	var escapar = function (str) {
-		return "\""+str.replace(/"/g, "\\\"").replace(/\\/g, "\\\\")+"\""
+		return "\""+str.replace(/\\/g, "\\\\").replace(/"/g, "\\\"")+"\""
 	}
 	
 	// Compila um índice recursivamente
@@ -261,7 +261,7 @@ Compilador.compilar = function (livro) {
 	
 	// Monta os anexos
 	anexos = []
-	for (i=0; i<livro.anexos; i++)
+	for (i=0; i<livro.anexos.length; i++)
 		anexos.push("{"+escapar(livro.anexos[i].nome)+" "+escapar(livro.anexos[i].conteudo)+"}")
 	obj[5] = "{"+anexos.join(" ")+"}"
 	
