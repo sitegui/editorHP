@@ -349,9 +349,10 @@ Compilador.gerarMiniHTML = function (pagina, num) {
 
 // Normaliza o HTML para uma página
 // Recebe o nó raiz da árvore
-// Retorna um vetor de elementos
-Compilador.normalizar = function (raiz) {
-	var lista, no, i, validos, primeiro, agrupar, elementos, elemento
+// Executa a função onsucesso com um vetor de elementos
+// Caso haja imagens não filtradas, o filtro é aplicado em paralelo
+Compilador.normalizar = function (raiz, onsucesso) {
+	var lista, no, i, validos, primeiro, agrupar, elementos, elemento, imagensSemFiltro, total, img
 	
 	// Percorre a árvore enraizando elementos válidos
 	validos = ["P", "IMG", "H1", "H2", "H3", "H4", "H5", "H6", "HR"]
@@ -393,6 +394,7 @@ Compilador.normalizar = function (raiz) {
 	
 	// Normaliza os elementos
 	elementos = []
+	imagensSemFiltro = []
 	for (i=0; i<raiz.childNodes.length; i++) {
 		no = raiz.childNodes.item(i)
 		if (no.textContent == "" && no.nodeName != "IMG" && no.nodeName != "HR") {
@@ -401,11 +403,47 @@ Compilador.normalizar = function (raiz) {
 			continue
 		}
 		elemento = Compilador.normalizarElemento(no)
-		if (elemento)
+		if (elemento) {
 			elementos.push(elemento)
+			if (elemento.nodeName == "IMG")
+				imagensSemFiltro.push(elemento)
+		}
 	}
 	
-	return elementos
+	// Aplica filtro em todas as imagens sem filtro
+	total = imagensSemFiltro.length
+	var tratarRetorno = function (img) {
+		return function (elemento) {
+			var pos, canvas
+			
+			total--
+			if (!elemento)
+				return
+			
+			// Desenha no canvas e pega a dataURL
+			canvas = document.createElement("canvas")
+			canvas.width = elemento.pixels.width
+			canvas.height = elemento.pixels.height
+			canvas.getContext("2d").putImageData(elemento.pixels, 0, 0)
+			elemento.cacheURL = canvas.toDataURL()
+			
+			// Pré-compila para o formato da HP
+			elemento.cache = Compilador.precompilarPixels(elemento.pixels)
+			elemento.pixels = null
+			
+			pos = elementos.indexOf(img)
+			elementos.splice(pos, 1, elemento)
+			
+			if (total == 0)
+				onsucesso(elementos)
+		}
+	}
+	for (i=0; i<total; i++) {
+		img = imagensSemFiltro[i]
+		CompiladorParalelo.aplicarFiltroPadrao(img, tratarRetorno(img))
+	}
+	if (total == 0)
+		onsucesso(elementos)
 }
 
 // Abre um arquivo enviado pelo usuário
@@ -652,14 +690,20 @@ Compilador.normalizarElemento = function (no) {
 			elemento.alinhamento = alinhamento
 			return elemento
 		case "IMG":
-			elemento = new Imagem
-			elemento.imagem = no.dataset.imagem
-			elemento.filtro = no.dataset.filtro
-			elemento.ajuste = no.dataset.ajuste
-			elemento.tamanho = no.dataset.tamanho
-			elemento.cache = no.dataset.cache
-			elemento.cacheURL = no.src
-			return elemento
+			if (!no.dataset.cache) {
+				// Imagem sem filtro aplicado
+				// Retorna o nó para que Compilador.normalizar rode o filtro depois
+				return no
+			} else {
+				elemento = new Imagem
+				elemento.imagem = no.dataset.imagem
+				elemento.filtro = no.dataset.filtro
+				elemento.ajuste = no.dataset.ajuste
+				elemento.tamanho = no.dataset.tamanho
+				elemento.cache = no.dataset.cache
+				elemento.cacheURL = no.src
+				return elemento
+			}
 		case "H1":
 		case "H2":
 		case "H3":

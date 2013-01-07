@@ -1,16 +1,16 @@
 // Transcompila imagens e aplica filtros em paralelo
 
 // Aplica um filtro na imagem
-// dados deve conter os índices "pixels", "filtro", "ajuste"
-function aplicarFiltro(dados) {
-	removerAlpha(dados.pixels)
+// dados deve conter os índices "pixels", "filtro", "ajuste", "id"
+onmessage = function (evento) {
+	removerAlpha(evento.data.pixels)
 	
-	if (dados.filtro == "areas")
-		aplicarFiltroAreas(dados.pixels, dados.ajuste)
+	if (evento.data.filtro == "areas")
+		aplicarFiltroAreas(evento.data.pixels, evento.data.ajuste)
 	else
-		aplicarFiltroBasico(dados.pixels, dados.ajuste)
+		aplicarFiltroBasico(evento.data.pixels, evento.data.ajuste)
 	
-	self.postMessage(dados.pixels)
+	self.postMessage({id: evento.data.id, pixels: evento.data.pixels})
 }
 
 // Remove o efeito da transparência
@@ -184,11 +184,4 @@ function aplicarFiltroAreas(pixels, ajuste) {
 	mg = g1p/unicos.length
 	mb = b1p/unicos.length
 	pintar(unicos)
-}
-
-// Trata as mensagens que chegam
-onmessage = function (evento) {
-	switch (evento.data.comando) {
-		case "aplicarFiltro": aplicarFiltro(evento.data); break
-	}
 }

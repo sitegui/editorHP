@@ -9,17 +9,21 @@ InterfaceEdicao.foco = null
 
 // Atualiza as ferramentas selecionadas
 InterfaceEdicao.atualizarFerramentas = function () {
-	var edicao, no, ferramenta = "", divs, i, alinhamento
+	var edicao, no, ferramenta = "", divs, i, alinhamento, e
 	edicao = get("edicao")
 	
 	if (InterfaceEdicao.editandoImagem)
 		return
 	
 	// Guarda o foco
-	InterfaceEdicao.foco = getSelection().getRangeAt(0)
+	try {
+		InterfaceEdicao.foco = getSelection().getRangeAt(0) // Chrome chora bastante aqui :|
+		no = InterfaceEdicao.foco.commonAncestorContainer
+	} catch (e) {
+		return
+	}
 	
 	// Pega um elemento que contém toda a seleção
-	no = InterfaceEdicao.foco.commonAncestorContainer
 	while (no.nodeType != Node.ELEMENT_NODE)
 		no = no.parentNode
 	
@@ -80,8 +84,6 @@ InterfaceEdicao.init = function () {
 	}
 	
 	get("edicao").onblur = function () {
-		var pos, pagina, novosElementos, elementosAntigos
-		
 		if (InterfaceEdicao.editandoImagem)
 			return
 		
@@ -89,23 +91,27 @@ InterfaceEdicao.init = function () {
 		get("ferramentasConteudo").style.opacity = ".5"
 		get("ferramentasMascara").style.display = ""
 		
-		pagina = Interface.abaFoco.paginaFoco
-		novosElementos = Compilador.normalizar(get("edicao"))
-		elementosAntigos = pagina.elementos
-		pos = Interface.abaFoco.livro.paginas.indexOf(pagina)+1
-		
-		new Acao("alteração da página "+pos, function () {
-			pagina.elementos = novosElementos
-			InterfacePaginas.atualizarPagina(pagina)
-		}, function () {
-			pagina.elementos = elementosAntigos
-			InterfacePaginas.atualizarPagina(pagina)
+		Interface.carregando = true
+		Compilador.normalizar(get("edicao"), function (novosElementos) {
+			var pos, pagina, novosElementos, elementosAntigos
+			pagina = Interface.abaFoco.paginaFoco
+			elementosAntigos = pagina.elementos
+			pos = Interface.abaFoco.livro.paginas.indexOf(pagina)+1
+			
+			new Acao("alteração da página "+pos, function () {
+				pagina.elementos = novosElementos
+				InterfacePaginas.atualizarPagina(pagina)
+			}, function () {
+				pagina.elementos = elementosAntigos
+				InterfacePaginas.atualizarPagina(pagina)
+			})
+			
+			if (Interface.abaFoco.livro.autoPaginacao)
+				Editor.autoPaginar()
+			if (Interface.abaFoco.livro.autoIndexacao)
+				Editor.autoIndexar()
+			Interface.carregando = false
 		})
-		
-		if (Interface.abaFoco.livro.autoPaginacao)
-			Editor.autoPaginar()
-		if (Interface.abaFoco.livro.autoIndexacao)
-			Editor.autoIndexar()
 	}
 	
 	get("ferramentas").onmousedown = anular
