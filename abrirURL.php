@@ -1,8 +1,8 @@
 <?php
-// Lê o livro
-$livro = $_POST['livro'];
-
-set_time_limit(60);
+// Lê o arquivo
+$livro = $_POST['url'];
+$livro = substr($livro, strlen('data:application/octet-stream;base64,'));
+$livro = base64_decode($livro);
 
 // Prepara a relação entre os caracteres
 $mapaHP2PC = array(
@@ -39,37 +39,13 @@ $mapaHP2PC = array(
 'ð', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', '÷',
 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'þ', 'ÿ'
 );
+foreach ($mapaHP2PC as &$cada)
+	if (substr($cada, 0, 2) == '\u')
+		$cada = json_decode('"' . $cada . '"');
+unset($cada);
 
-// Gera o mapa de tradução PC -> HP
-$mapaPC2HP = array();
-$mapaPC2HP[json_decode('"\u2211"')] = 133;
-$mapaPC2HP[json_decode('"\u2206"')] = 155;
-$mapaPC2HP[json_decode('"\u220F"')] = 156;
-$mapaPC2HP[json_decode('"\u2126"')] = 157;
-foreach ($mapaHP2PC as $HP=>$PC) {
-	if (substr($PC, 0, 2) == '\u')
-		$PC = json_decode('"' . $PC . '"');
-	$mapaPC2HP[$PC] = chr($HP);
-}
-
-// Traduz caracteres para bytes
-$livro2 = '';
-mb_internal_encoding('UTF-8');
-$len = mb_strlen($livro);
-for ($i=0; $i<$len; $i++)
-	$livro2 .= $mapaPC2HP[mb_substr($livro, $i, 1)];
-
-$tamanho = 5+2*strlen($livro2);
-
-// Monta o binário (aproveita o pré-compilado)
-$compilado = "HPHP49-C\x9d-\x90\x9b8,*";
-$compilado .= chr($tamanho%0x10 * 16);
-$compilado .= chr(($tamanho>>4)%0x1000);
-$compilado .= chr(($tamanho>>12)%0x1000);
-$compilado .= $livro2;
-$compilado .= substr(file_get_contents('COMPILADO.hp'), 34);
-
-// Manda como download
-header('Content-Disposition: attachment; filename="' . $_POST['nome'] . '.hp"');
-header('Content-Type: application/octet-stream');
-echo $compilado;
+// Pega a string
+$livroPC = '';
+for ($i=0; $i<strlen($livro); $i++)
+	$livroPC .= $mapaHP2PC[ord($livro[$i])];
+echo $livroPC;

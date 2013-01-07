@@ -45,6 +45,18 @@ Interface.init = function () {
 	JanelaImagem.init()
 }
 
+// Atualiza as interfaces dos paineis
+addEventListener("resize", function () {
+	var corrigir = function (div, classe) {
+		div = get(div)
+		div.classList[div.scrollHeight>div.clientHeight ? "add" : "remove"](classe)
+	}
+	corrigir("paginas", "painel-comRolagem")
+	corrigir("edicao", "edicao-comRolagem")
+	corrigir("anexos", "painel-comRolagem")
+	corrigir("indices", "painel-comRolagem")
+})
+
 // Abre o menu especificado abaixo do elemento
 // menu e base são elementos HTML ou um id
 // Se base não for enviado, abre perto do mouse

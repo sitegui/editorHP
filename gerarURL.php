@@ -59,17 +59,5 @@ $len = mb_strlen($livro);
 for ($i=0; $i<$len; $i++)
 	$livro2 .= $mapaPC2HP[mb_substr($livro, $i, 1)];
 
-$tamanho = 5+2*strlen($livro2);
-
-// Monta o binário (aproveita o pré-compilado)
-$compilado = "HPHP49-C\x9d-\x90\x9b8,*";
-$compilado .= chr($tamanho%0x10 * 16);
-$compilado .= chr(($tamanho>>4)%0x1000);
-$compilado .= chr(($tamanho>>12)%0x1000);
-$compilado .= $livro2;
-$compilado .= substr(file_get_contents('COMPILADO.hp'), 34);
-
-// Manda como download
-header('Content-Disposition: attachment; filename="' . $_POST['nome'] . '.hp"');
-header('Content-Type: application/octet-stream');
-echo $compilado;
+echo 'data:application/octet-stream;base64,';
+echo base64_encode($livro2);

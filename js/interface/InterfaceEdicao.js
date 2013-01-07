@@ -57,7 +57,10 @@ InterfaceEdicao.atualizarFerramentas = function () {
 				divs.item(i).classList.remove("ferramenta-selecionada")
 	
 	// Verifica se a área de edição precisa de barra de rolagem
-	edicao.classList[edicao.scrollHeight>edicao.clientHeight ? "add" : "remove"]("edicao-comRolagem")
+	setTimeout(function () {
+		console.log("foi")
+		edicao.classList[edicao.scrollHeight>edicao.clientHeight ? "add" : "remove"]("edicao-comRolagem")
+	}, 500)
 }
 
 // Define os ouvintes para os botões de edição
@@ -225,4 +228,5 @@ InterfaceEdicao.atualizar = function () {
 		edicao.classList.add("edicao-inativo")
 		edicao.contentEditable = "false"
 	}
+	InterfaceEdicao.atualizarFerramentas()
 }

@@ -150,7 +150,9 @@ InterfacePaginas.montarMiniaturas = function () {
 		divPai.appendChild(div)
 	}
 	
-	divPai.classList[divPai.scrollHeight>divPai.clientHeight ? "add" : "remove"]("painel-comRolagem")
+	setTimeout(function () {
+		divPai.classList[divPai.scrollHeight>divPai.clientHeight ? "add" : "remove"]("painel-comRolagem")
+	}, 500)
 }
 
 // Atualiza o layout de páginas selecionadas (não muda o conteúdo)
@@ -192,7 +194,9 @@ InterfacePaginas.atualizarPagina = function (pagina) {
 		} else
 			divs.item(i).classList.remove("pagina-selecionada")
 	
-	divPai.classList[divPai.scrollHeight>divPai.clientHeight ? "add" : "remove"]("painel-comRolagem")
+	setTimeout(function () {
+		divPai.classList[divPai.scrollHeight>divPai.clientHeight ? "add" : "remove"]("painel-comRolagem")
+	}, 500)
 }
 
 // Monta a div da página
