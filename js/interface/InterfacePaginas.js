@@ -19,6 +19,8 @@ InterfacePaginas.init = function () {
 			}, function () {
 				Interface.abaFoco.livro.autoPaginacao = antes
 			})
+			if (Interface.abaFoco.livro.autoPaginacao)
+				Editor.autoPaginar()
 		}
 		Interface.abrirJanela("janelaBasica", opcoes)
 	}

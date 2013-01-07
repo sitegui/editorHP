@@ -1,0 +1,9 @@
+﻿* auto-indexação
+* mover páginas, anexos e índices
+* atalhos de teclado
+* ajuda
+
+remover índices junto com páginas
+mostrar mensagem de carregando no salvar e abrir
+abrir arquivo por cima de nova aba
+deselecionar indice quando clicar fora

@@ -58,7 +58,6 @@ InterfaceEdicao.atualizarFerramentas = function () {
 	
 	// Verifica se a área de edição precisa de barra de rolagem
 	setTimeout(function () {
-		console.log("foi")
 		edicao.classList[edicao.scrollHeight>edicao.clientHeight ? "add" : "remove"]("edicao-comRolagem")
 	}, 500)
 }
@@ -102,6 +101,9 @@ InterfaceEdicao.init = function () {
 			pagina.elementos = elementosAntigos
 			InterfacePaginas.atualizarPagina(pagina)
 		})
+		
+		if (Interface.abaFoco.livro.autoPaginacao)
+			Editor.autoPaginar()
 	}
 	
 	get("ferramentas").onmousedown = anular
@@ -161,7 +163,7 @@ InterfaceEdicao.init = function () {
 	// Botão de inserir imagem
 	get("ferramenta-imagem").onclick = function () {
 		InterfaceEdicao.editandoImagem = true
-		JanelaImagem.inserirImagem() // TODO: permitir editar
+		JanelaImagem.inserirImagem()
 	}
 }
 

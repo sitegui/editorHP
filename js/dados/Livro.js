@@ -19,10 +19,6 @@ function Livro() {
 	}, enumerable: true})
 }
 
-// Aplica a autopaginação
-Livro.prototype.autoPaginar = function () {
-}
-
 // Aplica a autoindexação
 Livro.prototype.autoIndexar = function () {
 }

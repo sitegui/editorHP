@@ -5,7 +5,7 @@ var CompiladorParalelo = {}
 CompiladorParalelo.worker = new Worker("js/dados/CompiladorParalelo-worker.js")
 CompiladorParalelo.worker.ocupado = false
 CompiladorParalelo.worker.onerror = function (evento) {
-	console.log(evento)
+	alert("Erro interno, por favor salve e recarregue a página")
 }
 
 // Aplica o filtro na imagem
