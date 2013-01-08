@@ -32,14 +32,8 @@ Editor.criarNovoLivro = function () {
 	livro.modificacao = Date.now()
 	livro.novo = true
 	
-	;(function () {
-		var indice = new SubIndice
-		indice.nome = "Páginas"
-		livro.indices.push(indice)
-	})()
-	
 	// Cria elementos básicos
-	for (i=1; i<=3; i++) {
+	for (i=1; i<=5; i++) {
 		pagina = new Pagina
 		cabecalho = new Cabecalho
 		cabecalho.texto = "Página "+i
@@ -56,11 +50,7 @@ Editor.criarNovoLivro = function () {
 		livro.paginas.push(pagina)
 		livro.indices.push(indice)
 		livro.anexos.push(anexo)
-		livro.indices[0].indices.push(indice.clonar())
 	}
-	indice = new FolhaIndice
-	indice.nome = "Página x"
-	livro.indices.push(indice)
 		
 	// Exibe
 	aba = new Aba(livro)

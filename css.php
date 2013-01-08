@@ -1,4 +1,5 @@
 <?php
+// Reúne todos os arquivo CSS para economizar requisições HTTP
 $arquivos = array(
 	'botao.css',
 	'menu.css',
@@ -15,9 +16,8 @@ $arquivos = array(
 
 $css = array();
 foreach ($arquivos as $cada)
-	if (substr($cada, -4) == '.css')
-		$css[] = "/*** $cada ***/\n" . file_get_contents($cada);
+	$css[] = "/*** $cada ***/\n" . file_get_contents('css/' . $cada);
 
 $css = implode("\n", $css);
-file_put_contents('../css.css', $css);
+header('Content-type: text/css');
 echo $css;

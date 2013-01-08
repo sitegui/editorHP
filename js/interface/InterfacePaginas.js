@@ -44,6 +44,24 @@ InterfacePaginas.init = function () {
 		get("submenuEdicao-recortar").onclick = InterfacePaginas.recortar
 		evento.preventDefault()
 	}
+	
+	// Torna ordenável as páginas
+	// TODO: deixar todas do mesmo tamanho
+	new Ordenavel("paginas", function (antes, depois) {
+		new Acao("movimentação da página", function () {
+			var pagina = Interface.abaFoco.livro.paginas.splice(antes, 1)[0]
+			Interface.abaFoco.livro.paginas.splice(depois, 0, pagina)
+			InterfacePaginas.montarMiniaturas()
+			InterfacePaginas.atualizarPagina(Interface.abaFoco.livro.paginas[depois])
+			InterfaceIndices.atualizarLayout()
+		}, function () {
+			var pagina = Interface.abaFoco.livro.paginas.splice(depois, 1)[0]
+			Interface.abaFoco.livro.paginas.splice(antes, 0, pagina)
+			InterfacePaginas.montarMiniaturas()
+			InterfacePaginas.atualizarPagina(Interface.abaFoco.livro.paginas[antes])
+			InterfaceIndices.atualizarLayout()
+		})
+	})
 }
 
 // Remove as páginas selecionadas

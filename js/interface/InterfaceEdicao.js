@@ -157,9 +157,9 @@ InterfaceEdicao.init = function () {
 	}
 	
 	// Botões para inserir caractere
-	inserirChar = function (char) {
+	inserirChar = function (charc) {
 		return function () {
-			document.execCommand("insertHTML", false, char)
+			document.execCommand("insertHTML", false, charc)
 		}
 	}
 	tds = get("submenuCaracteres").querySelectorAll("td")

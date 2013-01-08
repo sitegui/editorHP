@@ -37,6 +37,19 @@ InterfaceAnexos.init = function () {
 			InterfaceAnexos.atualizarLayout()
 		}
 	}
+	
+	// Torna ordenável os anexos
+	new Ordenavel("anexos", function (antes, depois) {
+		new Acao("movimentação do anexo", function () {
+			var anexo = Interface.abaFoco.livro.anexos.splice(antes, 1)[0]
+			Interface.abaFoco.livro.anexos.splice(depois, 0, anexo)
+			InterfaceAnexos.atualizar()
+		}, function () {
+			var anexo = Interface.abaFoco.livro.anexos.splice(depois, 1)[0]
+			Interface.abaFoco.livro.anexos.splice(antes, 0, anexo)
+			InterfaceAnexos.atualizar()
+		})
+	})
 }
 
 // Atualiza a lista de anexos
