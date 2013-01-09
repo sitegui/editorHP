@@ -8,7 +8,7 @@
 	width:100%;
 	z-index:3;
 }
-.janela, .janelaMenor, .janelaMaior, .janelaCarregando {
+.janela, .janelaMenor, .janelaMaior, .janelaCarregando, .janelaDicas {
 	background-image:url(debut_dark.png);
 	box-shadow:0 0 10px black;
 	position:absolute;
@@ -158,10 +158,12 @@
 
 /* Janela de aviso de carregando */
 .janelaCarregando {
-	top:40%;
-	left:40%;
-	height:20%;
-	width:20%;
+	top:50%;
+	left:50%;
+	margin-top:-50px;
+	margin-left:-100px;
+	height:100px;
+	width:200px;
 	padding:30px;
 	z-index:6;
 	border-radius:10px;
@@ -172,7 +174,23 @@
 .janelaCarregando-conteudo {
 	background-color:rgba(255,255,255,.5);
 	text-align:center;
-	padding:20px;
-	width:100%;
 	height:100%;
+	padding:10px;
+}
+
+/* Janela de dicas */
+.janelaDicas {
+	bottom:0;
+	right:25%;
+	padding:15px;
+	max-width:25%;
+	max-height:25%;
+	border-top-left-radius:15px;
+	transition:bottom .5s ease;
+	cursor:pointer;
+}
+.janelaDicas-conteudo {
+	background-color:rgba(255,255,255,.5);
+	padding:15px;
+	overflow:auto;
 }

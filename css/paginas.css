@@ -26,9 +26,6 @@
 	position:relative;
 	overflow:hidden;
 }
-.pagina-conteudo:hover {
-	overflow:auto;
-}
 .pagina-numero {
 	position:absolute;
 	top:0;

@@ -14,6 +14,7 @@ var Interface = {}
 		InterfaceEdicao.atualizarDesfazer()
 		InterfaceAnexos.atualizar()
 		InterfaceIndices.atualizar()
+		document.title = "EditorHP - "+foco.livro.nome
 	}, enumerable: true})
 })()
 
@@ -42,6 +43,8 @@ Interface.init = function () {
 	InterfacePaginas.init()
 	InterfaceAnexos.init()
 	InterfaceIndices.init()
+	JanelaDicas.init()
+	JanelaAjuda.init()
 	JanelaImagem.init()
 }
 
@@ -116,6 +119,9 @@ Interface.abrirJanela = function (janela, argumento) {
 			break
 		case "janelaImagem":
 			JanelaImagem.onabrir(argumento)
+			break
+		case "janelaAjuda":
+			JanelaAjuda.onabrir()
 			break
 	}
 }

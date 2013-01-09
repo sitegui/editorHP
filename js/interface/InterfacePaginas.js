@@ -46,7 +46,6 @@ InterfacePaginas.init = function () {
 	}
 	
 	// Torna ordenável as páginas
-	// TODO: deixar todas do mesmo tamanho
 	new Ordenavel("paginas", function (antes, depois) {
 		new Acao("movimentação da página", function () {
 			var pagina = Interface.abaFoco.livro.paginas.splice(antes, 1)[0]

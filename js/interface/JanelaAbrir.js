@@ -28,8 +28,10 @@ JanelaAbrir.init = function () {
 			Interface.carregando = false
 		
 			// Se só tinha uma aba antes e era um novo arquivo, pode fecha-la
-			if (InterfaceAbas.abas.length == 2 && InterfaceAbas.abas[0].livro.novo && !InterfaceAbas.abas[0].livro.modificado)
+			if (InterfaceAbas.abas.length == 2 && InterfaceAbas.abas[0].livro.novo && !InterfaceAbas.abas[0].livro.modificado) {
 				InterfaceAbas.abas[0].fechar()
+				Editor.numNovosLivros--
+			}
 		})
 		Interface.carregando = true
 	}
@@ -54,8 +56,10 @@ JanelaAbrir.init = function () {
 			Interface.carregando = false
 		
 			// Se só tinha uma aba antes e era um novo arquivo, pode fecha-la
-			if (InterfaceAbas.abas.length == 2 && InterfaceAbas.abas[0].livro.novo && !InterfaceAbas.abas[0].livro.modificado)
+			if (InterfaceAbas.abas.length == 2 && InterfaceAbas.abas[0].livro.novo && !InterfaceAbas.abas[0].livro.modificado) {
 				InterfaceAbas.abas[0].fechar()
+				Editor.numNovosLivros--
+			}
 		})
 	}
 }
@@ -202,8 +206,10 @@ JanelaAbrir.gerarItemRecente = function (arquivo) {
 		Interface.abaFoco = aba
 		
 		// Se só tinha uma aba antes e era um novo arquivo, pode fecha-la
-		if (InterfaceAbas.abas.length == 2 && InterfaceAbas.abas[0].livro.novo && !InterfaceAbas.abas[0].livro.modificado)
+		if (InterfaceAbas.abas.length == 2 && InterfaceAbas.abas[0].livro.novo && !InterfaceAbas.abas[0].livro.modificado) {
 			InterfaceAbas.abas[0].fechar()
+				Editor.numNovosLivros--
+		}
 	}
 	
 	// Junta os elementos
