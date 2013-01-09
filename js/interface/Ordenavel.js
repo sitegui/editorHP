@@ -2,14 +2,19 @@
 // Recebe a div que contêm imediatamente as divs a serem ordenadas
 // Executa a função ontrocar quando uma troca foi realizado pelo usuário
 // Envia a posição inicial e final do elemento trocado
-var Ordenavel = function (div, ontrocar) {
+// oninicar e onfinalizar são chamadas quando a movimentação efetivamente começa ou termina (opcionais)
+var Ordenavel = function (div, ontrocar, oniniciar, onfinalizar) {
+	var movimentar = Ordenavel.movimentar(this)
 	div = get(div)
 	div.addEventListener("mousedown", Ordenavel.comecar(this))
-	addEventListener("mousemove", Ordenavel.movimentar(this))
+	div.addEventListener("scroll", movimentar)
+	addEventListener("mousemove", movimentar)
 	addEventListener("mouseup", Ordenavel.terminar(this))
 	this.raiz = div
 	this.dados = null // Armazena os dados da movimentação sendo feita
 	this.ontrocar = ontrocar
+	this.oniniciar = oniniciar || null
+	this.onfinalizar = onfinalizar || null
 }
 
 // Indica um possível começo da movimentação (ouvinte de mousedown)
@@ -20,10 +25,7 @@ Ordenavel.comecar = function (that) {
 		if (alvo) {
 			that.dados = {}
 			that.dados.el = alvo
-			that.dados.DY = Ordenavel.getHeight(alvo)
-			that.dados.elY = Ordenavel.getY(alvo)
-			that.dados.posIni = [].indexOf.call(that.raiz.childNodes, alvo)
-			that.dados.posFim = that.dados.posIni
+			that.dados.iniciado = false
 			evento.preventDefault()
 		}
 	}
@@ -33,26 +35,44 @@ Ordenavel.comecar = function (that) {
 Ordenavel.movimentar = function (that) {
 	return function (evento) {
 		var y, dy, min, max, dados = that.dados
+		
 		if (dados) {
-			dy = evento.clientY-dados.elY
+			// Inica o movimento
+			if (!dados.iniciado) {
+				if (that.oniniciar)
+					that.oniniciar()
+				dados.posIni = [].indexOf.call(that.raiz.childNodes, dados.el)
+				dados.posFim = dados.posIni
+				dados.DY = Ordenavel.getHeight(dados.el)
+				dados.elY = Ordenavel.getY(dados.el)+that.raiz.scrollTop
+				dados.iniciado = true
+				dados.minY = Ordenavel.getY(that.raiz, -1)
+				dados.maxY = Ordenavel.getY(that.raiz, 1)
+			}
 			
-			// Move o elemento se necessário
-			if (dy > dados.DY) {
-				// Move para a linha de baixo
-				if (dados.el.nextSibling) {
-					that.raiz.insertBefore(dados.el, dados.el.nextSibling.nextSibling)
-					dados.elY += dados.DY
-					dy -= dados.DY
-					dados.posFim++
-				}
-			} else if (dy < -dados.DY) {
-				// Move para a linha de cima
-				if (dados.el.previousSibling) {
-					that.raiz.insertBefore(dados.el, dados.el.previousSibling)
-					dados.elY -= dados.DY
-					dy += dados.DY
-					dados.posFim--
-				}
+			dados.mY = evento.clientY || dados.mY
+			dy = dados.mY-(dados.elY-that.raiz.scrollTop)
+			
+			while (true) { // Relaxa, tem um break no else
+				// Move o elemento se necessário
+				if (dy > dados.DY) {
+					// Move para a linha de baixo
+					if (dados.el.nextSibling) {
+						that.raiz.insertBefore(dados.el, dados.el.nextSibling.nextSibling)
+						dados.elY += dados.DY
+						dy -= dados.DY
+						dados.posFim++
+					}
+				} else if (dy < -dados.DY) {
+					// Move para a linha de cima
+					if (dados.el.previousSibling) {
+						that.raiz.insertBefore(dados.el, dados.el.previousSibling)
+						dados.elY -= dados.DY
+						dy += dados.DY
+						dados.posFim--
+					}
+				} else
+					break
 			}
 			
 			// Desenha o elemento numa posição "imaginária"
@@ -61,6 +81,16 @@ Ordenavel.movimentar = function (that) {
 			min = dados.posFim==0 ? -dados.DY/3 : -dados.DY
 			max = dados.posFim==that.raiz.childNodes.length-1 ? dados.DY/3 : dados.DY
 			dados.el.style.top = Math.min(max, Math.max(min, dy))+"px"
+			
+			// Rola o elemento pai se necessário
+			if (dados.maxY-dados.mY < dados.DY/2+15)
+				setTimeout(function () {
+					that.raiz.scrollTop += 3
+				}, 25)
+			else if (dados.mY-dados.minY < dados.DY/2+15)
+				setTimeout(function () {
+					that.raiz.scrollTop -= 3
+				}, 25)
 		}
 	}
 }
@@ -68,7 +98,9 @@ Ordenavel.movimentar = function (that) {
 // Controla um possível soltar no lugar certo (ouvinte de mouseup)
 Ordenavel.terminar = function (that) {
 	return function (evento) {
-		if (that.dados) {
+		if (that.dados && that.dados.iniciado) {
+			if (that.onfinalizar)
+				that.onfinalizar()
 			that.dados.el.style.zIndex = ""
 			that.dados.el.style.position = ""
 			that.dados.el.style.top = ""
@@ -117,12 +149,9 @@ Ordenavel.getY = function (el, lado) {
 	return (el.getBoundingClientRect().top+el.getBoundingClientRect().bottom)/2
 }
 
-// Retorna largura total do elemento
-Ordenavel.getWidth = function (el) {
-	return el.getBoundingClientRect().width
-}
-
 // Retorna altura total do elemento
 Ordenavel.getHeight = function (el) {
-	return el.getBoundingClientRect().height
+	var mt = parseFloat(getComputedStyle(el).marginTop)
+	var mb = parseFloat(getComputedStyle(el).marginBottom)
+	return el.getBoundingClientRect().height+(mt+mb)/2
 }

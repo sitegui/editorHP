@@ -38,3 +38,9 @@
 .pagina-selecionada > .pagina-conteudo {
 	border-color:rgba(0,0,255,.5);
 }
+.pagina-minimizada > .pagina-conteudo {
+	overflow:hidden;
+}
+.pagina-minimizada {
+	height:75px;
+}

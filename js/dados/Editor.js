@@ -33,7 +33,7 @@ Editor.criarNovoLivro = function () {
 	livro.novo = true
 	
 	// Cria elementos básicos
-	for (i=1; i<=5; i++) {
+	for (i=1; i<=10; i++) {
 		pagina = new Pagina
 		cabecalho = new Cabecalho
 		cabecalho.texto = "Página "+i
