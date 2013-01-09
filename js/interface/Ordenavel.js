@@ -15,6 +15,7 @@ var Ordenavel = function (div, ontrocar, oniniciar, onfinalizar) {
 	this.ontrocar = ontrocar
 	this.oniniciar = oniniciar || null
 	this.onfinalizar = onfinalizar || null
+	this.indices = false // Indice se é o caso especial de índice
 }
 
 // Indica um possível começo da movimentação (ouvinte de mousedown)
@@ -26,15 +27,26 @@ Ordenavel.comecar = function (that) {
 			that.dados = {}
 			that.dados.el = alvo
 			that.dados.iniciado = false
+			that.dados.mX = evento.clientX
+			that.dados.mY = evento.clientY
 			evento.preventDefault()
 		}
 	}
 }
 
+// Atualiza o nível máximo de identação que um índice pode ter
+Ordenavel.prototype.atualizarNivelMaximo = function () {
+	if (this.dados.iniciado && this.indices)
+		if (this.dados.posFim)
+			this.dados.nivelMax = Number(this.raiz.childNodes.item(this.dados.posFim-1).dataset.nivel)+1
+		else
+			this.dados.nivelMax = 1
+}
+
 // Controla uma possível movimentação da div (ouvinte de mousemove)
 Ordenavel.movimentar = function (that) {
 	return function (evento) {
-		var y, dy, min, max, dados = that.dados
+		var y, dy, min, max, px, dados = that.dados
 		
 		if (dados) {
 			// Inica o movimento
@@ -48,29 +60,32 @@ Ordenavel.movimentar = function (that) {
 				dados.iniciado = true
 				dados.minY = Ordenavel.getY(that.raiz, -1)
 				dados.maxY = Ordenavel.getY(that.raiz, 1)
+				dados.minX = Ordenavel.getX(that.raiz, -1)
+				dados.maxX = Ordenavel.getX(that.raiz, 1)
+				dados.nivelIni = dados.el.dataset.nivel
+				that.atualizarNivelMaximo()
 			}
 			
 			dados.mY = evento.clientY || dados.mY
+			dados.mX = evento.clientX || dados.mX
 			dy = dados.mY-(dados.elY-that.raiz.scrollTop)
 			
 			while (true) { // Relaxa, tem um break no else
 				// Move o elemento se necessário
-				if (dy > dados.DY) {
+				if (dy > dados.DY && dados.el.nextSibling) {
 					// Move para a linha de baixo
-					if (dados.el.nextSibling) {
-						that.raiz.insertBefore(dados.el, dados.el.nextSibling.nextSibling)
-						dados.elY += dados.DY
-						dy -= dados.DY
-						dados.posFim++
-					}
-				} else if (dy < -dados.DY) {
+					that.raiz.insertBefore(dados.el, dados.el.nextSibling.nextSibling)
+					dados.elY += dados.DY
+					dy -= dados.DY
+					dados.posFim++
+					that.atualizarNivelMaximo()
+				} else if (dy < -dados.DY && dados.el.previousSibling) {
 					// Move para a linha de cima
-					if (dados.el.previousSibling) {
-						that.raiz.insertBefore(dados.el, dados.el.previousSibling)
-						dados.elY -= dados.DY
-						dy += dados.DY
-						dados.posFim--
-					}
+					that.raiz.insertBefore(dados.el, dados.el.previousSibling)
+					dados.elY -= dados.DY
+					dy += dados.DY
+					dados.posFim--
+					that.atualizarNivelMaximo()
 				} else
 					break
 			}
@@ -81,6 +96,26 @@ Ordenavel.movimentar = function (that) {
 			min = dados.posFim==0 ? -dados.DY/3 : -dados.DY
 			max = dados.posFim==that.raiz.childNodes.length-1 ? dados.DY/3 : dados.DY
 			dados.el.style.top = Math.min(max, Math.max(min, dy))+"px"
+			
+			if (that.indices) {
+				// Define a posição x (0 = lado esquerdo do pai, 100 = lado direito do pai)
+				px = 100*(dados.maxX-dados.mX)/(dados.maxX-dados.minX)
+				dados.el.className = "indice1"
+				dados.el.dataset.nivel = "1"
+				if (px < 40 && dados.nivelMax > 4) {
+					dados.el.className = "indice5"
+					dados.el.dataset.nivel = "5"
+				} else if (px < 55 && dados.nivelMax > 3) {
+					dados.el.className = "indice4"
+					dados.el.dataset.nivel = "4"
+				} else if (px < 70 && dados.nivelMax > 2) {
+					dados.el.className = "indice3"
+					dados.el.dataset.nivel = "3"
+				} else if (px < 85 && dados.nivelMax > 1) {
+					dados.el.className = "indice2"
+					dados.el.dataset.nivel = "2"
+				}
+			}
 			
 			// Rola o elemento pai se necessário
 			if (dados.maxY-dados.mY < dados.DY/2+15)
@@ -104,7 +139,8 @@ Ordenavel.terminar = function (that) {
 			that.dados.el.style.zIndex = ""
 			that.dados.el.style.position = ""
 			that.dados.el.style.top = ""
-			if (that.dados.posIni != that.dados.posFim)
+			if (that.dados.posIni != that.dados.posFim
+				|| (that.indices && that.dados.el.dataset.nivel != that.dados.nivelIni))
 				that.ontrocar(that.dados.posIni, that.dados.posFim)
 		}
 		that.dados = null

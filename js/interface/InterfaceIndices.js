@@ -6,6 +6,8 @@ InterfaceIndices.foco = null
 
 // Define os ouvintes dos botões
 InterfaceIndices.init = function () {
+	var ordenavel
+	
 	get("indices-remover").onclick = InterfaceIndices.remover
 	get("indices-acrescentar").onclick = InterfaceIndices.adicionar
 	get("indices-opcoes").onclick = function () {
@@ -34,6 +36,76 @@ InterfaceIndices.init = function () {
 			InterfaceIndices.atualizarLayout()
 		}
 	}
+	
+	ordenavel = new Ordenavel("indices", function () {
+		var antes, depois
+		
+		antes = Interface.abaFoco.livro.indices
+		depois = InterfaceIndices.montarDasDivs()
+		
+		new Acao("movimentação do índice", function () {
+			Interface.abaFoco.livro.indices = depois
+			InterfaceIndices.atualizar()
+		}, function () {
+			Interface.abaFoco.livro.indices = antes
+			InterfaceIndices.atualizar()
+		})
+	})
+	ordenavel.indices = true
+}
+
+// Monta o índice a partir das divs na interface
+InterfaceIndices.montarDasDivs = function () {
+	var indices, divs, i, nivelAntes, dif, localAtual, novo, ultimo, temp, div
+	
+	// Gera o índice a partir da estrutura das divs
+	indices = []
+	indices.acima = null
+	localAtual = indices
+	nivelAntes = 6
+	divs = get("indices").childNodes
+	for (i=0; i<divs.length; i++) {
+		div = divs.item(i)
+		dif = nivelAntes-Number(div.dataset.nivel)
+		if (dif < 0) {
+			// Transforma o último índice folha em sub-índice
+			ultimo = localAtual[localAtual.length-1]
+			novo = new SubIndice
+			novo.nome = ultimo.nome
+			localAtual[localAtual.length-1] = novo
+			
+			// Desce e cria um índice folha
+			temp = localAtual
+			localAtual = novo.indices
+			localAtual.acima = temp
+		} else {
+			// Sobe (se necessário e até onde der) e cria um índice folha
+			while (localAtual.acima && dif) {
+				temp = localAtual.acima
+				delete localAtual.acima
+				localAtual = temp
+				dif--
+			}
+		}
+		novo = new FolhaIndice
+		novo.nome = Compilador.sanitizar(div.childNodes.item(0).textContent)
+		if (div.childNodes.length > 1)
+			novo.pagina = Interface.abaFoco.livro.paginas[Number(div.childNodes.item(1).textContent)-1]
+		else
+			novo.pagina = null
+		localAtual.push(novo)
+		nivelAntes = Number(div.dataset.nivel)
+	}
+	
+	// Sobe para a raiz
+	while (localAtual.acima) {
+		temp = localAtual.acima
+		delete localAtual.acima
+		localAtual = temp
+	}
+	delete localAtual.acima
+	
+	return indices
 }
 
 // Atualiza a lista de índices
