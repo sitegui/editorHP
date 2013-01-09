@@ -18,6 +18,9 @@
 	cursor:pointer;
 	position:relative;
 	border:3px transparent solid;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	overflow:hidden;
 }
 .anexo:hover {
 	background-color:rgba(255,255,255,.75);

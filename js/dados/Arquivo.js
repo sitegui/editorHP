@@ -31,7 +31,7 @@ Arquivo.arquivos = {}
 
 // Carrega a lista de arquivos
 Arquivo.carregarArquivos = function () {
-	var str = localStorage.getItem("editorHP-arquivos"), obj, id, novo
+	var str = localStorage.getItem("editorHP-arquivos"), obj, id, novo, temSalvo = false
 	
 	Arquivo.arquivos = {}
 	if (str != null) {
@@ -44,7 +44,12 @@ Arquivo.carregarArquivos = function () {
 			novo.versao = obj[id].versao
 			novo.id = obj[id].id
 			Arquivo.arquivos[id] = novo
+			temSalvo = true
 		}
+		if (temSalvo)
+			setTimeout(function () {
+				JanelaDicas.disparar("acao", "temSalvo")
+			}, 1e3)
 	}
 }
 

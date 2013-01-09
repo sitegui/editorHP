@@ -193,4 +193,8 @@
 	background-color:rgba(255,255,255,.5);
 	padding:15px;
 	overflow:auto;
+	text-align:center;
+	-moz-user-select:none;
+	-webkit-user-select:none;
+	user-select:none;
 }

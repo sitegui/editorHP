@@ -15,6 +15,9 @@
 	cursor:pointer;
 	position:relative;
 	border:3px transparent solid;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	overflow:hidden;
 }
 .indice1:hover, .indice2:hover, .indice3:hover, .indice4:hover, .indice5:hover {
 	background-color:rgba(255,255,255,.75);

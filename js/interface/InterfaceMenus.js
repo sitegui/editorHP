@@ -24,6 +24,7 @@ InterfaceMenus.init = function () {
 	get("menuSalvar").onclick = function (evento) {
 		var i, arquivo, livro
 		livro = Interface.abaFoco.livro
+		JanelaDicas.marcarDisparada("tempo", 10) // Não mostra a dica de salvar, pois já deve saber salvar
 		if (evento.target.id == "menuSalvarMais") {
 			Interface.abrirMenu(evento, "submenuSalvar", "menuSalvar")
 			get("submenuSalvar-salvar").classList[(livro.modificado || livro.novo) ? "remove" : "add"]("submenu-item-desabilitado")

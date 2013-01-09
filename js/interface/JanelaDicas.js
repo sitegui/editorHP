@@ -3,14 +3,15 @@ var JanelaDicas = {}
 
 // Define as mensagens
 JanelaDicas.dicas = [
-	{id: 0, tempo: 0, dica: "olá"},
-	{id: 1, tempo: 5, dica: "use cabeçalhos"},
-	{id: 2, tempo: 10, dica: "clique salvar"},
-	{id: 3, acao: "salvar", dica: "salve num sd ou use cabo+software depois vá em files > eval"},
-	{id: 4, acao: "temSalvo", dica: "vá em abrir"},
-	{id: 5, tempo: 20, dica: "você pode fazer upload"}, 
-	{id: 6, tempo: 40, dica: "auto paginação e auto indexação"},
-	{id: 7, tempo: 60, dica: "arraste índice"}
+	{id: 0, tempo: 0, dica: "Bem-vindo ao editor de textos para a HP50g. Basta escrever o que quiser no campo acima que tudo acontece"},
+	{id: 1, tempo: 5, dica: "Use cabeçalhos pra facilitar a navegação. O editor divide seu texto em páginas e cria o índice com base neles"},
+	{id: 2, tempo: 10, dica: "Quando quiser, clique salvar para poder baixar o arquivo para a sua calculadora"},
+	{id: 3, acao: "salvar", dica: "Salve esse arquivo diretamente num cartão SD (ou use cabo+software). Para abri-lo na calculadora, vá em FILES > SD > seuarquivo > EVAL"},
+	{id: 4, acao: "temSalvo", dica: "Seus arquivos antigos ficam sempre salvos no seu navegador. Para vê-los clique no menu Abrir"},
+	{id: 5, tempo: 20, dica: "Você pode também pode editar um arquivo já baixado. Basta clicar ir no menu Abrir > Upload"}, 
+	{id: 6, tempo: 40, dica: "Se quiser desativar a criação automática de páginas e índices, clique no botão &#9660; nos paineis Páginas e Índices"},
+	{id: 7, tempo: 60, dica: "Você pode trocar páginas, anexos e índices de lugar. Basta arrasta-los"},
+	{id: 8, tempo: 90, dica: "Você pode anexar equações, fórmulas, tabelas e imagens junto com seu arquivo"}
 ]
 
 // Guarda os ids das mensagens já disparadas
@@ -47,15 +48,6 @@ JanelaDicas.init = function () {
 		localStorage.setItem("editorHP-dicas", JSON.stringify(JanelaDicas.disparadas))
 		localStorage.setItem("editorHP-tempo", JanelaDicas.tempo+(Date.now()-JanelaDicas.inicio)/60e3)
 	})
-	
-	alert(JanelaDicas.tempo)
-}
-
-// TODO: remover isso
-JanelaDicas.limpar = function () {
-	JanelaDicas.disparadas = []
-	JanelaDicas.tempo = 0
-	JanelaDicas.inicio = Date.now()
 }
 
 // Dispara e exibe uma dica (se não disparada ainda)

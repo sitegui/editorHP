@@ -490,6 +490,9 @@ Compilador.gerarDownload = (function () {
 		input.value = arquivo.conteudo
 		input2.value = arquivo.nome
 		form.submit()
+		
+		// Mostra ajuda
+		JanelaDicas.disparar("acao", "salvar")
 	}
 })()
 
