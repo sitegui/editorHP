@@ -281,6 +281,7 @@ InterfacePaginas.gerarDiv = function (pagina, num) {
 			Interface.abaFoco.paginasSelecionadas[pagina.id] = true
 		
 		Interface.abaFoco.paginaFoco = pagina
+		Interface.ultimoTipoFocado = "pagina"
 		InterfacePaginas.atualizarLayout()
 		InterfaceEdicao.atualizar()
 		InterfaceIndices.atualizarLayout()

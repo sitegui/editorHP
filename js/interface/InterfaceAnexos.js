@@ -286,6 +286,7 @@ InterfaceAnexos.montarDiv = function (anexo) {
 			InterfaceAnexos.selecao.push(div)
 		
 		InterfaceAnexos.foco = div
+		Interface.ultimoTipoFocado = "anexo"
 		InterfaceAnexos.atualizarLayout()
 	}
 	

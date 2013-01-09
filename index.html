@@ -19,8 +19,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <title>EditorHP</title>
-<meta name="description" content="">
-<meta name="keywords" content="">
+<meta name="description" content="Um ótimo editor de textos para a calculadora HP50g, aceita equações, matrizes, fórmulas e imagens. Divide o conteúdo em páginas e cria um índice para facilitar o acesso">
+<meta name="keywords" content="calculadora HP50g, calculadora HP, HP, editor de texto, editor para HP50g, editor para HP, txt pra HP">
 <link rel="stylesheet" href="css.php">
 <link rel="icon" href="icone.png">
 <script src="js.php"></script>
@@ -30,20 +30,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <!-- Menu -->
 <div class="menu">
 	<div class="menuBotao botao2" id="menuAbrir">
-		<div class="botao2Esq">Abrir</div>
+		<div class="botao2Esq" title="Ctrl+O">Abrir</div>
 		<div class="botao2Dir" id="menuAbrirMais">&#9660;</div>
 	</div>
 	<div class="menuBotao botao2" id="menuSalvar">
-		<div class="botao2Esq">Salvar</div>
+		<div class="botao2Esq" title="Ctrl+S">Salvar</div>
 		<div id="menuSalvarMais" class="botao2Dir">&#9660;</div>
 	</div>
-	<div id="menuAjuda" class="menuBotao botao-azul">Ajuda</div>
+	<div id="menuAjuda" class="menuBotao botao-azul" title="F1">Ajuda</div>
 	<div id="ferramenta-desfazer" class="menuBotao botao-azul desfazer" title="Desfazer">&#x21b6;</div>
 	<div id="ferramenta-refazer" class="menuBotao botao-azul refazer" title="Refazer">&#x21b7;</div>
 	
 	<!-- abas -->
 	<div id="abas">
-		<div class="aba aba-mais" id="abaMais" title="Novo livro">+</div>
+		<div class="aba aba-mais" id="abaMais" title="Novo livro (Ctrl+N)">+</div>
 	</div>
 </div>
 
@@ -51,12 +51,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div id="submenuAbrir" class="submenu" style="display:none">
 	<div class="submenu-item" id="submenuAbrir-upload">Upload</div>
 	<div class="submenu-item" id="submenuAbrir-URL">URL</div>
-	<div class="submenu-item" id="submenuAbrir-novo">Novo</div>
+	<div class="submenu-item" id="submenuAbrir-novo" title="Ctrl+N">Novo</div>
 </div>
 <div id="submenuSalvar" class="submenu" style="display:none">
 	<div class="submenu-item" id="submenuSalvar-URL">Gerar URL</div>
 	<div class="submenu-item" id="submenuSalvar-salvar">Somente salvar</div>
-	<div class="submenu-item" id="submenuSalvar-salvarTodos">Salvar todos</div>
+	<div class="submenu-item" id="submenuSalvar-salvarTodos" title="Ctrl+Shift+S">Salvar todos</div>
 	<div class="submenu-item" id="submenuSalvar-salvarComo">Salvar como</div>
 </div>
 

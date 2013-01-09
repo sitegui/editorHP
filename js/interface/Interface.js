@@ -1,6 +1,9 @@
 // Reúne métodos gerais da interface
 var Interface = {}
 
+// Guarda o último tipo de elemento focado ("pagina", "anexo", "indice")
+Interface.ultimoTipoFocado = ""
+
 // Guarda a aba em foco
 ;(function () {
 	var foco = null
@@ -8,6 +11,7 @@ var Interface = {}
 		return foco
 	}, set: function (novo) {
 		foco = novo
+		Interface.ultimoTipoFocado = ""
 		InterfaceAbas.atualizarLayout()
 		InterfacePaginas.montarMiniaturas()
 		InterfaceEdicao.atualizar()
@@ -47,6 +51,64 @@ Interface.init = function () {
 	JanelaAjuda.init()
 	JanelaImagem.init()
 }
+
+// Controla atalhos
+addEventListener("keydown", function (evento) {
+	var atalho = true, i
+	
+	if (evento.ctrlKey && !evento.shiftKey && evento.keyCode == 79)
+		// Ctrl+O = abrir
+		Interface.abrirJanela("janelaAbrir", "recentes")
+	else if (evento.ctrlKey && !evento.shiftKey && evento.keyCode == 83)
+		// Ctrl+S = salvar
+		InterfaceMenus.salvarLivro(Interface.abaFoco.livro, Compilador.gerarDownload)
+	else if (evento.ctrlKey && evento.shiftKey && evento.keyCode == 83)
+		// Ctrl+Shift+S = salvar todos
+		for (i=0; i<InterfaceAbas.abas.length; i++)
+			InterfaceMenus.salvarLivro(InterfaceAbas.abas[i].livro)
+	else if (!evento.ctrlKey && !evento.shiftKey && evento.keyCode == 112)
+		// F1 = ajuda
+		Interface.abrirJanela("janelaAjuda")
+	else if (evento.ctrlKey && !evento.shiftKey && evento.keyCode == 78)
+		// Ctrl+N = novo
+		Editor.criarNovoLivro()
+	else if (evento.ctrlKey && !evento.shiftKey && evento.keyCode == 90)
+		// Ctrl+Z = desfazer
+		InterfaceEdicao.desfazer()
+	else if (evento.ctrlKey && evento.shiftKey && evento.keyCode == 90)
+		// Ctrl+Shift+Z = refazer
+		InterfaceEdicao.refazer()
+	else if (!evento.ctrlKey && !evento.shiftKey && evento.keyCode == 46)
+		// Del = excluir
+		switch (Interface.ultimoTipoFocado) {
+			case "pagina": InterfacePaginas.remover(); break
+			case "anexo": InterfaceAnexos.remover(); break
+			case "indice": InterfaceIndices.remover(); break
+		}
+	else if (evento.ctrlKey && !evento.shiftKey && evento.keyCode == 67)
+		// Ctrl+C = copiar
+		switch (Interface.ultimoTipoFocado) {
+			case "pagina": InterfacePaginas.copiar(); break
+			case "anexo": InterfaceAnexos.copiar(); break
+		}
+	else if (evento.ctrlKey && !evento.shiftKey && evento.keyCode == 86)
+		// Ctrl+V = colar
+		switch (Interface.ultimoTipoFocado) {
+			case "pagina": InterfacePaginas.colar(); break
+			case "anexo": InterfaceAnexos.colar(); break
+		}
+	else if (evento.ctrlKey && !evento.shiftKey && evento.keyCode == 88)
+		// Ctrl+X = recortar
+		switch (Interface.ultimoTipoFocado) {
+			case "pagina": InterfacePaginas.recortar(); break
+			case "anexo": InterfaceAnexos.recortar(); break
+		}
+	else
+		atalho = false
+	
+	if (atalho)
+		evento.preventDefault()
+})
 
 // Atualiza as interfaces dos paineis
 addEventListener("resize", function () {

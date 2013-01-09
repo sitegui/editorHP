@@ -16,6 +16,7 @@
 	overflow:hidden;
 	opacity:1;
 	transition:opacity .5s;
+	-webkit-transition:opacity .5s;
 }
 .edicao-conteudo img {
 	margin:10px;

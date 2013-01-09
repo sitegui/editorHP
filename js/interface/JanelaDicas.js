@@ -11,7 +11,8 @@ JanelaDicas.dicas = [
 	{id: 5, tempo: 20, dica: "Você pode também pode editar um arquivo já baixado. Basta clicar ir no menu Abrir > Upload"}, 
 	{id: 6, tempo: 40, dica: "Se quiser desativar a criação automática de páginas e índices, clique no botão &#9660; nos paineis Páginas e Índices"},
 	{id: 7, tempo: 60, dica: "Você pode trocar páginas, anexos e índices de lugar. Basta arrasta-los"},
-	{id: 8, tempo: 90, dica: "Você pode anexar equações, fórmulas, tabelas e imagens junto com seu arquivo"}
+	{id: 8, tempo: 90, dica: "Você pode anexar equações, fórmulas, tabelas e imagens junto com seu arquivo"},
+	{id: 9, tempo: 120, dica: "Gostou desse programa? Fale para seus amigos! Ajude a <a href='https://github.com/sitegui/editorHP/' target='_blank'>desenvolver</a> mais ferramentas"}
 ]
 
 // Guarda os ids das mensagens já disparadas

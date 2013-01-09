@@ -114,6 +114,11 @@ InterfaceEdicao.init = function () {
 		})
 	}
 	
+	// Evita que atalhos atrapalhem a edição
+	get("edicao").onkeydown = function (evento) {
+		evento.stopPropagation()
+	}
+	
 	get("ferramentas").onmousedown = anular
 	
 	// Gera uma função para executar um dado comando no campo de edição
@@ -185,14 +190,14 @@ InterfaceEdicao.atualizarDesfazer = function () {
 		get("ferramenta-desfazer").title = "Nada pode ser desfeito"
 	} else {
 		get("ferramenta-desfazer").classList.remove("botao-inativo")
-		get("ferramenta-desfazer").title = "Desfazer "+undo
+		get("ferramenta-desfazer").title = "Desfazer "+undo+" (Ctrl+Z)"
 	}
 	if (redo == null) {
 		get("ferramenta-refazer").classList.add("botao-inativo")
 		get("ferramenta-refazer").title = "Nada pode ser refeito"
 	} else {
 		get("ferramenta-refazer").classList.remove("botao-inativo")
-		get("ferramenta-refazer").title = "Refazer "+redo
+		get("ferramenta-refazer").title = "Refazer "+redo+" (Ctrl+Shift+Z)"
 	}
 }
 

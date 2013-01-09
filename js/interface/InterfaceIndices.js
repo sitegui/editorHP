@@ -339,6 +339,7 @@ InterfaceIndices.criarDiv = function (indice, nivel) {
 	// Define os ouvintes para a div principal
 	div.addEventListener("click", function () {
 		InterfaceIndices.foco = div
+		Interface.ultimoTipoFocado = "indice"
 		InterfaceIndices.atualizarLayout()
 	}, true)
 	div.ondblclick = InterfaceIndices.editar
