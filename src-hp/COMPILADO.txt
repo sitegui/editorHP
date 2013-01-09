@@ -2,6 +2,8 @@
 \<<
 "O livro vai aqui"
 CLLCD "Abrindo..." 1. DISP
+"Criado em" 2. DISP
+"sitegui.com.br" 3. DISP
 STR\->
 DIR
   COMPILARPAGINA
