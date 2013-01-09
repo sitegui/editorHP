@@ -115,6 +115,11 @@ InterfaceMenus.init = function () {
 	get("menuAjuda").onclick = function () {
 		Interface.abrirJanela("janelaAjuda")
 	}
+	
+	// Avisa bug
+	get("menuBug").onclick = function () {
+		open("/fale_conosco/?assunto=editorHP-bug", "janelaFaleConosco", "width=500,height=500")
+	}
 }
 
 // Salva o arquivo (pergunta pelo nome caso seja novo)
