@@ -69,7 +69,8 @@ JanelaImagem.inserirImagem = function () {
 	opcoes.titulo = "Inserir imagem"
 	opcoes.conteudo = "<p>Inserir imagem a partir de um arquivo: "+
 		"<input type='file' id='js-arquivo' accept='image/*' onchange='JanelaImagem.carregarImagem()'></p>"+
-		"<p>ou URL: <input size='50' id='js-url'></p>"
+		"<p>ou URL: <input size='50' id='js-url'></p>"+
+		"<p>ou <span class='botao-azul' onclick='Interface.abrirJanela(\"janelaDesenho\")'>desenhar agora</span></p>"
 	opcoes.onconfirmar = JanelaImagem.carregarImagem
 	opcoes.oncancelar = JanelaImagem.finalizarEdicao
 	Interface.abrirJanela("janelaBasica", opcoes)
@@ -103,7 +104,7 @@ JanelaImagem.inserirElemento = function () {
 			// Insere na página
 			html = "<div align='center'><img onclick='InterfaceEdicao.editarImagem(event)' src='"+url+"' data-imagem='"+
 				elemento.imagem+"' data-filtro='"+elemento.filtro+"' data-ajuste='"+elemento.ajuste+
-				"' data-tamanho='"+elemento.tamanho+"' data-cache='"+cache+"'></div>"
+				"' data-tamanho='"+elemento.tamanho+"' data-cache='"+cache+"'"+(elemento.desenhado ? " data-desenhado='1'" : "")+"></div>"
 			InterfaceEdicao.focar()
 			document.execCommand("insertHTML", false, html)
 		}
@@ -113,31 +114,33 @@ JanelaImagem.inserirElemento = function () {
 	})
 }
 
+// Gera um objeto Image a partir de uma string dataURL
+JanelaImagem.gerarImagem = function (dataURL, desenhado) {
+	var imagem
+	imagem = new Image
+	imagem.onload = function () {
+		var novoId
+		Interface.carregando = false
+		if (JanelaImagem.imagem && JanelaImagem.imagem.parentNode) {
+			// Trocou uma imagem que já está na página
+			novoId = Imagem.getId(imagem)
+			imagem = JanelaImagem.imagem
+			imagem.dataset.novaImagem = novoId
+		}
+		if (desenhado)
+			imagem.dataset.desenhado = "1"
+		Interface.abrirJanela("janelaImagem", imagem)
+	}
+	imagem.onerror = function () {
+		alert("Erro ao abrir imagem")
+		JanelaImagem.finalizarEdicao()
+	}
+	imagem.src = dataURL
+}
+
 // Carrega a imagem selecionada no campo de arquivo ou URL
 JanelaImagem.carregarImagem = function () {
 	var arquivo, leitor, xhr, gerarImagem
-	
-	// Gera um objeto Image a partir de uma string dataURL
-	gerarImagem = function (dataURL) {
-		var imagem
-		imagem = new Image
-		imagem.onload = function () {
-			var novoId
-			Interface.carregando = false
-			if (JanelaImagem.imagem && JanelaImagem.imagem.parentNode) {
-				// Trocou uma imagem que já está na página
-				novoId = Imagem.getId(imagem)
-				imagem = JanelaImagem.imagem
-				imagem.dataset.novaImagem = novoId
-			}
-			Interface.abrirJanela("janelaImagem", imagem)
-		}
-		imagem.onerror = function () {
-			alert("Erro ao abrir imagem")
-			JanelaImagem.finalizarEdicao()
-		}
-		imagem.src = dataURL
-	}
 	
 	// Carrega o arquivo
 	Interface.carregando = true
@@ -146,7 +149,7 @@ JanelaImagem.carregarImagem = function () {
 		arquivo = get("js-arquivo").files.item(0)
 		leitor = new FileReader
 		leitor.onload = function () {
-			gerarImagem(leitor.result)
+			JanelaImagem.gerarImagem(leitor.result)
 		}
 		leitor.onerror = function () {
 			alert("Erro ao carregar imagem")
@@ -158,7 +161,7 @@ JanelaImagem.carregarImagem = function () {
 		xhr = new XMLHttpRequest
 		xhr.open("GET", "carregarImagem.php?url="+encodeURIComponent(get("js-url").value))
 		xhr.onload = function () {
-			gerarImagem(xhr.responseText)
+			JanelaImagem.gerarImagem(xhr.responseText)
 		}
 		xhr.onerror = function () {
 			alert("Erro ao carregar imagem")
@@ -193,7 +196,7 @@ JanelaImagem.onabrir = function (imagem) {
 		get("janelaImagem-aviso").style.display = ""
 	} else {
 		// Nova imagem ou imagem antiga sem original mas com alternativa
-		get("janelaImagem-filtro").value = "basico"
+		get("janelaImagem-filtro").value = imagem.dataset.desenhado ? "areas": "basico"
 		get("janelaImagem-ajuste").value = "0"
 		get("janelaImagem-tamanho").value = "131"
 		get("janelaImagem-remover").style.display = "none"
