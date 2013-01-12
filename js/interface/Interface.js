@@ -1,7 +1,7 @@
 // Reúne métodos gerais da interface
 var Interface = {}
 
-// Guarda o último tipo de elemento focado ("pagina", "anexo", "indice")
+// Guarda o último tipo de elemento focado ("pagina", "anexo", "indice", "desenho")
 Interface.ultimoTipoFocado = ""
 
 // Guarda a aba em foco
@@ -52,6 +52,7 @@ Interface.init = function () {
 	JanelaDicas.init()
 	JanelaAjuda.init()
 	JanelaImagem.init()
+	JanelaDesenho.init()
 }
 
 // Controla atalhos
@@ -76,10 +77,16 @@ addEventListener("keydown", function (evento) {
 		Editor.criarNovoLivro()
 	else if (evento.ctrlKey && !evento.shiftKey && evento.keyCode == 90)
 		// Ctrl+Z = desfazer
-		InterfaceEdicao.desfazer()
+		if (Interface.janelaAberta == get("janelaDesenho"))
+			JanelaDesenho.desfazer()
+		else
+			InterfaceEdicao.desfazer()
 	else if (evento.ctrlKey && evento.shiftKey && evento.keyCode == 90)
 		// Ctrl+Shift+Z = refazer
-		InterfaceEdicao.refazer()
+		if (Interface.janelaAberta == get("janelaDesenho"))
+			JanelaDesenho.refazer()
+		else
+			InterfaceEdicao.refazer()
 	else if (!evento.ctrlKey && !evento.shiftKey && evento.keyCode == 46)
 		// Del = excluir
 		switch (Interface.ultimoTipoFocado) {
@@ -186,6 +193,9 @@ Interface.abrirJanela = function (janela, argumento) {
 			break
 		case "janelaAjuda":
 			JanelaAjuda.onabrir()
+			break
+		case "janelaDesenho":
+			JanelaDesenho.onabrir()
 			break
 	}
 }

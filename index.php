@@ -309,6 +309,41 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	</div>
 </div>
 
+<!-- Janela de desenho manual -->
+<div id="janelaDesenho" class="janelaMaior" style="display:none">
+	<div class="janela-titulo"><?=get('criarDesenho')?></div>
+	<div class="janela-fechar minibotao-vermelho" id="janelaDesenho-fechar">&times;</div>
+	<div class="janelaDesenho-conteudo">
+		<p><?=get('avisoCores')?></p>
+		<div class="janelaDesenho-grupoCores">
+			<div class="janelaDesenho-cor" title="<?=get('preto')?>" id="janelaDesenho-cor-000"></div>
+		</div>
+		<div class="janelaDesenho-grupoCores">
+			<div class="janelaDesenho-cor" title="<?=get('branco')?>" id="janelaDesenho-cor-fff"></div>
+		</div>
+		<div class="janelaDesenho-grupoCores">
+			<div class="janelaDesenho-cor" title="<?=get('vermelho')?>" id="janelaDesenho-cor-f00"></div>
+			<div class="janelaDesenho-cor" title="<?=get('verde')?>" id="janelaDesenho-cor-0f0"></div>
+			<div class="janelaDesenho-cor" title="<?=get('azul')?>" id="janelaDesenho-cor-00f"></div>
+		</div>
+		<div class="janelaDesenho-grupoCores">
+			<div class="janelaDesenho-cor" title="<?=get('azulPiscina')?>" id="janelaDesenho-cor-0ff"></div>
+			<div class="janelaDesenho-cor" title="<?=get('rosa')?>" id="janelaDesenho-cor-f0f"></div>
+			<div class="janelaDesenho-cor" title="<?=get('amarelo')?>" id="janelaDesenho-cor-ff0"></div>
+		</div>
+		<div class="minibotao-azul" id="janelaDesenho-limpar"><?=get('limpar')?></div>
+		<div class="janelaDesenho-desfazerRefazer">
+			<div class="minibotao-azul desfazer" id="janelaDesenho-desfazer" title="<?=get('desfazer')?>">&#x21b6;</div>
+			<div class="minibotao-azul refazer" id="janelaDesenho-refazer" title="<?=get('refazer')?>">&#x21b7;</div>
+		</div>
+		<div style="text-align:center;margin:15px">
+			<canvas id="janelaDesenho-canvas" class="janelaDesenho-canvas" width="393" height="240"></canvas>
+		</div>
+		<div class="botao-vermelho janelaBasica-cancelar" id="janelaDesenho-cancelar"><?=get('cancelar')?></div>
+		<div class="janelaBasica-confirmar botao-verde" id="janelaDesenho-confirmar"><?=get('confirmar')?></div>
+	</div>
+</div>
+
 <!-- Aviso de carregando -->
 <div id="janelaCarregando" style="display:none">
 	<div class="fundoJanela janelaCarregando-fundo"></div>

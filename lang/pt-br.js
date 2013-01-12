@@ -72,6 +72,8 @@ var strs = {
 	inserirImagem: "Inserir imagem",
 	inserirImagem_arquivo: "Inserir imagem a partir de um arquivo",
 	inserirImagem_url: "ou URL",
+	ou: "ou",
+	desenharAgora: "desenhar agora",
 	dica0: "Bem-vindo ao editor de textos para a HP50g. Basta escrever o que quiser no campo acima que tudo acontece",
 	dica1: "Use cabeçalhos pra facilitar a navegação. O editor divide seu texto em páginas e cria o índice com base neles",
 	dica2: "Quando quiser, clique salvar para poder baixar o arquivo para a sua calculadora",
