@@ -43,8 +43,8 @@ InterfaceMenus.init = function () {
 	get("submenuSalvar-URL").onclick = function () {
 		Compilador.gerarUrl(Interface.abaFoco.livro, function (url) {
 			var opcoes = {}
-			opcoes.titulo = "URL gerada"
-			opcoes.conteudo = "<p>Basta copiar e colar esse link no seu navegador para baixar o arquivo. Ou use a opção de abrir link para edita-lo</p>"
+			opcoes.titulo = _("urlGerada")
+			opcoes.conteudo = "<p>"+_("urlGerada_dica")+"</p>"
 			opcoes.conteudo += "<input style='width:100%' onclick='this.select()' value='"+url+"'>"
 			Interface.abrirJanela("janelaBasica", opcoes)
 		})
@@ -65,8 +65,8 @@ InterfaceMenus.init = function () {
 			// Sem efeito
 			return
 		
-		opcoes.titulo = "Salvar "+livro.nome+" como"
-		opcoes.conteudo = "<p>Novo nome: <input id='js-nome' value=\""+livro.nome+"\" size='50'></p>"
+		opcoes.titulo = _("salvarComo", livro.nome)
+		opcoes.conteudo = "<p>"+_("novoNome")+": <input id='js-nome' value=\""+livro.nome+"\" size='50'></p>"
 		opcoes.onconfirmar = function () {
 			var nome, livro, abaAntiga, arquivo, novaAba
 			
@@ -131,8 +131,8 @@ InterfaceMenus.salvarLivro = function (livro, onsucesso) {
 	if (livro.novo) {
 		// Pergunta pelo nome
 		opcoes = {}
-		opcoes.titulo = "Salvar "+livro.nome
-		opcoes.conteudo = "<p>Nome: <input id='js-nome' size='50'></p>"
+		opcoes.titulo = _("salvar", livro.nome)
+		opcoes.conteudo = "<p>"+_("nome")+": <input id='js-nome' size='50'></p>"
 		opcoes.onconfirmar = function () {
 			var nome
 			nome = Compilador.sanitizar(get("js-nome").value)

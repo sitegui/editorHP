@@ -40,7 +40,7 @@ InterfaceAnexos.init = function () {
 	
 	// Torna ordenável os anexos
 	new Ordenavel("anexos", function (antes, depois) {
-		new Acao("movimentação do anexo", function () {
+		new Acao(_("movimentacaoAnexo"), function () {
 			var anexo = Interface.abaFoco.livro.anexos.splice(antes, 1)[0]
 			Interface.abaFoco.livro.anexos.splice(depois, 0, anexo)
 			InterfaceAnexos.atualizar()
@@ -103,7 +103,7 @@ InterfaceAnexos.remover = function () {
 	})
 	
 	// Cria a ação
-	new Acao("remoção de "+InterfaceAnexos.selecao.length+" anexos", function () {
+	new Acao(_("remocaoAnexos", InterfaceAnexos.selecao.length), function () {
 		var i, n = 0
 		for (i in selecao) {
 			Interface.abaFoco.livro.anexos.splice(i-n, 1)
@@ -125,9 +125,9 @@ InterfaceAnexos.adicionar = function () {
 	// Pega a posição de inserção
 	pos = InterfaceAnexos.getPosicaoFoco()+1
 	
-	opcoes.titulo = "Novo anexo"
-	opcoes.conteudo = "<p>Nome: <input id='js-nome'></p>"+
-		"<p>Conteúdo (deve ser um valor válido pra HP):<br><input size='80' id='js-conteudo'></p>"
+	opcoes.titulo = _("novoAnexo")
+	opcoes.conteudo = "<p>"+_("nome")+": <input id='js-nome'></p>"+
+		"<p>"+_("anexoConteudo")+":<br><input size='80' id='js-conteudo'></p>"
 	opcoes.onconfirmar = function () {
 		var nome, conteudo, anexo
 		
@@ -140,7 +140,7 @@ InterfaceAnexos.adicionar = function () {
 		anexo.nome = nome
 		anexo.conteudo = conteudo
 		
-		new Acao("inserção de um anexo", function () {
+		new Acao(_("insercaoAnexo"), function () {
 			Interface.abaFoco.livro.anexos.splice(pos, 0, anexo)
 			InterfaceAnexos.atualizar()
 		}, function () {
@@ -174,7 +174,7 @@ InterfaceAnexos.colar = function () {
 	})
 	pos = InterfaceAnexos.getPosicaoFoco()+1
 	
-	new Acao("colagem de "+anexos.length+" anexos", function () {
+	new Acao(_("colagemAnexos", anexos.length), function () {
 		var i
 		for (i=anexos.length-1; i>=0; i--)
 			Interface.abaFoco.livro.anexos.splice(pos, 0, anexos[i])
@@ -202,9 +202,9 @@ InterfaceAnexos.editar = function () {
 	pos = InterfaceAnexos.getPosicaoFoco()
 	anexo = InterfaceAnexos.getAnexo(InterfaceAnexos.foco)
 	
-	opcoes.titulo = "Editar anexo"
-	opcoes.conteudo = "<p>Nome: <input id='js-nome' value=\""+Compilador.desanitizar(anexo.nome).replace(/"/g, "&quot;")+"\"></p>"+
-		"<p>Conteúdo (deve ser um valor válido pra HP):<br><input size='80' id='js-conteudo' value=\""+Compilador.desanitizar(anexo.conteudo).replace(/"/g, "&quot;")+"\"></p>"
+	opcoes.titulo = _("editarAnexo")
+	opcoes.conteudo = "<p>"+_("nome")+": <input id='js-nome' value=\""+Compilador.desanitizar(anexo.nome).replace(/"/g, "&quot;")+"\"></p>"+
+		"<p>"+_("anexoConteudo")+":<br><input size='80' id='js-conteudo' value=\""+Compilador.desanitizar(anexo.conteudo).replace(/"/g, "&quot;")+"\"></p>"
 	opcoes.onconfirmar = function () {
 		var nome, conteudo, novoAnexo
 		
@@ -217,7 +217,7 @@ InterfaceAnexos.editar = function () {
 		novoAnexo.nome = nome
 		novoAnexo.conteudo = conteudo
 		
-		new Acao("edição de um anexo", function () {
+		new Acao(_("edicaoAnexo"), function () {
 			Interface.abaFoco.livro.anexos[pos] = novoAnexo
 			InterfaceAnexos.atualizar()
 		}, function () {

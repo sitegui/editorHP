@@ -27,7 +27,7 @@ Editor.criarNovoLivro = function () {
 	// Cria o livro
 	Editor.numNovosLivros++
 	livro = new Livro
-	livro.nome = "Sem título "+Editor.numNovosLivros
+	livro.nome = _("semTitulo")+" "+Editor.numNovosLivros
 	livro.criacao = Date.now()
 	livro.modificacao = Date.now()
 	livro.novo = true
@@ -35,13 +35,13 @@ Editor.criarNovoLivro = function () {
 	// Cria elementos básicos
 	pagina = new Pagina
 	cabecalho = new Cabecalho
-	cabecalho.texto = "Página inicial"
+	cabecalho.texto = _("paginaInicial")
 	texto = new Texto
-	texto.texto = "Basta escrever seu texto aqui"
+	texto.texto = _("paragrafoInicial")
 	pagina.elementos.push(cabecalho)
 	pagina.elementos.push(texto)
 	indice = new FolhaIndice
-	indice.nome = "Página inicial"
+	indice.nome = _("paginaInicial")
 	indice.pagina = pagina
 	livro.paginas.push(pagina)
 	livro.indices.push(indice)
@@ -117,7 +117,7 @@ Editor.autoPaginar = function () {
 	
 	// Executa a ação
 	paginasAntes = livro.paginas
-	new Acao("auto paginação", function () {
+	new Acao(_("acaoAutoPaginacao"), function () {
 		livro.paginas = paginas
 		livro.indices = novosIndices
 		InterfacePaginas.montarMiniaturas()
@@ -191,7 +191,7 @@ Editor.autoIndexar = function () {
 		if (!criado) {
 			subir()
 			novo = new FolhaIndice
-			novo.nome = "Página "+(i+1)
+			novo.nome = _("pagina")+" "+(i+1)
 			novo.pagina = livro.paginas[i]
 			localAtual.push(novo)
 			ultimoNivel = 6
@@ -235,7 +235,7 @@ Editor.autoIndexar = function () {
 		return
 	
 	// Aplica os novos índices
-	new Acao("auto indexação", function () {
+	new Acao(_("acaoAutoIndexacao"), function () {
 		livro.indices = novosIndices
 		InterfaceIndices.atualizar()
 	}, function () {

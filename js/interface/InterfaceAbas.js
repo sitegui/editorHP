@@ -47,7 +47,7 @@ function Aba(livro) {
 	fechar = document.createElement("div")
 	fechar.className = "aba-fechar minibotao-vermelho"
 	fechar.innerHTML = "&times;"
-	fechar.title = "Fechar arquivo"
+	fechar.title = _("fecharArquivo")
 	
 	// Define os ouvintes
 	that = this
@@ -67,15 +67,15 @@ function Aba(livro) {
 			return
 		}
 		
-		opcoes.titulo = "Renomear "+that.livro.nome
-		opcoes.conteudo = "<p>Novo nome: <input size='50' id='js-nome' value=\""+that.livro.nome+"\"></p>"
+		opcoes.titulo = _("renomear", that.livro.nome)
+		opcoes.conteudo = "<p>"+_("novoNome")+": <input size='50' id='js-nome' value=\""+that.livro.nome+"\"></p>"
 		opcoes.onconfirmar = function () {
 			var antes, depois, novoAntes
 			antes = that.livro.nome
 			novoAntes = that.livro.novo
 			depois = Compilador.sanitizar(get("js-nome").value)
 			if (depois)
-				new Acao("renomeação do livro", function () {
+				new Acao(_("renomeacao"), function () {
 					that.livro.nome = depois
 					that.livro.novo = false
 					InterfaceAbas.atualizarLayout()
@@ -114,10 +114,10 @@ Aba.prototype.fechar = function () {
 	var pos, that = this
 	
 	if (this.livro.modificado) {
-		Interface.abrirJanela("janelaBasica", {titulo: "Fechar sem salvar", onconfirmar: function () {
+		Interface.abrirJanela("janelaBasica", {titulo: _("fecharSemSalvar"), onconfirmar: function () {
 			that.livro.modificado = false
 			that.fechar()
-		}, conteudo: "Deseja realmente fechar esse livro e perder todas as modificações não salvas?"})
+		}, conteudo: _("fecharSemSalvar_conteudo")})
 	} else {
 		pos = InterfaceAbas.abas.indexOf(this)
 		if (pos != -1)

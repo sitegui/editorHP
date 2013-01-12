@@ -12,14 +12,14 @@ InterfaceIndices.init = function () {
 	get("indices-acrescentar").onclick = InterfaceIndices.adicionar
 	get("indices-opcoes").onclick = function () {
 		opcoes = {}
-		opcoes.titulo = "Auto indexação"
-		opcoes.conteudo = "<p>A função de auto indexação cria automaticamente os índices para as páginas de acordo com os cabeçalhos presentes no texto</p>"+
-			"<p><input type='checkbox' id='js-check'"+(Interface.abaFoco.livro.autoIndexacao ? " checked" : "")+"> <label for='js-check'>Ativar auto indexação</label></p>"
+		opcoes.titulo = _("autoIndexacao")
+		opcoes.conteudo = "<p>"+_("autoIndexacao_dica")+"</p>"+
+			"<p><input type='checkbox' id='js-check'"+(Interface.abaFoco.livro.autoIndexacao ? " checked" : "")+"> <label for='js-check'>"+_("autoIndexacao_ativar")+"</label></p>"
 		opcoes.onconfirmar = function () {
 			var antes = Interface.abaFoco.livro.autoIndexacao, novo = get("js-check").checked
 			if (novo == antes)
 				return
-			new Acao((novo ? "ativação" : "desativação")+" da auto indexação", function () {
+			new Acao(novo ? _("autoIndexacao_ativacao") : _("autoIndexacao_desativacao"), function () {
 				Interface.abaFoco.livro.autoIndexacao = novo
 			}, function () {
 				Interface.abaFoco.livro.autoIndexacao = antes
@@ -43,7 +43,7 @@ InterfaceIndices.init = function () {
 		antes = Interface.abaFoco.livro.indices
 		depois = InterfaceIndices.montarDasDivs()
 		
-		new Acao("movimentação do índice", function () {
+		new Acao(_("movimentacaoIndice"), function () {
 			Interface.abaFoco.livro.indices = depois
 			InterfaceIndices.atualizar()
 		}, function () {
@@ -197,7 +197,7 @@ InterfaceIndices.remover = function () {
 	arrayPai = buscarIndice(Interface.abaFoco.livro.indices)
 	pos = arrayPai.indexOf(indice)
 	
-	new Acao("remoção de um índice", function () {
+	new Acao(_("remocaoIndice"), function () {
 		arrayPai.splice(pos, 1)
 		InterfaceIndices.atualizar()
 	}, function () {
@@ -232,12 +232,12 @@ InterfaceIndices.adicionar = function () {
 	}
 	
 	opcoes = {}
-	opcoes.titulo = "Criar índice"
-	opcoes.conteudo = "<p>Nome: <input size='30' id='js-nome'></p>"
+	opcoes.titulo = _("criarIndice")
+	opcoes.conteudo = "<p>"+_("nome")+": <input size='30' id='js-nome'></p>"
 	select = ""
 	for (i=0; i<Interface.abaFoco.livro.paginas.length; i++)
 		select += "<option value='"+i+"'>"+(i+1)+"</option>"
-	opcoes.conteudo += "<p>Página alvo: <select id='js-pagina'>"+select+"</select></p>"
+	opcoes.conteudo += "<p>"+_("paginaAlvo")+": <select id='js-pagina'>"+select+"</select></p>"
 	opcoes.onconfirmar = function () {
 		var nome, pagina, indice
 		
@@ -249,7 +249,7 @@ InterfaceIndices.adicionar = function () {
 		indice = new FolhaIndice
 		indice.nome = nome
 		indice.pagina = Interface.abaFoco.livro.paginas[pagina]
-		new Acao("criação de um índice", function () {
+		new Acao(_("criacaoIndice"), function () {
 			arrayPai.splice(pos, 0, indice)
 			InterfaceIndices.atualizar()
 		}, function () {
@@ -270,14 +270,14 @@ InterfaceIndices.editar = function () {
 	indice = InterfaceIndices.getIndice(InterfaceIndices.foco)
 	nomeAntigo = indice.nome
 	opcoes = {}
-	opcoes.titulo = "Editar índice"
-	opcoes.conteudo = "<p>Nome: <input size='30' id='js-nome' value=\""+Compilador.desanitizar(nomeAntigo).replace(/"/g, "&quot;")+"\"></p>"
+	opcoes.titulo = _("editarIndice")
+	opcoes.conteudo = "<p>"+_("nome")+": <input size='30' id='js-nome' value=\""+Compilador.desanitizar(nomeAntigo).replace(/"/g, "&quot;")+"\"></p>"
 	if (indice instanceof FolhaIndice) {
 		select = ""
 		paginaAntiga = Interface.abaFoco.livro.paginas.indexOf(indice.pagina)
 		for (i=0; i<Interface.abaFoco.livro.paginas.length; i++)
 			select += "<option value='"+i+"'"+(i==paginaAntiga ? " selected" : "")+">"+(i+1)+"</option>"
-		opcoes.conteudo += "<p>Página alvo: <select id='js-pagina'>"+select+"</select></p>"
+		opcoes.conteudo += "<p>"+_("paginaAlvo")+": <select id='js-pagina'>"+select+"</select></p>"
 	}
 	opcoes.onconfirmar = function () {
 		var nome, pagina
@@ -288,7 +288,7 @@ InterfaceIndices.editar = function () {
 		if (!nome)
 			return
 		
-		new Acao("edição de um índice", function () {
+		new Acao(_("edicaoIndice"), function () {
 			indice.nome = nome
 			if (indice instanceof FolhaIndice)
 				indice.pagina = Interface.abaFoco.livro.paginas[pagina]

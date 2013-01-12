@@ -5,7 +5,7 @@ var CompiladorParalelo = {}
 CompiladorParalelo.worker = new Worker("js/dados/CompiladorParalelo-worker.js")
 CompiladorParalelo.worker.ocupado = false
 CompiladorParalelo.worker.onerror = function (evento) {
-	alert("Erro interno, por favor salve e recarregue a página")
+	alert(_("erroInterno"))
 }
 
 // Aplica o filtro na imagem (objeto Image com src necessariamente local)
@@ -143,7 +143,7 @@ CompiladorParalelo.aplicarFiltroPadrao = function (imagem, onload) {
 			imagemonload(imagem)
 		}
 		imagem.onerror = function () {
-			alert("Erro ao abrir imagem")
+			alert(_("erroAbrirImagem"))
 			onload(null)
 		}
 		imagem.src = src
@@ -156,7 +156,7 @@ CompiladorParalelo.aplicarFiltroPadrao = function (imagem, onload) {
 		xhronload(xhr.responseText)
 	}
 	xhr.onerror = function () {
-		alert("Erro ao carregar imagem")
+		alert(_("erroCarregarImagem"))
 		onload(null)
 	}
 	xhr.send()

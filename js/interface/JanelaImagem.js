@@ -66,10 +66,10 @@ JanelaImagem.init = function () {
 // Abre a janela para selecionar a fonte da imagem
 JanelaImagem.inserirImagem = function () {
 	var opcoes = {}
-	opcoes.titulo = "Inserir imagem"
-	opcoes.conteudo = "<p>Inserir imagem a partir de um arquivo: "+
+	opcoes.titulo = _("inserirImagem")
+	opcoes.conteudo = "<p>"+_("inserirImagem_arquivo")+": "+
 		"<input type='file' id='js-arquivo' accept='image/*' onchange='JanelaImagem.carregarImagem()'></p>"+
-		"<p>ou URL: <input size='50' id='js-url'></p>"
+		"<p>"+_("inserirImagem_url")+": <input size='50' id='js-url'></p>"
 	opcoes.onconfirmar = JanelaImagem.carregarImagem
 	opcoes.oncancelar = JanelaImagem.finalizarEdicao
 	Interface.abrirJanela("janelaBasica", opcoes)
@@ -133,7 +133,7 @@ JanelaImagem.carregarImagem = function () {
 			Interface.abrirJanela("janelaImagem", imagem)
 		}
 		imagem.onerror = function () {
-			alert("Erro ao abrir imagem")
+			alert(_("erroAbrirImagem"))
 			JanelaImagem.finalizarEdicao()
 		}
 		imagem.src = dataURL
@@ -149,7 +149,7 @@ JanelaImagem.carregarImagem = function () {
 			gerarImagem(leitor.result)
 		}
 		leitor.onerror = function () {
-			alert("Erro ao carregar imagem")
+			alert(_("erroCarregarImagem"))
 			JanelaImagem.finalizarEdicao()
 		}
 		leitor.readAsDataURL(arquivo)
@@ -161,7 +161,7 @@ JanelaImagem.carregarImagem = function () {
 			gerarImagem(xhr.responseText)
 		}
 		xhr.onerror = function () {
-			alert("Erro ao carregar imagem")
+			alert(_("erroCarregarImagem"))
 			JanelaImagem.finalizarEdicao()
 		}
 		xhr.send()

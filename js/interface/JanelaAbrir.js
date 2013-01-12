@@ -39,7 +39,7 @@ JanelaAbrir.init = function () {
 		var url
 		url = get("janelaAbrir-URL-input").value
 		if (url.substr(0, 37) != "data:application/octet-stream;base64,")
-			alert("URL inválida")
+			alert(_("urlInvalida"))
 		Compilador.abrirURL(url, function (str) {
 			var livro, aba
 			
@@ -102,7 +102,7 @@ JanelaAbrir.mostrarAbaRecentes = function () {
 	
 	// Mostra mensagem de nada a ser aberto
 	if (aba.innerHTML == "")
-		aba.innerHTML = "<p>Você não tem nenhum arquivo salvo recentemente</p>"
+		aba.innerHTML = "<p>"+_("semArquivos")+"</p>"
 }
 
 // Mostra a aba de upload de arquivo
@@ -134,15 +134,15 @@ JanelaAbrir.gerarItemRecente = function (arquivo) {
 	// Calcula a diferença das datas
 	dif = (Date.now()-arquivo.modificacao)/(24*60*60*1e3)
 	if (dif < 1)
-		difData = "hoje"
+		difData = _("hoje")
 	else if (dif < 2)
-		difData = "ontem"
+		difData = _("ontem")
 	else if (dif < 30.4)
-		difData = Math.round(dif)+" dias atrás"
+		difData = _("diasAtras", Math.round(dif))
 	else if (dif < 60.8)
-		difData = "mês passado"
+		difData = _("mesPassado")
 	else
-		difData = Math.round(dif/30.4)+" meses atrás"
+		difData = _("mesesAtras", Math.round(dif/30.4))
 	
 	// Cria os elementos
 	el = document.createElement("div")
@@ -169,13 +169,13 @@ JanelaAbrir.gerarItemRecente = function (arquivo) {
 		// Verifica se não está sendo editado
 		for (i=0; i<InterfaceAbas.abas.length; i++)
 			if (InterfaceAbas.abas[i].livro.id == arquivo.id) {
-				alert("Esse arquivo esstá aberto no editor, feche-o antes")
+				alert(_("erroArquivoAberto"))
 				// Retorna, propagando o evento e focando na aba do arquivo aberto
 				return
 			}
 		
-		opcoes.titulo = "Excluir arquivo"
-		opcoes.conteudo = "<p>Tem certeza que deseja excluir de forma permanente esse arquivo da lista?</p>"
+		opcoes.titulo = _("excluirArquivo")
+		opcoes.conteudo = "<p>"+_("excluirArquivo_conteudo")+"</p>"
 		opcoes.onconfirmar = function () {
 			delete Arquivo.arquivos[arquivo.id]
 			Interface.abrirJanela("janelaAbrir", "recentes")

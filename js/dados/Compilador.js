@@ -508,7 +508,7 @@ Compilador.abrirURL = function (url, onsucesso) {
 		onsucesso(xhr.responseText)
 	}
 	xhr.onerror = function () {
-		alert("Erro ao abrir URL")
+		alert(_("erroAbrirUrl"))
 	}
 }
 
@@ -526,7 +526,7 @@ Compilador.gerarUrl = function (livro, onsucesso) {
 		onsucesso(xhr.responseText)
 	}
 	xhr.onerror = function () {
-		alert("Erro ao gerar URL")
+		alert(_("erroGerarUrl"))
 	}
 }
 

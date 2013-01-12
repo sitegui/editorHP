@@ -3,16 +3,16 @@ var JanelaDicas = {}
 
 // Define as mensagens
 JanelaDicas.dicas = [
-	{id: 0, tempo: 0, dica: "Bem-vindo ao editor de textos para a HP50g. Basta escrever o que quiser no campo acima que tudo acontece"},
-	{id: 1, tempo: 5, dica: "Use cabeçalhos pra facilitar a navegação. O editor divide seu texto em páginas e cria o índice com base neles"},
-	{id: 2, tempo: 10, dica: "Quando quiser, clique salvar para poder baixar o arquivo para a sua calculadora"},
-	{id: 3, acao: "salvar", dica: "Salve esse arquivo diretamente num cartão SD (ou use cabo+software). Para abri-lo na calculadora, vá em FILES > SD > seuarquivo > EVAL"},
-	{id: 4, acao: "temSalvo", dica: "Seus arquivos antigos ficam sempre salvos no seu navegador. Para vê-los clique no menu Abrir"},
-	{id: 5, tempo: 20, dica: "Você pode também pode editar um arquivo já baixado. Basta clicar ir no menu Abrir > Upload"}, 
-	{id: 6, tempo: 40, dica: "Se quiser desativar a criação automática de páginas e índices, clique no botão &#9660; nos paineis Páginas e Índices"},
-	{id: 7, tempo: 60, dica: "Você pode trocar páginas, anexos e índices de lugar. Basta arrasta-los"},
-	{id: 8, tempo: 90, dica: "Você pode anexar equações, fórmulas, tabelas e imagens junto com seu arquivo"},
-	{id: 9, tempo: 120, dica: "Gostou desse programa? Fale para seus amigos! Ajude a <a href='https://github.com/sitegui/editorHP/' target='_blank'>desenvolver</a> mais ferramentas"}
+	{id: 0, tempo: 0, dica: _("dica0")},
+	{id: 1, tempo: 5, dica: _("dica1")},
+	{id: 2, tempo: 10, dica: _("dica2")},
+	{id: 3, acao: "salvar", dica: _("dica3")},
+	{id: 4, acao: "temSalvo", dica: _("dica4")},
+	{id: 5, tempo: 20, dica: _("dica5")}, 
+	{id: 6, tempo: 40, dica: _("dica6")},
+	{id: 7, tempo: 60, dica: _("dica7")},
+	{id: 8, tempo: 90, dica: _("dica8")},
+	{id: 9, tempo: 120, dica: _("dica9")}
 ]
 
 // Guarda os ids das mensagens já disparadas

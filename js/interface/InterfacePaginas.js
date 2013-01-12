@@ -7,14 +7,14 @@ InterfacePaginas.init = function () {
 	get("paginas-acrescentar").onclick = InterfacePaginas.acrescentar
 	get("paginas-opcoes").onclick = function () {
 		opcoes = {}
-		opcoes.titulo = "Auto paginação"
-		opcoes.conteudo = "<p>A função de auto paginação divide o livro automaticamente em páginas de acordo com os cabeçalhos presentes no texto</p>"+
-			"<p><input type='checkbox' id='js-check'"+(Interface.abaFoco.livro.autoPaginacao ? " checked" : "")+"> <label for='js-check'>Ativar auto paginação</label></p>"
+		opcoes.titulo = _("autoPaginacao")
+		opcoes.conteudo = "<p>"+_("autoPaginacao_dica")+"</p>"+
+			"<p><input type='checkbox' id='js-check'"+(Interface.abaFoco.livro.autoPaginacao ? " checked" : "")+"> <label for='js-check'>"+_("autoPaginacao_ativar")+"</label></p>"
 		opcoes.onconfirmar = function () {
 			var antes = Interface.abaFoco.livro.autoPaginacao, novo = get("js-check").checked
 			if (novo == antes)
 				return
-			new Acao((novo ? "ativação" : "desativação")+" da auto paginação", function () {
+			new Acao(novo ? _("autoPaginacao_ativacao") : _("autoPaginacao_desativacao"), function () {
 				Interface.abaFoco.livro.autoPaginacao = novo
 			}, function () {
 				Interface.abaFoco.livro.autoPaginacao = antes
@@ -47,7 +47,7 @@ InterfacePaginas.init = function () {
 	
 	// Torna ordenável as páginas
 	new Ordenavel("paginas", function (antes, depois) {
-		new Acao("movimentação da página", function () {
+		new Acao(_("movimentacaoPagina"), function () {
 			var pagina = Interface.abaFoco.livro.paginas.splice(antes, 1)[0]
 			Interface.abaFoco.livro.paginas.splice(depois, 0, pagina)
 			InterfacePaginas.montarMiniaturas()
@@ -83,7 +83,7 @@ InterfacePaginas.remover = function () {
 			n++
 		}
 	
-	new Acao("remoção de "+n+" páginas", function () {
+	new Acao(_("remocaoPaginas", n), function () {
 		var i, n = 0
 		for (i in selecao) {
 			Interface.abaFoco.livro.paginas.splice(i-n, 1)
@@ -108,7 +108,7 @@ InterfacePaginas.remover = function () {
 InterfacePaginas.acrescentar = function () {
 	var pagina = new Pagina, pos
 	pos = Interface.abaFoco.livro.paginas.indexOf(Interface.abaFoco.paginaFoco)
-	new Acao("inserção de uma página", function () {
+	new Acao(_("insercaoPagina"), function () {
 		Interface.abaFoco.livro.paginas.splice(pos+1, 0, pagina)
 		InterfacePaginas.montarMiniaturas()
 		InterfacePaginas.atualizarPagina(pagina)
@@ -148,7 +148,7 @@ InterfacePaginas.colar = function () {
 	})
 	
 	// Cria a ação
-	new Acao("colagem de "+paginas.length+" páginas", function () {
+	new Acao(_("colagemPaginas", paginas.length), function () {
 		var i
 		for (i=paginas.length-1; i>=0; i--)
 			Interface.abaFoco.livro.paginas.splice(pos+1, 0, paginas[i])

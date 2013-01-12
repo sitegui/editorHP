@@ -98,7 +98,7 @@ InterfaceEdicao.init = function () {
 			elementosAntigos = pagina.elementos
 			pos = Interface.abaFoco.livro.paginas.indexOf(pagina)+1
 			
-			new Acao("alteração da página "+pos, function () {
+			new Acao(_("alteracaoPagina", pos), function () {
 				pagina.elementos = novosElementos
 				InterfacePaginas.atualizarPagina(pagina)
 			}, function () {
@@ -187,17 +187,17 @@ InterfaceEdicao.atualizarDesfazer = function () {
 	redo = Acao.getRefazer()
 	if (undo == null) {
 		get("ferramenta-desfazer").classList.add("botao-inativo")
-		get("ferramenta-desfazer").title = "Nada pode ser desfeito"
+		get("ferramenta-desfazer").title = _("desfazerNada")
 	} else {
 		get("ferramenta-desfazer").classList.remove("botao-inativo")
-		get("ferramenta-desfazer").title = "Desfazer "+undo+" (Ctrl+Z)"
+		get("ferramenta-desfazer").title = _("desfazer", undo)
 	}
 	if (redo == null) {
 		get("ferramenta-refazer").classList.add("botao-inativo")
-		get("ferramenta-refazer").title = "Nada pode ser refeito"
+		get("ferramenta-refazer").title = _("refazerNada")
 	} else {
 		get("ferramenta-refazer").classList.remove("botao-inativo")
-		get("ferramenta-refazer").title = "Refazer "+redo+" (Ctrl+Shift+Z)"
+		get("ferramenta-refazer").title = _("refazer", redo)
 	}
 }
 

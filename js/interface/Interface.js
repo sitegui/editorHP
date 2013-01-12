@@ -18,7 +18,7 @@ Interface.ultimoTipoFocado = ""
 		InterfaceEdicao.atualizarDesfazer()
 		InterfaceAnexos.atualizar()
 		InterfaceIndices.atualizar()
-		document.title = "EditorHP - "+foco.livro.nome
+		document.title = _("titulo", foco.livro.nome)
 	}, enumerable: true})
 })()
 
@@ -37,8 +37,10 @@ Interface.ultimoTipoFocado = ""
 Interface.init = function () {
 	var els, i
 	els = document.querySelectorAll(".janela-fechar")
-	for (i=0; i<els.length; i++)
+	for (i=0; i<els.length; i++) {
 		els.item(i).onclick = Interface.fecharJanela
+		els.item(i).title = _("fecharJanela")
+	}
 	JanelaAbrir.init()
 	JanelaBasica.init()
 	InterfaceMenus.init()
