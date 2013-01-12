@@ -74,16 +74,16 @@ var strs = {
 	inserirImagem_url: "or URL",
 	ou: "or",
 	desenharAgora: "draw it now",
-	dica0: "Bem-vindo ao editor de textos para a HP50g. Basta escrever o que quiser no campo acima que tudo acontece",
-	dica1: "Use cabeçalhos pra facilitar a navegação. O editor divide seu texto em páginas e cria o índice com base neles",
-	dica2: "Quando quiser, clique salvar para poder baixar o arquivo para a sua calculadora",
-	dica3: "Salve esse arquivo diretamente num cartão SD (ou use cabo+software). Para abri-lo na calculadora, vá em FILES > SD > seuarquivo > EVAL",
-	dica4: "Seus arquivos antigos ficam sempre salvos no seu navegador. Para vê-los clique no menu Abrir",
-	dica5: "Você pode também pode editar um arquivo já baixado. Basta clicar ir no menu Abrir > Upload",
-	dica6: "Se quiser desativar a criação automática de páginas e índices, clique no botão &#9660; nos paineis Páginas e Índices",
-	dica7: "Você pode trocar páginas, anexos e índices de lugar. Basta arrasta-los",
-	dica8: "Você pode anexar equações, fórmulas, tabelas e imagens junto com seu arquivo",
-	dica9: "Gostou desse programa? Fale para seus amigos! Ajude a <a href='https://github.com/sitegui/editorHP/' target='_blank'>desenvolver</a> mais ferramentas"
+	dica0: "Welcome to the text editor for HP50g. Write whatever you want in the field above and everything happens",
+	dica1: "Use headers to make navigation easier. We will split your text in pages and create indexes automatically based on them",
+	dica2: "Whenever you want, click save to download the file to your calculator",
+	dica3: "Save this file directly in a SD card (or use cable+software). To open it on the calculator, go to FILES > SD > yourfile > EVAL",
+	dica4: "Your past files are always saved in your browser. Click on Open menu to see them",
+	dica5: "You can also edit an already downloaded file, using Open > Upload",
+	dica6: "If you want to turn off auto paging and auto indexing, click on &#9660; in Pages and Indexes panels",
+	dica7: "You can change pages, attachments and indexes places. Just drap them around",
+	dica8: "You can attach equations, formulae, tables and imagens with your file",
+	dica9: "Did you like this software? Tell your friends! Help <a href='https://github.com/sitegui/editorHP/' target='_blank'>develop</a> more features"
 }
 
 // Retorna a tradução correta para o texto
