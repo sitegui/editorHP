@@ -74,7 +74,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <meta name="description" content="Um ótimo editor de textos para a calculadora HP50g, aceita equações, matrizes, fórmulas e imagens. Divide o conteúdo em páginas e cria um índice para facilitar o acesso">
 <meta name="keywords" content="calculadora HP50g, calculadora HP, HP, editor de texto, editor para HP50g, editor para HP, txt pra HP">
 <link rel="stylesheet" href="css.php">
-<link rel="icon" href="icone.png">
+<link rel="icon" href="img/icone.png">
 <script src="lang/<?=$lang?>.js"></script>
 <script src="js.php"></script>
 </head>
