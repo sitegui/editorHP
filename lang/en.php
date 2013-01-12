@@ -91,5 +91,8 @@ $strs = array(
 	'amarelo' => 'Yellow',
 	'limpar' => 'Clean',
 	'desfazer' => 'Undo (Ctrl+Z)',
-	'refazer' => 'Redo (Ctrl+Shift+Z)'
+	'refazer' => 'Redo (Ctrl+Shift+Z)',
+	'linguaAtual' => 'English',
+	'pt-br' => 'Portuguese',
+	'en' => 'English'
 );

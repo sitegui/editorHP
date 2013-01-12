@@ -1,7 +1,10 @@
 <?php
 $langsSuportadas = array('pt-br', 'en');
 $lang = '';
-if (isset($_COOKIE['lang'])) {
+if (isset($_GET['lang'])) {
+	// Pega o valor definido pelo usuário
+	$lang = $_GET['lang'];
+} else if (isset($_COOKIE['lang'])) {
 	// Pega o valor do cookie já salvo
 	$lang = $_COOKIE['lang'];
 } else {
@@ -91,6 +94,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	<div id="ferramenta-desfazer" class="menuBotao botao-azul desfazer">&#x21b6;</div>
 	<div id="ferramenta-refazer" class="menuBotao botao-azul refazer">&#x21b7;</div>
 	<div id="menuBug" class="menuBotao botao-azul" title="<?=get('bug')?>">&#x1f41c;</div>
+	<div class="menuBotao botao2" id="menuLingua">
+		<div class="botao2Esq"><?=get('linguaAtual')?></div>
+		<div id="menuLinguaMais" class="botao2Dir">&#9660;</div>
+	</div>
 	
 	<!-- abas -->
 	<div id="abas">
@@ -119,6 +126,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	<div class="submenu-item" id="submenuEdicao-copiar"><?=get('copiar')?> <span class="submenu-atalho">Ctrl+C</span></div>
 	<div class="submenu-item" id="submenuEdicao-colar"><?=get('colar')?> <span class="submenu-atalho">Ctrl+V</span></div>
 	<div class="submenu-item" id="submenuEdicao-recortar"><?=get('recortar')?> <span class="submenu-atalho">Ctrl+X</span></div>
+</div>
+
+<!-- Submenus de língua -->
+<div id="submenuLingua" class="submenu-pequeno" style="display:none">
+	<div class="submenu-item" id="submenuLingua-pt-br"><img src="img/br.png"> <?=get('pt-br')?></div>
+	<div class="submenu-item" id="submenuLingua-en"><img src="img/us.png"> <?=get('en')?></div>
 </div>
 
 <!-- Submenus de caracteres -->

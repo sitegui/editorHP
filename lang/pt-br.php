@@ -91,5 +91,8 @@ $strs = array(
 	'amarelo' => 'Amarelo',
 	'limpar' => 'Limpar',
 	'desfazer' => 'Desfazer (Ctrl+Z)',
-	'refazer' => 'Refazer (Ctrl+Shift+Z)'
+	'refazer' => 'Refazer (Ctrl+Shift+Z)',
+	'linguaAtual' => 'Português',
+	'pt-br' => 'Português',
+	'en' => 'Inglês'
 );

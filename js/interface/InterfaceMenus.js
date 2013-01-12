@@ -120,6 +120,17 @@ InterfaceMenus.init = function () {
 	get("menuBug").onclick = function () {
 		open("/fale_conosco/?assunto=editorHP-bug", "janelaFaleConosco", "width=500,height=500")
 	}
+	
+	// Muda a língua
+	get("menuLinguaMais").onclick = function (evento) {
+		Interface.abrirMenu(evento, "submenuLingua", "menuLingua")
+	}
+	get("submenuLingua-pt-br").onclick = function () {
+		location.href = "?lang=pt-br"
+	}
+	get("submenuLingua-en").onclick = function () {
+		location.href = "?lang=en"
+	}
 }
 
 // Salva o arquivo (pergunta pelo nome caso seja novo)
