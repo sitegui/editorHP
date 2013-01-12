@@ -11,7 +11,7 @@ html, body {
 	overflow:hidden;
 }
 body {
-	background-image:url(type.png);
+	background-image:url(img/type.png);
 	font-family:Verdana, Geneva, sans-serif;
 	font-size:medium;
 }

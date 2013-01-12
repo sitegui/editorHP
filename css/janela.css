@@ -9,7 +9,7 @@
 	z-index:3;
 }
 .janela, .janelaMenor, .janelaMaior, .janelaCarregando, .janelaDicas {
-	background-image:url(debut_dark.png);
+	background-image:url(img/debut_dark.png);
 	box-shadow:0 0 10px black;
 	position:absolute;
 	z-index:4;
