@@ -8,7 +8,7 @@ var strs = {
 	erroCarregarImagem: "Erro ao carregar imagem",
 	semTitulo: "Sem título",
 	paginaInicial: "Página inicial",
-	paragrafoInicial: "Basta escrever seu texto aqui",
+	paragrafoInicial: "Basta escrever seu texto aqui\nMais programas em sitegui.com.br",
 	acaoAutoPaginacao: "auto paginação",
 	pagina: "Página",
 	acaoAutoIndexacao: "auto indexação",

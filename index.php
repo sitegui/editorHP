@@ -1,21 +1,46 @@
 <?php
-// Inclui o arquivo de linguagem correto
-$lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : '';
-switch ($lang) {
-	/*case 'en':
-		require 'lang/en.php';
+$langsSuportadas = array('pt-br', 'en');
+$lang = '';
+if (isset($_COOKIE['lang'])) {
+	// Pega o valor do cookie já salvo
+	$lang = $_COOKIE['lang'];
+} else {
+	// Verifica as linguagens desejadas pelo usuário
+	$langs = array();
+	foreach (explode(',', str_replace(' ', '', $_SERVER['HTTP_ACCEPT_LANGUAGE'])) as $cada) {
+		$partes = explode(';', $cada);
+		if (count($partes) == 1)
+			$langs[$partes[0]] = 1;
+		else
+			$langs[$partes[0]] = (float)substr($partes[1], 2);
+	}
+	
+	// Pega a que melhor se encaixa para o usuário
+	arsort($langs, SORT_NUMERIC);
+	foreach ($langs as $cada=>$x)
+		if (in_array($cada, $langsSuportadas)) {
+			$lang = $cada;
+			break;
+		}
+}
+
+// Inclui o arquivo
+$ok = false;
+foreach ($langsSuportadas as $cada)
+	if ($cada == $lang) {
+		$ok = true;
+		require "lang/$lang.php";
 		break;
-	case 'fr':
-		require 'lang/fr.php';
-		break;*/
-	default:
-		require 'lang/pt-br.php';
-		$lang = 'pt-br';
-		break;
+	}
+
+// Coloca a primeira língua, por padrão
+if (!$ok) {
+	$lang = $langsSuportadas[0];
+	require "lang/$lang.php";
 }
 
 // Salva as configurações do usuário
-setcookie('lang', $lang, time()+365*24*60*60, '/editorHP/');
+setcookie('lang', $lang, time()+365*24*60*60);
 
 function get($str) {
 	global $strs;
