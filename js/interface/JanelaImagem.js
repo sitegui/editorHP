@@ -103,8 +103,8 @@ JanelaImagem.inserirElemento = function () {
 		} else {
 			// Insere na página
 			html = "<div align='center'><img onclick='InterfaceEdicao.editarImagem(event)' src='"+url+"' data-imagem='"+
-				elemento.imagem+"' data-filtro='"+elemento.filtro+"' data-ajuste='"+elemento.ajuste+
-				"' data-tamanho='"+elemento.tamanho+"' data-cache='"+cache+"'"+(elemento.desenhado ? " data-desenhado='1'" : "")+"></div>"
+				elemento.imagem+"' data-filtro='"+elemento.filtro+"' data-ajuste='"+elemento.ajuste+"' data-tamanho='"+
+				elemento.tamanho+"' data-cache='"+cache+"'"+(JanelaImagem.imagem.dataset.desenhado ? " data-desenhado='1'" : "")+"></div>"
 			InterfaceEdicao.focar()
 			document.execCommand("insertHTML", false, html)
 		}

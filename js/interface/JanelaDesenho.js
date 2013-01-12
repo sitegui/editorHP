@@ -53,12 +53,18 @@ JanelaDesenho.onabrir = function () {
 	canvas = get("janelaDesenho-canvas")
 	contexto = canvas.getContext("2d")
 	contexto.fillStyle = "#FFF"
-	contexto.fillRect(0, 0, 393, 240)
 	contexto.lineWidth = 5
 	Interface.ultimoTipoFocado = "desenho"
 	JanelaDesenho.historico = [canvas.toDataURL()]
 	JanelaDesenho.posHistorico = 1
 	JanelaDesenho.atualizarDesfazer()
+	
+	if (JanelaImagem.imagem && JanelaImagem.imagem.dataset.desenhado)
+		// Desenha a imagem anterior
+		contexto.drawImage(JanelaImagem.imagem, 0, 0, 393, 240)
+	else
+		// Apaga a tela
+		contexto.fillRect(0, 0, 393, 240)
 }
 
 // Começa a seguir os movimentos do mouse
