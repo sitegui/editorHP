@@ -37,6 +37,7 @@ function Imagem() {
 	this.pixels = null // Pixels após a transformação (usado temporariamente para exibi-los no preview)
 	this.cache = "" // Texto compilado para a HP
 	this.cacheURL = "" // Data URL para o HTML
+	this.desenhado = false // Indica se foi feito à mão
 }
 Imagem.imagens = {} // Imagens originais
 // Retorna o id da imagem (objeto Image)
