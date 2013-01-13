@@ -10,7 +10,7 @@ JanelaDesenho.desenhando = false
 
 // Define os ouvintes
 JanelaDesenho.init = function () {
-	var cores = ["000", "fff", "f00", "0f0", "00f", "0ff", "f0f", "ff0"]
+	var contexto, cores = ["000", "fff", "f00", "0f0", "00f", "0ff", "f0f", "ff0"]
 	cores.forEach(function (cor) {
 		var elemento = get("janelaDesenho-cor-"+cor)
 		elemento.style.backgroundColor = "#"+cor
@@ -45,6 +45,13 @@ JanelaDesenho.init = function () {
 		JanelaDesenho.posHistorico = JanelaDesenho.historico.length
 		JanelaDesenho.atualizarDesfazer()
 	}
+	
+	// Define as propriedades do canvas
+	contexto = get("janelaDesenho-canvas").getContext("2d")
+	contexto.fillStyle = "#FFF"
+	contexto.lineWidth = 5
+	contexto.lineCap = "round"
+	contexto.lineJoin = "round"
 }
 
 // Inicia a operação de desenho
@@ -52,9 +59,7 @@ JanelaDesenho.onabrir = function () {
 	var canvas, contexto
 	canvas = get("janelaDesenho-canvas")
 	contexto = canvas.getContext("2d")
-	contexto.fillStyle = "#FFF"
 	contexto.clearRect(0, 0, 393, 240)
-	contexto.lineWidth = 5
 	
 	if (JanelaImagem.imagem && JanelaImagem.imagem.dataset.desenhado && JanelaImagem.imagem.dataset.imagem)
 		// Desenha a imagem anterior
@@ -80,7 +85,10 @@ JanelaDesenho.iniciar = function (evento) {
 	y = evento.clientY-canvas.getBoundingClientRect().top
 	contexto = canvas.getContext("2d")
 	contexto.beginPath()
-	contexto.moveTo(x, y)
+	contexto.moveTo(x-1, y)
+	contexto.lineTo(x, y)
+	contexto.stroke()
+	evento.preventDefault()
 }
 
 // Vai desenhando abaixo do mouse

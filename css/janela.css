@@ -219,6 +219,7 @@
 }
 .janelaDesenho-canvas {
 	box-shadow:0 0 7px black;
+	cursor:crosshair;
 }
 .janelaDesenho-desfazerRefazer {
 	font-size:0;

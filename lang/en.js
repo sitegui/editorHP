@@ -63,7 +63,7 @@ var strs = {
 	semArquivos: "You don't have any recently saved file",
 	hoje: "today",
 	ontem: "yesterday",
-	diasAtras: "# day ago",
+	diasAtras: "# days ago",
 	mesPassado: "last month",
 	mesesAtras: "# months ago",
 	erroArquivoAberto: "This file is currently opened by the editor, please close it first",
