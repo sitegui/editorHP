@@ -135,8 +135,16 @@ InterfaceEdicao.init = function () {
 	get("ferramenta-h1").onclick = executar("formatBlock", "H1")
 	get("ferramenta-h2").onclick = executar("formatBlock", "H2")
 	get("ferramenta-h3").onclick = executar("formatBlock", "H3")
+	get("ferramenta-h3").addEventListener("click", function () {
+		get("ferramenta-h4").style.display = ""
+	})
 	get("ferramenta-h4").onclick = executar("formatBlock", "H4")
+	get("ferramenta-h4").style.display = "none"
+	get("ferramenta-h4").addEventListener("click", function () {
+		get("ferramenta-h5").style.display = ""
+	})
 	get("ferramenta-h5").onclick = executar("formatBlock", "H5")
+	get("ferramenta-h5").style.display = "none"
 	get("ferramenta-esquerda").onclick = executar("justifyLeft")
 	get("ferramenta-centro").onclick = executar("justifyCenter")
 	get("ferramenta-direita").onclick = executar("justifyRight")

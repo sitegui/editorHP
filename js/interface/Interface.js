@@ -59,6 +59,9 @@ Interface.init = function () {
 addEventListener("keydown", function (evento) {
 	var atalho = true, i
 	
+	if (document.activeElement.nodeName == "INPUT")
+		return
+	
 	if (evento.ctrlKey && !evento.shiftKey && evento.keyCode == 79)
 		// Ctrl+O = abrir
 		Interface.abrirJanela("janelaAbrir", "recentes")
