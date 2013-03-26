@@ -51,13 +51,13 @@ $strs = array(
 	'abrirArquivo' => 'Open file',
 	'recentes' => 'Recent',
 	'uploadIntro' => 'Select a *.hp file from your computer',
-	'urlIntro' => 'Past shared URL below',
+	'urlIntro' => 'Paste shared URL below',
 	'sobre' => 'About',
 	'formato' => 'Format',
 	'creditos' => 'Credits',
-	'ajudaSobre' => '<h1>HP Editor - Version 1.1 (13/01/2013)</h1>
+	'ajudaSobre' => '<h1>HP Editor - Version 1.1 (01/13/2013)</h1>
 		<p>This is a text editor for HP50g calculator made with HTML, CSS and JS that works fine in FF 15+ and Chrome. It creates a binary file that can be directly saved in a SD card or transmitted via wire using official software from HP. Nothing needs to be installed in the calculator, and the file can be opened and edited again.</p>
-		<p><strong>Privacy</strong><br>All your data are kept in your browser, you can clean your cache to erase then. Some actions send data to sitegui.com.br, but nothing is kept by it or used in any other manner. The operations that make these requests are: upload, download, insert image from url, generate and open file from url.</p>',
+		<p><strong>Privacy</strong><br>All your data are kept in your browser, you can clean your cache to erase them. Some actions send data to sitegui.com.br, but nothing is kept by it or used in any other manner. The operations that make these requests are: upload, download, insert image from url, generate and open file from url.</p>',
 	'ajudaFormato' => '<p>Each file text (called book) is based in pages, which contains text (headers and paragraphs), equations and images. These pages are accessed by an index. It is also possible to attach objects (like equations, matrixes, formulae and graphs) to the book. The editor automatically divides your text in pages and creates the right indexes to make the navigation easier in the calculator.</p>',
 	'ajudaCreditos' => '<p><strong>Conceiver, programmer and designer</strong><br>Guilherme de Oliveira Souza (<a href="http://sitegui.com.br">sitegui.com.br</a>)<br><a href="#" onclick="window.open(\'/fale_conosco/?assunto=editorHP\', \'janelaFaleConosco\', \'width=500,height=500\'); return false">Contact us</a></p>
 		<p><strong>Source code</strong><br><a href="https://github.com/sitegui/editorHP/" target="_blank">github.com/sitegui/editorHP</a></p>
@@ -93,6 +93,9 @@ $strs = array(
 	'desfazer' => 'Undo (Ctrl+Z)',
 	'refazer' => 'Redo (Ctrl+Shift+Z)',
 	'linguaAtual' => 'English',
-	'pt-br' => 'Portuguese',
-	'en' => 'English'
+	'pt-br' => 'Português',
+	'en' => 'English',
+	'fr' => 'Français',
+	'ctrl' => 'Ctrl',
+	'shift' => 'Shift'
 );
