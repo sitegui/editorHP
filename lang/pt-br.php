@@ -94,5 +94,8 @@ $strs = array(
 	'refazer' => 'Refazer (Ctrl+Shift+Z)',
 	'linguaAtual' => 'Português',
 	'pt-br' => 'Português',
-	'en' => 'Inglês'
+	'en' => 'English',
+	'fr' => 'Français',
+	'ctrl' => 'Ctrl',
+	'shift' => 'Shift'
 );

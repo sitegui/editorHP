@@ -22,6 +22,12 @@ JanelaDicas.disparadas = []
 JanelaDicas.tempo = 0
 JanelaDicas.inicio = Date.now()
 
+// Limpa as dicas já dadas
+JanelaDicas.limpar = function () {
+	JanelaDicas.tempo = 0
+	JanelaDicas.disparadas = []
+}
+
 // Define os ouvintes e carrega os dados salvos no navegador
 JanelaDicas.init = function () {
 	get("janelaDicas").onclick = JanelaDicas.fechar

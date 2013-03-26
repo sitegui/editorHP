@@ -1,0 +1,5 @@
+AddOutputFilterByType DEFLATE text/html
+
+<FilesMatch "(\.js|^(css|js)\.php)$">
+SetOutputFilter DEFLATE
+</FilesMatch>

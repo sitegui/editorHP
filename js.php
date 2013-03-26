@@ -1,3 +1,5 @@
+"use strict";
+
 <?php
 // Reúne todos os arquivo JS para economizar requisições HTTP
 $arquivos = array(

@@ -1,3 +1,5 @@
+"use strict";
+
 // Arquivo de línguagem para o inglês
 // Substituições para o JS
 var strs = {

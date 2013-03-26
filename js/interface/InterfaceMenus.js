@@ -125,12 +125,12 @@ InterfaceMenus.init = function () {
 	get("menuLinguaMais").onclick = function (evento) {
 		Interface.abrirMenu(evento, "submenuLingua", "menuLingua")
 	}
-	get("submenuLingua-pt-br").onclick = function () {
-		location.href = "?lang=pt-br"
-	}
-	get("submenuLingua-en").onclick = function () {
-		location.href = "?lang=en"
-	}
+	;["pt-br", "en", "de", "fr"].forEach(function (lang) {
+		get("submenuLingua-"+lang).onclick = function () {
+			JanelaDicas.limpar()
+			location.href = "?lang="+lang
+		}
+	})
 }
 
 // Salva o arquivo (pergunta pelo nome caso seja novo)

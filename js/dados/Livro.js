@@ -19,10 +19,6 @@ function Livro() {
 	}, enumerable: true})
 }
 
-// Aplica a autoindexação
-Livro.prototype.autoIndexar = function () {
-}
-
 // Clona o livro todo
 Livro.prototype.clonar = function () {
 	var novo = new Livro

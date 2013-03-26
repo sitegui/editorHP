@@ -1,5 +1,5 @@
 <?php
-$langsSuportadas = array('pt-br', 'en');
+$langsSuportadas = array('pt-br', 'en', 'de', 'fr');
 $lang = '';
 if (isset($_GET['lang'])) {
 	// Pega o valor definido pelo usuário
@@ -83,11 +83,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <!-- Menu -->
 <div class="menu">
 	<div class="menuBotao botao2" id="menuAbrir">
-		<div class="botao2Esq" title="Ctrl+O"><?=get('abrir')?></div>
+		<div class="botao2Esq" title="<?=get('ctrl')?>+O"><?=get('abrir')?></div>
 		<div class="botao2Dir" id="menuAbrirMais">&#9660;</div>
 	</div>
 	<div class="menuBotao botao2" id="menuSalvar">
-		<div class="botao2Esq" title="Ctrl+S"><?=get('salvar')?></div>
+		<div class="botao2Esq" title="<?=get('ctrl')?>+S"><?=get('salvar')?></div>
 		<div id="menuSalvarMais" class="botao2Dir">&#9660;</div>
 	</div>
 	<div id="menuAjuda" class="menuBotao botao-azul" title="F1"><?=get('ajuda')?></div>
@@ -109,12 +109,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div id="submenuAbrir" class="submenu" style="display:none">
 	<div class="submenu-item" id="submenuAbrir-upload"><?=get('upload')?></div>
 	<div class="submenu-item" id="submenuAbrir-URL"><?=get('url')?></div>
-	<div class="submenu-item" id="submenuAbrir-novo" title="Ctrl+N"><?=get('novo')?></div>
+	<div class="submenu-item" id="submenuAbrir-novo" title="<?=get('ctrl')?>+N"><?=get('novo')?></div>
 </div>
 <div id="submenuSalvar" class="submenu" style="display:none">
 	<div class="submenu-item" id="submenuSalvar-URL"><?=get('gerarUrl')?></div>
 	<div class="submenu-item" id="submenuSalvar-salvar"><?=get('somenteSalvar')?></div>
-	<div class="submenu-item" id="submenuSalvar-salvarTodos" title="Ctrl+Shift+S"><?=get('salvarTodos')?></div>
+	<div class="submenu-item" id="submenuSalvar-salvarTodos" title="<?=get('ctrl')?>+<?=get('shift')?>+S"><?=get('salvarTodos')?></div>
 	<div class="submenu-item" id="submenuSalvar-salvarComo"><?=get('salvarComo')?></div>
 </div>
 
@@ -123,15 +123,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	<div class="submenu-item" id="submenuEdicao-inserir"><?=get('inserir')?></div>
 	<div class="submenu-item" id="submenuEdicao-excluir"><?=get('excluir')?> <span class="submenu-atalho">Del</span></div>
 	<div class="submenu-divisoria"></div>
-	<div class="submenu-item" id="submenuEdicao-copiar"><?=get('copiar')?> <span class="submenu-atalho">Ctrl+C</span></div>
-	<div class="submenu-item" id="submenuEdicao-colar"><?=get('colar')?> <span class="submenu-atalho">Ctrl+V</span></div>
-	<div class="submenu-item" id="submenuEdicao-recortar"><?=get('recortar')?> <span class="submenu-atalho">Ctrl+X</span></div>
+	<div class="submenu-item" id="submenuEdicao-copiar"><?=get('copiar')?> <span class="submenu-atalho"><?=get('ctrl')?>+C</span></div>
+	<div class="submenu-item" id="submenuEdicao-colar"><?=get('colar')?> <span class="submenu-atalho"><?=get('ctrl')?>+V</span></div>
+	<div class="submenu-item" id="submenuEdicao-recortar"><?=get('recortar')?> <span class="submenu-atalho"><?=get('ctrl')?>+X</span></div>
 </div>
 
 <!-- Submenus de língua -->
 <div id="submenuLingua" class="submenu-pequeno" style="display:none">
 	<div class="submenu-item" id="submenuLingua-pt-br"><img src="img/br.png"> <?=get('pt-br')?></div>
 	<div class="submenu-item" id="submenuLingua-en"><img src="img/us.png"> <?=get('en')?></div>
+	<div class="submenu-item" id="submenuLingua-de"><img src="img/de.png"> <?=get('de')?></div>
+	<div class="submenu-item" id="submenuLingua-fr"><img src="img/fr.png"> <?=get('fr')?></div>
 </div>
 
 <!-- Submenus de caracteres -->
@@ -272,7 +274,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<div class="janela-lista" id="janelaAbrir-recentes"><?=get('recentes')?></div>
 		<div class="janela-lista" id="janelaAbrir-upload"><?=get('upload')?></div>
 		<div class="janela-lista" id="janelaAbrir-URL"><?=get('url')?></div>
-		<div class="janela-lista" id="janelaAbrir-novo" title="Ctrl+N"><?=get('novo')?></div>
+		<div class="janela-lista" id="janelaAbrir-novo" title="<?=get('ctrl')?>+N"><?=get('novo')?></div>
 	</div>
 	<div class="janela-painel">
 		<div class="janela-painel-conteudo">

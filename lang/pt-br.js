@@ -1,3 +1,5 @@
+"use strict";
+
 // Arquivo de línguagem para o português brasileiro
 // Substituições para o JS
 var strs = {

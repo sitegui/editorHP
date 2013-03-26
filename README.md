@@ -16,9 +16,11 @@ O arquivo exportado (.hp) é composto pelo livro e pelo leitor. Quando aberto na
 
 * root: contém os arquivos básicos: HTML; PHP para reunir todo o CSS e JS; PHP pra up/download dos livros; leitor compilado do livro pra HP
 * css: contém todos os arquivos .css do projeto
-* doc: contém a documentação geral do projeto (especificação do formato do livro exportado e visão geral dos Objetos no JS)
+* doc: contém a documentação geral do projeto (especificação do formato do livro exportado)
+* img: contém as imagens usadas no HTML e CSS
 * js/dados: contém todos os arquivos que lidam com os dados do livro, tanto para guarda-los quanto processa-los. CompiladorParalelo-worker roda numa thread paralela (WebWorker)
 * js/interface: contém todos os arquivos que lidam diretamente com a interface e interação do usuário
+* lang: contém os arquivos com os textos da interface traduzidos em várias línguas. Cada idioma tem dois arquivo (PHP para conteúdo estático e JS para dinâmico)
 * src-hp: contém todo o código do leitor responsável por exibir o livro na calculadora. COMPILADO.txt é todo esse código reunido
 
 # Licença
