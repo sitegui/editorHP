@@ -22,7 +22,7 @@ var Compilador = {}
 
 // Interpreta o livro a partir de uma string
 Compilador.inflar = function (str) {
-	var obj, livro, i, pagina, elemento, temp, anexo, gerarIndice
+	var obj, livro, i, pagina, elemento, temp, anexo, gerarIndice, j
 	
 	// Junta as linhas de um elemento de texto, preservando os \n impostos pelo usuário
 	var juntarLinhas = function (linhas) {
@@ -49,6 +49,7 @@ Compilador.inflar = function (str) {
 	livro.modificacao = obj[2][1]
 	livro.autoPaginacao = Boolean(obj[2][2])
 	livro.autoIndexacao = Boolean(obj[2][3])
+	livro.naoUsuario = !livro.autoIndexacao
 	
 	// Constrói as páginas
 	for (i=0; i<obj[4].length; i++) {

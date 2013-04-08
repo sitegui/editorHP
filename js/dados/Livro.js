@@ -10,6 +10,7 @@ function Livro() {
 	this.modificacao = 0
 	this.autoPaginacao = true
 	this.autoIndexacao = true
+	this.naoUsuario = false // Indica se o usuário desligou a auto-indexação e confirmou isso ao salvar
 	this.novo = false // Indice se o livro foi criado do zero
 	Object.defineProperty(this, "modificado", {get: function () {
 		return modificado
@@ -17,10 +18,6 @@ function Livro() {
 		modificado = Boolean(novo)
 		InterfaceAbas.atualizarLayout()
 	}, enumerable: true})
-}
-
-// Aplica a autoindexação
-Livro.prototype.autoIndexar = function () {
 }
 
 // Clona o livro todo
@@ -33,6 +30,7 @@ Livro.prototype.clonar = function () {
 	novo.modificacao = this.modificacao
 	novo.autoPaginacao = this.autoPaginacao
 	novo.autoIndexacao = this.autoIndexacao
+	novo.naoUsuario = this.naoUsuario
 	novo.novo = this.novo
 	
 	// Copia páginas, anexos e indices

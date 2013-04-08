@@ -83,19 +83,23 @@ var strs = {
 	dica6: "Se quiser desativar a criação automática de páginas e índices, clique no botão &#9660; nos paineis Páginas e Índices",
 	dica7: "Você pode trocar páginas, anexos e índices de lugar. Basta arrasta-los",
 	dica8: "Você pode anexar equações, fórmulas, tabelas e imagens junto com seu arquivo",
-	dica9: "Gostou desse programa? Fale para seus amigos! Ajude a <a href='https://github.com/sitegui/editorHP/' target='_blank'>desenvolver</a> mais ferramentas"
+	dica9: "Gostou desse programa? Fale para seus amigos! Ajude a <a href='https://github.com/sitegui/editorHP/' target='_blank'>desenvolver</a> mais ferramentas",
+	semAutoIndexar: "Livro sem auto indexação",
+	semAutoIndexar_conteudo: "Você está salvando um livro com a opção de auto indexar desligada.<br>Deseja reativa-la antes de salvar?"
 }
 
 // Retorna a tradução correta para o texto
 function _(chave, valor) {
-	var str
-	valor = valor || 0
+	var str, valor2
+	valor2 = valor || 0
 	if (chave in strs) {
 		str = strs[chave]
 		if (typeof str != "string")
 			// Seleciona a versão de plural correta
-			str = valor==1 ? str[0] : str[1]
-		return str.replace("#", valor)
+			str = valor2==1 ? str[0] : str[1]
+		if (valor !== undefined)
+			str = str.replace("#", valor)
+		return str
 	} else
 		return "[["+chave+"]]"
 }

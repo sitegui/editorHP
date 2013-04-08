@@ -157,9 +157,31 @@ InterfaceMenus.salvarLivro = function (livro, onsucesso) {
 		Interface.abrirJanela("janelaBasica", opcoes)
 	} else {
 		if (livro.modificado) {
-			// Salva
-			arquivo = Arquivo.salvarLivro(livro)
-			aba.idAcaoSalvo = aba.posHistorico ? aba.historico[aba.posHistorico-1].id : ""
+			if (!livro.autoIndexacao && !livro.naoUsuario) {
+				// Pede confirmação de que se está salvando um livro sem auto-indexação
+				opcoes = {}
+				opcoes.titulo = _("semAutoIndexar")
+				opcoes.conteudo = "<p>"+_("semAutoIndexar_conteudo")+"</p>"
+				opcoes.onconfirmar = function () {
+					new Acao(_("autoIndexacao_ativacao"), function () {
+						livro.autoIndexacao = true
+					}, function () {
+						livro.autoIndexacao = false
+					})
+					Editor.autoIndexar()
+					InterfaceMenus.salvarLivro(livro, onsucesso)
+				}
+				opcoes.oncancelar = function () {
+					livro.naoUsuario = true
+					InterfaceMenus.salvarLivro(livro, onsucesso)
+				}
+				Interface.abrirJanela("janelaBasica", opcoes)
+				return
+			} else {
+				// Salva
+				arquivo = Arquivo.salvarLivro(livro)
+				aba.idAcaoSalvo = aba.posHistorico ? aba.historico[aba.posHistorico-1].id : ""
+			}
 		} else
 			// Busca o arquivo
 			arquivo = Arquivo.arquivos[livro.id]

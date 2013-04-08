@@ -83,7 +83,9 @@ var strs = {
 	dica6: "If you want to turn off auto paging and auto indexing, click on &#9660; in Pages and Indexes panels",
 	dica7: "You can change pages, attachments and indexes places. Just drap them around",
 	dica8: "You can attach equations, formulae, tables and imagens with your file",
-	dica9: "Did you like this software? Tell your friends! Help <a href='https://github.com/sitegui/editorHP/' target='_blank'>develop</a> more features"
+	dica9: "Did you like this software? Tell your friends! Help <a href='https://github.com/sitegui/editorHP/' target='_blank'>develop</a> more features",
+	semAutoIndexar: "Book without auto index",
+	semAutoIndexar_conteudo: "You're trying to save a book with auto index off.<br>Do you want to turn it on again before saving?"
 }
 
 // Retorna a tradução correta para o texto

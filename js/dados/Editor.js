@@ -205,7 +205,7 @@ Editor.autoIndexar = function () {
 	// Limpa índices redundantes
 	var limpar = function (indices) {
 		var i
-		if (indices.length>1 && indices[0].pagina == indices[1].pagina)
+		if (indices.length>1 && indices[0] instanceof FolhaIndice && indices[0].pagina == indices[1].pagina)
 			indices.splice(0, 1)
 		for (i=0; i<indices.length; i++)
 			if (indices[i] instanceof SubIndice)
