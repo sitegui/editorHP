@@ -11,14 +11,41 @@ Editor.colagem = []
 Editor.tipoColagem = ""
 
 // Evita que a pessoa feche sem salvar algum arquivo
+// Também salva a sessão ativa
 addEventListener("beforeunload", function (evento) {
-	var i
-	for (i=0; i<InterfaceAbas.abas.length; i++)
-		if (InterfaceAbas.abas[i].livro.modificado) {
-			evento.preventDefault()
-			return
-		}
+	var i, ids = [], prevenir = false
+	for (i=0; i<InterfaceAbas.abas.length; i++) {
+		if (InterfaceAbas.abas[i].livro.modificado)
+			prevenir = true
+		ids.push(InterfaceAbas.abas[i].livro.id)
+	}
+	if (prevenir)
+		evento.preventDefault()
+	localStorage.setItem("editorHP-sessao", JSON.stringify(ids))
 })
+
+// Carrega os livros abertos da última vez
+Editor.reabrirSessao = function () {
+	var str, ids, i, n, arquivo, livro, aba
+	str = localStorage.getItem("editorHP-sessao")
+	n = 0
+	if (str != null) {
+		ids = JSON.parse(str)
+		for (i=0; i<ids.length; i++)
+			if (ids[i] in Arquivo.arquivos) {
+				arquivo = Arquivo.arquivos[ids[i]]
+				livro = Compilador.inflar(arquivo.conteudo)
+				livro.id = arquivo.id
+				aba = new Aba(livro)
+				InterfaceAbas.abas.push(aba)
+				n++
+			}
+	}
+	if (n == 0)
+		Editor.criarNovoLivro()
+	else
+		Interface.abaFoco = aba
+}
 
 // Cria um livro vazio
 Editor.criarNovoLivro = function () {

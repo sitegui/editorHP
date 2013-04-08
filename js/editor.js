@@ -1,9 +1,9 @@
-// Reúne várias funções comuns à aplicação toda
+// Reúne processos mais gerais
 
 addEventListener("load", function () {
 	// Inicia a interface
 	Interface.init()
-	Editor.criarNovoLivro()
+	Editor.reabrirSessao()
 })
 
 // Apelido para document.getElementById
