@@ -834,7 +834,8 @@ Compilador.mapaPC2HP = (function () {
 		"\u2211": 133,
 		"\u2206": 155,
 		"\u220F": 156,
-		"\u2126": 157
+		"\u2126": 157,
+		"\xA0": 32
 	}
 	for (i in Compilador.mapaHP2PC)
 		retorno[Compilador.mapaHP2PC[i]] = Number(i)
