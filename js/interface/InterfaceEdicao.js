@@ -181,7 +181,8 @@ InterfaceEdicao.init = function () {
 	
 	// Botões para inserir caractere
 	inserirChar = function (charc) {
-		return function () {
+		return function (evento) {
+			evento.currentTarget.classList.add("caracteres-usado")
 			document.execCommand("insertHTML", false, charc)
 		}
 	}
