@@ -121,7 +121,7 @@ InterfaceEdicao.init = function () {
 	
 	get("edicao").onblur = function () {
 		// Dá tempo da janela perder foco em caso de Alt+Tab
-		setTimeout(edicaoOnBlur, 100)
+		setTimeout(edicaoOnBlur, 500)
 	}
 	
 	// Evita que atalhos atrapalhem a edição

@@ -18,6 +18,9 @@
 	transition:opacity .5s;
 	-webkit-transition:opacity .5s;
 }
+.edicao-conteudo figure {
+	text-align:center !important;
+}
 .edicao-conteudo img {
 	margin:10px;
 }

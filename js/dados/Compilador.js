@@ -293,9 +293,9 @@ Compilador.gerarHTML = function (pagina) {
 		else if (el instanceof Equacao)
 			html += "<h6 "+getAlinhamento(el)+">"+escaparHTML(el)+"</h6>"
 		else if (el instanceof Imagem)
-			html += "<div align='center'><img src='"+el.cacheURL+"' data-imagem='"+el.imagem+
+			html += "<figure><img src='"+el.cacheURL+"' data-imagem='"+el.imagem+
 			"' onclick='InterfaceEdicao.editarImagem(event)' data-filtro='"+el.filtro+"' data-ajuste='"+el.ajuste+
-			"' data-tamanho='"+el.tamanho+"' data-cache='"+el.cache+"'"+(el.desenhado ? " data-desenhado='1'" : "")+"></div>"
+			"' data-tamanho='"+el.tamanho+"' data-cache='"+el.cache+"'"+(el.desenhado ? " data-desenhado='1'" : "")+"></figure>"
 		else if (el instanceof Cabecalho)
 			html += "<h"+el.nivel+" "+getAlinhamento(el)+">"+escaparHTML(el)+"</h"+el.nivel+">"
 		else if (el instanceof Regua)
