@@ -68,7 +68,7 @@ InterfaceEdicao.atualizarFerramentas = function () {
 
 // Define os ouvintes para os botões de edição
 InterfaceEdicao.init = function () {
-	var executar, intervalo = null, tds, i, inserirChar, anular
+	var executar, intervalo = null, tds, i, inserirChar, anular, edicaoOnBlur
 	
 	anular = function (evento) {
 		evento.preventDefault()
@@ -83,13 +83,18 @@ InterfaceEdicao.init = function () {
 		document.execCommand("enableObjectResizing", false, false)
 	}
 	
-	get("edicao").onblur = function () {
+	// Esconde as ferramentas e inicia o processo de normalização do HTML
+	edicaoOnBlur = function () {
 		if (InterfaceEdicao.editandoImagem)
 			return
 		
 		clearInterval(intervalo)
 		get("ferramentasConteudo").style.opacity = ".5"
 		get("ferramentasMascara").style.display = ""
+		
+		if (!document.hasFocus())
+			// Perdeu o foco geral (alt+tab por exemplo)
+			return
 		
 		Interface.carregando = true
 		Compilador.normalizar(get("edicao"), function (novosElementos) {
@@ -112,6 +117,11 @@ InterfaceEdicao.init = function () {
 				Editor.autoIndexar()
 			Interface.carregando = false
 		})
+	}
+	
+	get("edicao").onblur = function () {
+		// Dá tempo da janela perder foco em caso de Alt+Tab
+		setTimeout(edicaoOnBlur, 100)
 	}
 	
 	// Evita que atalhos atrapalhem a edição
