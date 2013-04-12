@@ -27,9 +27,7 @@ JanelaDesenho.init = function () {
 	get("janelaDesenho-desfazer").onclick = JanelaDesenho.desfazer
 	get("janelaDesenho-refazer").onclick = JanelaDesenho.refazer
 	get("janelaDesenho-cancelar").onclick = Interface.fecharJanela
-	get("janelaDesenho-confirmar").onclick = function () {
-		JanelaImagem.gerarImagem(get("janelaDesenho-canvas").toDataURL(), true)
-	}
+	get("janelaDesenho-confirmar").onclick = JanelaDesenho.onconfirmar
 	get("janelaDesenho-limpar").onclick = function () {
 		var canvas, contexto
 		
@@ -52,6 +50,71 @@ JanelaDesenho.init = function () {
 	contexto.lineWidth = 5
 	contexto.lineCap = "round"
 	contexto.lineJoin = "round"
+}
+
+// Termina o desenho, corta espaço inútil (em branco) da imagem e manda para o filtro
+JanelaDesenho.onconfirmar = function () {
+	var canvas2, cntxt2, pixels, canvas, minX, maxX, minY, maxY, i, j, brancos, len, branco, iniciou, w, h, w2, h2
+	
+	// Carrega os pixels do desenho
+	canvas = get("janelaDesenho-canvas")
+	pixels = canvas.getContext("2d").getImageData(0, 0, canvas.width, canvas.height)
+	
+	// Verifica quais pixels estão em branco
+	len = pixels.data.length
+	brancos = []
+	for (i=0; i<len; i+=4)
+		brancos.push(pixels.data[i] == 255 && pixels.data[i+1] == 255 && pixels.data[i+2] == 255)
+	
+	// Pega os valores limites de Y dos pixels pintados
+	minY = pixels.height-1
+	maxY = 0
+	iniciou = false
+	for (i=0; i<pixels.height; i++) {
+		branco = true
+		for (j=0; j<pixels.width; j++)
+			if (!brancos[i*pixels.width+j]) {
+				branco = false
+				break
+			}
+		if (!branco) {
+			if (!iniciou)
+				minY = i
+			maxY = i
+			iniciou = true
+		}
+	}
+	
+	// Pega os valores limites de X dos pixels pintados
+	minX = pixels.width-1
+	maxX = 0
+	iniciou = false
+	for (j=0; j<pixels.width; j++) {
+		branco = true
+		for (i=0; i<pixels.height; i++)
+			if (!brancos[i*pixels.width+j]) {
+				branco = false
+				break
+			}
+		if (!branco) {
+			if (!iniciou)
+				minX = j
+			maxX = j
+			iniciou = true
+		}
+	}
+	
+	canvas2 = document.createElement("canvas")
+	cntxt2 = canvas2.getContext("2d")
+	w = maxX-minX
+	h = maxY-minY
+	w2 = w/3
+	h2 = h/3
+	canvas2.width = w2
+	canvas2.height = h2
+	cntxt2.drawImage(canvas, minX, minY, w, h, 0, 0, w2, h2)
+	
+	JanelaImagem.gerarImagem(canvas2.toDataURL(), true)
 }
 
 // Inicia a operação de desenho

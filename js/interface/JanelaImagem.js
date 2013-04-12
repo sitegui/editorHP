@@ -198,7 +198,7 @@ JanelaImagem.onabrir = function (imagem) {
 		// Nova imagem ou imagem antiga sem original mas com alternativa
 		get("janelaImagem-filtro").value = imagem.dataset.desenhado ? "areas": "basico"
 		get("janelaImagem-ajuste").value = "0"
-		get("janelaImagem-tamanho").value = "131"
+		get("janelaImagem-tamanho").value = String(Math.min(imagem.width, 131))
 		get("janelaImagem-remover").style.display = "none"
 		get("janelaImagem-opcoes").style.display = ""
 		get("janelaImagem-confirmar").style.display = ""
