@@ -88,13 +88,17 @@ InterfaceEdicao.init = function () {
 		if (InterfaceEdicao.editandoImagem)
 			return
 		
-		clearInterval(intervalo)
-		get("ferramentasConteudo").style.opacity = ".5"
-		get("ferramentasMascara").style.display = ""
-		
 		if (!document.hasFocus())
 			// Perdeu o foco geral (alt+tab por exemplo)
 			return
+		
+		if (document.activeElement == get("edicao"))
+			// O elemento tem o foco novamente
+			return
+		
+		clearInterval(intervalo)
+		get("ferramentasConteudo").style.opacity = ".5"
+		get("ferramentasMascara").style.display = ""
 		
 		Interface.carregando = true
 		Compilador.normalizar(get("edicao"), function (novosElementos) {
