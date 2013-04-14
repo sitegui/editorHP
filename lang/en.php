@@ -93,6 +93,15 @@ $strs = array(
 	'desfazer' => 'Undo (Ctrl+Z)',
 	'refazer' => 'Redo (Ctrl+Shift+Z)',
 	'linguaAtual' => 'English',
-	'pt-br' => 'Portuguese',
-	'en' => 'English'
+	'pt-br' => 'Português',
+	'en' => 'English',
+	'cliqueAbreFecha' => 'Click to open/close',
+	'sintaxe' => '<h1>Equation\'s syntax</h1>
+		Expression: <code>\'X+1\'</code><br>
+		Expression: <code>\'Δ = B^2-4*A*C\'</code><br>
+		Derivative: <code>\'A(X) = ∂t(V(X))\'</code><br>
+		Integral: <code>\'∫(0, X, EXP(t), t)\'</code><br>
+		Vector: <code>[3 \'X*COS(θ)\']</code><br>
+		Matrix: <code>[[1 \'A\'][3 4]]</code><br>
+		List: <code>{\'X = 3\' (1.,-1.)}</code>'
 );

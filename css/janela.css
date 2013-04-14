@@ -8,7 +8,7 @@
 	width:100%;
 	z-index:3;
 }
-.janela, .janelaMenor, .janelaMaior, .janelaCarregando, .janelaDicas {
+.janela, .janelaMenor, .janelaMaior, .janelaCarregando, .janelaDicas, .janelaSintaxe {
 	background-image:url(img/debut_dark.png);
 	box-shadow:0 0 10px black;
 	position:absolute;
@@ -190,7 +190,7 @@
 	-webkit-transition:bottom .5s ease;
 	cursor:pointer;
 }
-.janelaDicas-conteudo {
+.janelaDicas-conteudo, .janelaSintaxe-conteudo {
 	background-color:rgba(255,255,255,.5);
 	padding:15px;
 	overflow:auto;
@@ -199,6 +199,21 @@
 	-webkit-user-select:none;
 	user-select:none;
 }
+
+/* Janela de dicas de sintaxe */
+.janelaSintaxe {
+	top:25%;
+	right:0;
+	padding:15px;
+	max-width:25%;
+	border-top-left-radius:15px;
+	border-bottom-left-radius:15px;
+	transition:right .5s ease;
+	-webkit-transition:right .5s ease;
+	cursor:pointer;
+}
+
+/* Janela de desenho */
 .janelaDesenho-grupoCores {
 	display:inline-block;
 	border-bottom:thin black solid;

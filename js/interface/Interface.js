@@ -50,6 +50,7 @@ Interface.init = function () {
 	InterfaceAnexos.init()
 	InterfaceIndices.init()
 	JanelaDicas.init()
+	JanelaSintaxe.init()
 	JanelaAjuda.init()
 	JanelaImagem.init()
 	JanelaDesenho.init()

@@ -25,6 +25,7 @@ $arquivos = array(
 	'interface/JanelaImagem.js',
 	'interface/JanelaAjuda.js',
 	'interface/JanelaDicas.js',
+	'interface/JanelaSintaxe.js',
 	'interface/JanelaDesenho.js',
 	'interface/Ordenavel.js',
 	'editor.js'

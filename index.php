@@ -394,5 +394,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div id="janelaDicas" class="janelaDicas" title="<?=get('cliqueFecha')?>" style="bottom:-26%">
 	<div class="janelaDicas-conteudo" id="janelaDicas-conteudo"></div>
 </div>
+
+<!-- Janela de ajuda com a sintaxe de equações -->
+<div id="janelaSintaxe" class="janelaSintaxe" title="<?=get('cliqueAbreFecha')?>" style="right:-26%">
+	<div class="janelaSintaxe-conteudo"><?=get('sintaxe')?></div>
+</div>
 </body>
 </html>

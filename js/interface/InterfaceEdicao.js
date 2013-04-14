@@ -12,6 +12,7 @@ InterfaceEdicao.atualizarFerramentas = function () {
 	var edicao, no, ferramenta = "", divs, i, alinhamento, e
 	edicao = get("edicao")
 	
+	JanelaSintaxe.fechar(false)
 	if (InterfaceEdicao.editandoImagem)
 		return
 	
@@ -44,6 +45,7 @@ InterfaceEdicao.atualizarFerramentas = function () {
 			break
 		} else if (no.nodeName == "H6") {
 			ferramenta = "ferramenta-equacao"
+			JanelaSintaxe.abrir(false)
 			break
 		} else if (no.nodeName.match(/^H[1-5]$/)) {
 			ferramenta = "ferramenta-"+no.nodeName.toLowerCase()
