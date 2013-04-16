@@ -119,17 +119,19 @@ JanelaDesenho.onconfirmar = function () {
 
 // Inicia a operação de desenho
 JanelaDesenho.onabrir = function () {
-	var canvas, contexto
+	var canvas, contexto, img, x, y
 	canvas = get("janelaDesenho-canvas")
 	contexto = canvas.getContext("2d")
 	contexto.clearRect(0, 0, 393, 240)
+	contexto.fillRect(0, 0, 393, 240)
 	
-	if (JanelaImagem.imagem && JanelaImagem.imagem.dataset.desenhado && JanelaImagem.imagem.dataset.imagem)
+	if (JanelaImagem.imagem && JanelaImagem.imagem.dataset.desenhado && JanelaImagem.imagem.dataset.imagem) {
 		// Desenha a imagem anterior
-		contexto.drawImage(Imagem.imagens[JanelaImagem.imagem.dataset.imagem], 0, 0)
-	else
-		// Apaga a tela
-		contexto.fillRect(0, 0, 393, 240)
+		img = Imagem.imagens[JanelaImagem.imagem.dataset.imagem]
+		x = (393-3*img.width)/2
+		y = (240-3*img.height)/2
+		contexto.drawImage(img, 0, 0, img.width, img.height, x, y, 3*img.width, 3*img.height)
+	}
 	
 	Interface.ultimoTipoFocado = "desenho"
 	JanelaDesenho.historico = [canvas.toDataURL()]

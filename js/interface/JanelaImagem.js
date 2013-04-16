@@ -103,7 +103,7 @@ JanelaImagem.inserirElemento = function () {
 		} else {
 			// Insere na página
 			html = "<figure><img onclick='InterfaceEdicao.editarImagem(event)' src='"+url+"' data-imagem='"+
-				elemento.imagem+"' data-filtro='"+elemento.filtro+"' data-ajuste='"+elemento.ajuste+"' data-tamanho='"+
+				elemento.imagem+"' width='"+(2*elemento.tamanho)+"px' data-filtro='"+elemento.filtro+"' data-ajuste='"+elemento.ajuste+"' data-tamanho='"+
 				elemento.tamanho+"' data-cache='"+cache+"'"+(JanelaImagem.imagem.dataset.desenhado ? " data-desenhado='1'" : "")+"></figure>"
 			InterfaceEdicao.focar()
 			document.execCommand("insertHTML", false, html)
