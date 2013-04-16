@@ -230,7 +230,7 @@ InterfaceAnexos.editar = function () {
 
 // Retorna a posição da div foco
 InterfaceAnexos.getPosicaoFoco = function () {
-	var divs
+	var divs, i
 	divs = get("anexos").childNodes
 	if (InterfaceAnexos.foco)
 		for (i=0; i<divs.length; i++)

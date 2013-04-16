@@ -11,7 +11,7 @@ InterfaceIndices.init = function () {
 	get("indices-remover").onclick = InterfaceIndices.remover
 	get("indices-acrescentar").onclick = InterfaceIndices.adicionar
 	get("indices-opcoes").onclick = function () {
-		opcoes = {}
+		var opcoes = {}
 		opcoes.titulo = _("autoIndexacao")
 		opcoes.conteudo = "<p>"+_("autoIndexacao_dica")+"</p>"+
 			"<p><input type='checkbox' id='js-check'"+(Interface.abaFoco.livro.autoIndexacao ? " checked" : "")+"> <label for='js-check'>"+_("autoIndexacao_ativar")+"</label></p>"
@@ -176,7 +176,7 @@ InterfaceIndices.atualizarLayout = function () {
 
 // Remove o índice selecionado
 InterfaceIndices.remover = function () {
-	var indice, arrayPai
+	var indice, arrayPai, pos
 	
 	if (!InterfaceIndices.foco)
 		return

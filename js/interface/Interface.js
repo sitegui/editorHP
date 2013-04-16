@@ -58,12 +58,15 @@ Interface.init = function () {
 
 // Controla atalhos
 addEventListener("keydown", function (evento) {
-	var atalho = true, i
+	var atalho = true, i, fechar
 	
-	if (document.activeElement.nodeName == "INPUT")
+	if (!evento.ctrlKey && !evento.shiftKey && evento.keyCode == 27 && Interface.janelaAberta) {
+		// Esc = fechar janela
+		if (fechar = Interface.janelaAberta.querySelector(".janela-fechar"))
+			fechar.click()
+	} else if (document.activeElement.nodeName == "INPUT")
 		return
-	
-	if (evento.ctrlKey && !evento.shiftKey && evento.keyCode == 79)
+	else if (evento.ctrlKey && !evento.shiftKey && evento.keyCode == 79)
 		// Ctrl+O = abrir
 		Interface.abrirJanela("janelaAbrir", "recentes")
 	else if (evento.ctrlKey && !evento.shiftKey && evento.keyCode == 83)
@@ -209,6 +212,7 @@ Interface.fecharJanela = function () {
 	if (Interface.janelaAberta) {
 		get("fundoJanela").style.display = "none"
 		Interface.janelaAberta.style.display = "none"
+		document.activeElement.blur()
 		Interface.janelaAberta = null
 	}
 }
