@@ -1,0 +1,5 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Abre a biblioteca com os livros já abertos
+"Foi" MSGBOX
+\>>

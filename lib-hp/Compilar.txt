@@ -1,0 +1,14 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Define as propriedades da biblioteca
+0 '$CONFIG' STO
+{Apps Biblioteca} '$HIDDEN' STO
+{AbrirLivroNaBiblioteca} '$VISIBLE' STO
+937 '$ROMID' STO
+'Apps' '$EXTPRG' STO
+"Biblioteca" '$TITLE' STO
+CRLIB
+
+@ Limpa as variáveis temporárias
+{$TITLE $EXTPRG $ROMID $VISIBLE $HIDDEN $CONFIG Compilar Biblioteca Apps AbrirLivroNaBiblioteca} PURGE
+\>>

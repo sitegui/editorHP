@@ -1,0 +1,12 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Define o programa para incluir o atalho em APPs
+IF DUP 0 R~SB == THEN
+	SWAP
+	DUP SIZE 1. +
+	PUSH -49 CF -50 CF \->STR POP
+	"Biblioteca" + \<< Biblioteca \>>
+	2. \->LIST 1. \->LIST +
+	SWAP
+END
+\>>
