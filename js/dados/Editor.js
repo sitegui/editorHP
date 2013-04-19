@@ -159,9 +159,10 @@ Editor.autoPaginar = function () {
 	})
 }
 
-// Aplica a auto indexação no livro aberto
-Editor.autoIndexar = function () {
-	var novosIndices, i, livro, j, elemento, ultimoNivel, localAtual, dif, novo, ultimo, temp, antes, criado
+// Aplica a auto indexação num livro
+// Se o livro não for dado, usa o livro atualmente aberto e dispara uma ação caso seja alterado
+Editor.autoIndexar = function (livro) {
+	var novosIndices, i, j, elemento, ultimoNivel, localAtual, dif, novo, ultimo, temp, antes, criado, background
 	
 	// Sobe até a raiz
 	var subir = function () {
@@ -172,11 +173,16 @@ Editor.autoIndexar = function () {
 		}
 	}
 	
+	background = false
+	if (livro === undefined)
+		livro = Interface.abaFoco.livro
+	else
+		background = true
+	
 	// Percorre cada página, criando os índices para os cabecalhos
 	novosIndices = []
 	novosIndices.acima = null
 	localAtual = novosIndices
-	livro = Interface.abaFoco.livro
 	ultimoNivel = 6
 	for (i=0; i<livro.paginas.length; i++) {
 		criado = false
@@ -190,6 +196,7 @@ Editor.autoIndexar = function () {
 					novo = new SubIndice
 					novo.nome = ultimo.nome
 					novo.indices.push(ultimo)
+					novo.cabecalho = ultimo.cabecalho
 					localAtual[localAtual.length-1] = novo
 					
 					// Desce e cria um índice folha
@@ -208,6 +215,7 @@ Editor.autoIndexar = function () {
 				novo = new FolhaIndice
 				novo.nome = elemento.texto
 				novo.pagina = livro.paginas[i]
+				novo.cabecalho = elemento
 				localAtual.push(novo)
 				ultimoNivel = elemento.nivel
 				criado = true
@@ -239,6 +247,12 @@ Editor.autoIndexar = function () {
 				limpar(indices[i].indices)
 	}
 	limpar(novosIndices)
+	
+	// Se a operação for feita em background, já aplica o novo resultado
+	if (background) {
+		livro.indices = novosIndices
+		return
+	}
 	
 	// Compara o resultado para ver se mudou alguma coisa
 	antes = livro.indices

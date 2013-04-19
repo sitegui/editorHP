@@ -5,6 +5,7 @@ function FolhaIndice() {
 	this.id = String(Math.random())
 	this.nome = ""
 	this.pagina = null
+	this.cabecalho = null
 }
 
 // Clona o índice
@@ -21,6 +22,7 @@ function SubIndice() {
 	this.id = String(Math.random())
 	this.nome = ""
 	this.indices = []
+	this.cabecalho = null
 }
 
 // Clona o índice

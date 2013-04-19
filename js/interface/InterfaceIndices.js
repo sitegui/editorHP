@@ -268,11 +268,18 @@ InterfaceIndices.editar = function () {
 		return
 	
 	indice = InterfaceIndices.getIndice(InterfaceIndices.foco)
+	
+	// Verifica se é possível renomear o índice
+	if (Interface.abaFoco.livro.autoIndexacao && !indice.cabecalho) {
+		alert(_("erroRenomearIndice"))
+		return
+	}
+	
 	nomeAntigo = indice.nome
 	opcoes = {}
 	opcoes.titulo = _("editarIndice")
 	opcoes.conteudo = "<p>"+_("nome")+": <input size='30' id='js-nome' value=\""+Compilador.desanitizar(nomeAntigo).replace(/"/g, "&quot;")+"\"></p>"
-	if (indice instanceof FolhaIndice) {
+	if (indice instanceof FolhaIndice && !Interface.abaFoco.livro.autoIndexacao) {
 		select = ""
 		paginaAntiga = Interface.abaFoco.livro.paginas.indexOf(indice.pagina)
 		for (i=0; i<Interface.abaFoco.livro.paginas.length; i++)
@@ -283,21 +290,31 @@ InterfaceIndices.editar = function () {
 		var nome, pagina
 		
 		nome = Compilador.sanitizar(get("js-nome").value)
-		if (indice instanceof FolhaIndice)
+		if (indice instanceof FolhaIndice && !Interface.abaFoco.livro.autoIndexacao)
 			pagina = Number(get("js-pagina").value)
 		if (!nome)
 			return
 		
 		new Acao(_("edicaoIndice"), function () {
 			indice.nome = nome
-			if (indice instanceof FolhaIndice)
+			if (indice instanceof FolhaIndice && !Interface.abaFoco.livro.autoIndexacao)
 				indice.pagina = Interface.abaFoco.livro.paginas[pagina]
 			InterfaceIndices.atualizar()
+			if (Interface.abaFoco.livro.autoIndexacao && indice.cabecalho) {
+				indice.cabecalho.texto = nome
+				InterfacePaginas.montarMiniaturas()
+				InterfaceEdicao.atualizar()
+			}
 		}, function () {
 			indice.nome = nomeAntigo
-			if (indice instanceof FolhaIndice)
+			if (indice instanceof FolhaIndice && !Interface.abaFoco.livro.autoIndexacao)
 				indice.pagina = paginaAntiga==-1 ? null : Interface.abaFoco.livro.paginas[paginaAntiga]
 			InterfaceIndices.atualizar()
+			if (Interface.abaFoco.livro.autoIndexacao && indice.cabecalho) {
+				indice.cabecalho.texto = nomeAntigo
+				InterfacePaginas.montarMiniaturas()
+				InterfaceEdicao.atualizar()
+			}
 		})
 	}
 	Interface.abrirJanela("janelaBasica", opcoes)

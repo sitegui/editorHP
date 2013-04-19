@@ -85,7 +85,8 @@ var strs = {
 	dica8: "You can attach equations, formulae, tables and imagens with your file",
 	dica9: "Did you like this software? Tell your friends! Help <a href='https://github.com/sitegui/editorHP/' target='_blank'>develop</a> more features",
 	semAutoIndexar: "Book without auto index",
-	semAutoIndexar_conteudo: "You're trying to save a book with auto index off.<br>Do you want to turn it on again before saving?"
+	semAutoIndexar_conteudo: "You're trying to save a book with auto index off.<br>Do you want to turn it on again before saving?",
+	erroRenomearIndice: "You can't rename this index because it is not linked with any header"
 }
 
 // Retorna a tradução correta para o texto

@@ -112,8 +112,11 @@ Compilador.inflar = function (str) {
 	}
 	
 	// Constrói o índice
-	for (i=0; i<obj[3].length; i++)
-		livro.indices.push(gerarIndice(obj[3][i]))
+	if (livro.autoIndexacao)
+		Editor.autoIndexar(livro)
+	else
+		for (i=0; i<obj[3].length; i++)
+			livro.indices.push(gerarIndice(obj[3][i]))
 	
 	// Constrói os anexos
 	for (i=0; i<obj[5].length; i++) {
