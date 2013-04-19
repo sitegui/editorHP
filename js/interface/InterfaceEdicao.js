@@ -85,13 +85,9 @@ InterfaceEdicao.init = function () {
 		document.execCommand("enableObjectResizing", false, false)
 	}
 	
-	// Esconde as ferramentas e inicia o processo de normalização do HTML
-	edicaoOnBlur = function () {
+	get("edicao").onblur = function () {
+		// Esconde as ferramentas e inicia o processo de normalização do HTML
 		if (InterfaceEdicao.editandoImagem)
-			return
-		
-		if (!document.hasFocus())
-			// Perdeu o foco geral (alt+tab por exemplo)
 			return
 		
 		if (document.activeElement == get("edicao"))
@@ -123,11 +119,6 @@ InterfaceEdicao.init = function () {
 				Editor.autoIndexar()
 			Interface.carregando = false
 		})
-	}
-	
-	get("edicao").onblur = function () {
-		// Dá tempo da janela perder foco em caso de Alt+Tab
-		setTimeout(edicaoOnBlur, 500)
 	}
 	
 	// Evita que atalhos atrapalhem a edição
