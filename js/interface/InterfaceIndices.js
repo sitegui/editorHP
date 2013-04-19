@@ -181,6 +181,11 @@ InterfaceIndices.remover = function () {
 	if (!InterfaceIndices.foco)
 		return
 	
+	if (Interface.abaFoco.livro.autoIndexacao) {
+		alert(_("erroAlterarIndices"))
+		return
+	}
+	
 	indice = InterfaceIndices.getIndice(InterfaceIndices.foco)
 	
 	// Busca a array e posição que esse indice ocupa
@@ -209,6 +214,11 @@ InterfaceIndices.remover = function () {
 // Adiciona um índice após o selecionado
 InterfaceIndices.adicionar = function () {
 	var indice, opcoes, select, i, pos, arrayPai
+	
+	if (Interface.abaFoco.livro.autoIndexacao) {
+		alert(_("erroAlterarIndices"))
+		return
+	}
 	
 	// Pega a posição que vai inserir
 	// Busca a array e posição que esse indice ocupa

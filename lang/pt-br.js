@@ -86,7 +86,8 @@ var strs = {
 	dica9: "Gostou desse programa? Fale para seus amigos! Ajude a <a href='https://github.com/sitegui/editorHP/' target='_blank'>desenvolver</a> mais ferramentas",
 	semAutoIndexar: "Livro sem auto indexação",
 	semAutoIndexar_conteudo: "Você está salvando um livro com a opção de auto indexar desligada.<br>Deseja reativa-la antes de salvar?",
-	erroRenomearIndice: "Não é possível renomear o índice pois ele não está associado a um cabeçalho"
+	erroRenomearIndice: "Não é possível renomear o índice pois ele não está associado a um cabeçalho",
+	erroAlterarIndices: "Não é possível remover ou adicionar índices enquanto a auto indexação estiver ativa"
 }
 
 // Retorna a tradução correta para o texto
