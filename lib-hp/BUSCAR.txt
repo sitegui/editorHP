@@ -1,0 +1,24 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Faz uma busca pela string dada (case sensitive)
+
+{} \-> string opcoes
+\<<
+	@ Percorre todas, buscando a desejada
+	1. \<-strings SIZE FOR j
+		IF '\<-strings' j GET string POS THEN
+			@ Coloca a página na lista de opções
+			'opcoes' "P\225gina " j +  j 2. \->LIST 1. \->LIST STO+
+		END
+	NEXT
+	
+	@ Mostra o resultado
+	IF opcoes SIZE THEN
+		WHILE "Resultados" opcoes 1. CLLCD CHOOSE REPEAT
+			GETPAGINACOMPILADA
+		END
+	ELSE
+		"Nada encontrado" MSGBOX
+	END
+\>>
+\>>

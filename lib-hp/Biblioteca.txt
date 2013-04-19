@@ -1,5 +1,18 @@
 %%HP: T(3)A(R)F(.);
 \<<
 @ Abre a biblioteca com os livros já abertos
-"Foi" MSGBOX
+
+AbrirPasta \-> path \<<
+
+IF "Biblioteca" Nomes 1. CHOOSE THEN
+	Nomes SWAP POS
+	'Dados' SWAP GET
+	IFERR ABRIRLIVRO THEN
+		path EVAL
+		ERRN DOERR
+	END
+END
+
+path EVAL
+\>>
 \>>

@@ -6,6 +6,17 @@ CLLCD "Abrindo..." 1. DISP
 "sitegui.com.br" 3. DISP
 STR\->
 DIR
+  GETPAGINACOMPILADA
+  \<<
+    IF DUP 0. ==
+    THEN DROP "\205ndice inv\225lido" MSGBOX
+    ELSE '\<-cache' OVER GET
+      IF DUP 0. ==
+      THEN DROP '\<-paginas' OVER GET COMPILARPAGINA PICT RCL DUP ROT SWAP '\<-cache' UNROT PUT
+      ELSE SWAP DROP
+      END PICT STO { } PVIEW
+    END
+  \>>
   COMPILARPAGINA
   \<< 0. 131. 0. 0. 0. \-> \<-n \<-largura tipo \<-altura \<-y
     \<< OBJ\-> '\<-n' STO "Gerando..." 1. DISP 1. \<-n
@@ -65,11 +76,11 @@ DIR
     \>>
   \>>
   ABRIRLIVRO
-  \<< OBJ\-> DROP 0. { } { } \-> versao \<-nome opcoes \<-indice \<-paginas \<-anexos \<-strings n \<-posIndice \<-cache
+  \<< OBJ\-> DROP 0. { } { } \-> \<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-anexos \<-strings n \<-posIndice \<-cache
     \<<
-      IF versao 1. \=/
+      IF \<-versao 1. \=/
       THEN "Vers\227o incompat\237vel" DOERR
-      END \<-paginas SIZE 'n' STO 1. n
+      END Gui DROP \<-paginas SIZE 'n' STO 1. n
       START 0.
       NEXT n \->LIST '\<-cache' STO MONTARINDICERAIZ
     \>>
@@ -131,6 +142,7 @@ a ser buscado" ""
         END
       END
     END
+
   \>>
   MONTARINDICE
   \<< 0. 0. { } \-> subindice n lista
@@ -162,22 +174,15 @@ a ser buscado" ""
     ELSE MONTARINDICERAIZ
     END
   \>>
-  GETPAGINACOMPILADA
-  \<<
-    IF DUP 0. ==
-    THEN DROP "\205ndice inv\225lido" MSGBOX
-    ELSE '\<-cache' OVER GET
-      IF DUP 0. ==
-      THEN DROP '\<-paginas' OVER GET COMPILARPAGINA PICT RCL DUP ROT SWAP '\<-cache' UNROT PUT
-      ELSE SWAP DROP
-      END PICT STO { } PVIEW
-    END
-  \>>
 END
 'TEMPLIVRO' PGDIR
 'TEMPLIVRO' STO
 TEMPLIVRO
-ABRIRLIVRO
+IFERR ABRIRLIVRO THEN
+	UPDIR
+	'TEMPLIVRO' PGDIR
+	ERRN DOERR
+END
 UPDIR
 'TEMPLIVRO' PGDIR
 \>>

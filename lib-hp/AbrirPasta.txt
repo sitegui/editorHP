@@ -1,0 +1,18 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Entra na pasta dos dados da biblioteca e cria o que for necessário
+@ Deixa o caminho para a pasta onde estava na stack, dê EVAL para voltar para lá
+
+@ Entra na pasta de cache
+PATH HOME
+IF 'Livros' VTYPE -1 == THEN
+	Livros CRDIR
+END
+Livros
+
+@ Cria o arquivo de livros
+IF 'Nomes' VTYPE -1 == 'Dados' VTYPE -1 == OR THEN
+	{} 'Nomes' STO
+	{} 'Dados' STO
+END
+\>>

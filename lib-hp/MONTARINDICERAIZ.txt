@@ -1,0 +1,37 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Monta o índice raiz
+
+\<-indice 1. \<<
+	1. GET NSUB 2. \->LIST
+\>>
+DOSUBS
+
+IF \<-anexos SIZE THEN
+	{{"Anexos" 0.}} +
+END
+
+{{"Buscar" -1.}} +
+
+\<-nome SWAP 1.
+
+IF CLLCD CHOOSE THEN
+	IF DUP -1. == THEN
+		@ Faz uma busca
+		DROP
+		"Digite o termo\010a ser buscado" ""
+		IFERR INPUT THEN
+			DROP DROP
+		ELSE
+			BUSCAR
+		END
+		MONTARINDICERAIZ
+	ELSE
+		IF DUP THEN
+			'\<-posIndice' STO+ MONTARINDICE
+		ELSE
+			DROP MONTARANEXOS
+		END
+	END
+END
+\>>

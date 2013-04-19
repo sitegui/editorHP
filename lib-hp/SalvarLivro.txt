@@ -1,0 +1,21 @@
+%%HP: T(3)A(R)F(.);
+\<< 
+@ Salva o livro na biblioteca e retorna 0
+
+AbrirPasta
+
+@ Vê se o livro já não está salvo
+Nomes \<-nome POS
+IF DUP THEN
+	DUP 'Nomes' SWAP \<-nome PUT
+	'Dados' SWAP \<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-anexos \<-strings 7. \->LIST PUT
+ELSE
+	DROP
+	\<-nome 'Nomes' STO+
+	\<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-anexos \<-strings 7. \->LIST 1. \->LIST 'Dados' STO+
+END
+
+@ Volta para a pasta onde estava e retorna 0
+EVAL
+0
+\>>

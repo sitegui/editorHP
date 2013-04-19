@@ -1,0 +1,21 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Compila um objeto do tipo texto
+
+@ Transforma em imagem todas as linhas
+SWAP \-> alinhamento \<<
+OBJ\->
+@ Atualiza o número de elementos visíveis
+DUP 1. - '\<-n' STO+
+1. SWAP FOR j
+	1. \->GROB
+	@ Pega o tamanho
+	DUP SIZE B\->R '\<-altura' STO+
+	@ Salva, se maior
+	B\->R \<-largura MAX '\<-largura' STO
+	@ Salva numa lista
+	alinhamento SWAP 1. j == 0. 4. \->LIST \<-n ROLLD
+NEXT
+6. '\<-altura' STO+
+\>>
+\>>
