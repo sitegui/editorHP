@@ -69,7 +69,13 @@ $compilado .= chr(($tamanho>>12)%0x1000);
 $compilado .= $livro2;
 $compilado .= substr(file_get_contents('COMPILADO.hp'), 34);
 
+// Limpa espaços do nome
+$nome = $_POST['nome'];
+for ($i=0; $i<strlen($nome); $i++)
+	if ($nome[$i] == ' ' || $nome[$i] == '_')
+		$nome = substr($nome, 0, $i) . substr($nome, $i+1);
+
 // Manda como download
-header('Content-Disposition: attachment; filename="' . $_POST['nome'] . '.hp"');
+header('Content-Disposition: attachment; filename="' . $nome . '.hp"');
 header('Content-Type: application/octet-stream');
 echo $compilado;

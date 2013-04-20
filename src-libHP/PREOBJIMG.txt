@@ -1,0 +1,11 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Compila um objeto do tipo imagem
+
+@ Pega o tamanho
+DUP SIZE B\->R 6. + '\<-altura' STO+
+@ Salva, se maior
+B\->R \<-largura MAX '\<-largura' STO
+@ Salva numa lista (força alinhamento no centro)
+0. SWAP 1. 0. 4. \->LIST \<-n ROLLD
+\>>

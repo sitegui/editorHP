@@ -1,0 +1,13 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Compila um objeto do tipo cabeçalho
+
+@ Transforma em imagem
+SWAP DROP 2. \->GROB
+@ Pega o tamanho
+DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R
+@ Salva, se maior
+\<-largura MAX '\<-largura' STO
+@ Salva numa lista
+1. 0. 4. \->LIST \<-n ROLLD
+\>>

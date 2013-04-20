@@ -84,6 +84,7 @@ var strs = {
 	dica7: "Você pode trocar páginas, anexos e índices de lugar. Basta arrasta-los",
 	dica8: "Você pode anexar equações, fórmulas, tabelas e imagens junto com seu arquivo",
 	dica9: "Gostou desse programa? Fale para seus amigos! Ajude a <a href='https://github.com/sitegui/editorHP/' target='_blank'>desenvolver</a> mais ferramentas",
+	dica10: "Para instalar essa biblioteca na sua calculadora, salve esse arquivo no diretório HOME da HP e execute <code>EditorHP :1:937 STO HOME 937 ATTACH</code>. Para acessa-la depois, use o menu APPS",
 	semAutoIndexar: "Livro sem auto indexação",
 	semAutoIndexar_conteudo: "Você está salvando um livro com a opção de auto indexar desligada.<br>Deseja reativa-la antes de salvar?",
 	erroRenomearIndice: "Não é possível renomear o índice pois ele não está associado a um cabeçalho",

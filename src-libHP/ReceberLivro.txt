@@ -1,0 +1,28 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Deixa a calculadora apta a receber um livro de outra por infra vermelho
+
+@ Recebe o livro no formato {nome dado}
+'TEMP' PURGE
+IFERR
+	RCLF -33. SF -35. SF
+	RECV TEMP OBJ\-> DROP \-> nome dado \<<
+	@ Salva na lista
+	Nomes nome POS
+	IF DUP THEN
+		DUP 'Nomes' SWAP nome PUT
+		'Dados' SWAP dado PUT
+	ELSE
+		DROP
+		nome 'Nomes' STO+
+		dado 1. \->LIST 'Dados' STO+
+	END
+	
+	@ Alerta
+	nome " recebido" + MSGBOX
+\>>
+THEN END
+STOF
+'TEMP' PURGE
+
+\>>

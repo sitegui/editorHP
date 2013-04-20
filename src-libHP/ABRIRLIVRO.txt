@@ -10,7 +10,7 @@ OBJ\-> DROP 0. {} {} \-> \<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-ane
 	END
 	
 	@ Salva o livro na biblioteca
-	SalvarLivro DROP
+	SalvarNaBiblioteca DROP
 	
 	@ Inicializa o cache de páginas
 	\<-paginas SIZE 'n' STO

@@ -103,5 +103,6 @@ $strs = array(
 		Integral: <code>\'∫(0, X, EXP(t), t)\'</code><br>
 		Vector: <code>[3 \'X*COS(θ)\']</code><br>
 		Matrix: <code>[[1 \'A\'][3 4]]</code><br>
-		List: <code>{\'X = 3\' (1.,-1.)}</code>'
+		List: <code>{\'X = 3\' (1.,-1.)}</code>',
+	'baixarBiblioteca' => 'Download library'
 );

@@ -1,0 +1,28 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Abre a biblioteca com os livros já abertos
+
+AbrirPasta \-> path \<<
+
+"Biblioteca"
+Nomes {{"\>> Remover livros" 0.} {"\>> Receber livro" 1.}} +
+
+IF 1. CLLCD CHOOSE THEN
+	CASE
+		DUP TYPE 2. == THEN
+			@ Abre o livro selecionado
+			Nomes SWAP POS
+			'Dados' SWAP GET
+			IFERR ABRIRLIVRO THEN
+				path EVAL
+				ERRN DOERR
+			END
+		END
+		DUP 0. == THEN DROP ExcluirLivros Biblioteca END
+		1. == THEN ReceberLivro Biblioteca END
+	END
+END
+
+path EVAL
+\>>
+\>>
