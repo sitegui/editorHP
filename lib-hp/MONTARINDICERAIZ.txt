@@ -8,10 +8,10 @@
 DOSUBS
 
 IF \<-anexos SIZE THEN
-	{{"Anexos" 0.}} +
+	{{"\>> Anexos" 0.}} +
 END
 
-{{"Buscar" -1.}} +
+{{"\>> Buscar" -1.}} +
 
 \<-nome SWAP 1.
 

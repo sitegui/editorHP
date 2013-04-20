@@ -1,10 +1,4 @@
 %%HP: T(3)A(R)F(.);
-\<<
-"O livro vai aqui"
-CLLCD "Abrindo..." 1. DISP
-"Criado em" 2. DISP
-"sitegui.com.br" 3. DISP
-STR\->
 DIR
   MONTARANEXOS
   \<<
@@ -90,7 +84,7 @@ DIR
     \<<
       IF \<-versao 1. \=/
       THEN "Vers\227o incompat\237vel" DOERR
-      END SalvarLivro DROP \<-paginas SIZE 'n' STO 1. n
+      END SalvarNaBiblioteca DROP \<-paginas SIZE 'n' STO 1. n
       START 0.
       NEXT n \->LIST '\<-cache' STO MONTARINDICERAIZ
     \>>
@@ -174,14 +168,3 @@ a ser buscado" ""
     \>>
   \>>
 END
-'TEMPLIVRO' PGDIR
-'TEMPLIVRO' STO
-TEMPLIVRO
-IFERR ABRIRLIVRO THEN
-	UPDIR
-	'TEMPLIVRO' PGDIR
-	ERRN DOERR
-END
-UPDIR
-'TEMPLIVRO' PGDIR
-\>>

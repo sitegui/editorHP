@@ -4,12 +4,23 @@
 
 AbrirPasta \-> path \<<
 
-IF "Biblioteca" Nomes 1. CHOOSE THEN
-	Nomes SWAP POS
-	'Dados' SWAP GET
-	IFERR ABRIRLIVRO THEN
-		path EVAL
-		ERRN DOERR
+"Biblioteca"
+Nomes {{"\>> Remover livros" 0.} {"\>> Enviar livro" 1.} {"\>> Receber livro" 2.}} +
+
+IF 1. CHOOSE THEN
+	CASE
+		DUP TYPE 2. == THEN
+			@ Abre o livro selecionado
+			Nomes SWAP POS
+			'Dados' SWAP GET
+			IFERR ABRIRLIVRO THEN
+				path EVAL
+				ERRN DOERR
+			END
+		END
+		DUP 0. == THEN DROP ExcluirLivros Biblioteca END
+		DUP 1. == THEN DROP EnviarLivro Biblioteca END
+		2. == THEN ReceberLivro Biblioteca END
 	END
 END
 

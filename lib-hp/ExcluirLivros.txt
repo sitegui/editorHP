@@ -1,0 +1,23 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Abre o menu com os livros para que se possa excluí-los
+
+"Excluir"
+{{"\<< Voltar" 0.}} Nomes +
+
+IF 1. CHOOSE THEN
+	@ Exclui o livro selecionado
+	IF DUP 0. \=/ THEN
+		Nomes SWAP POS Nomes SIZE \-> n len \<<
+			Nomes OBJ\-> DROP len n - 1. + ROLL DROP
+			len 1. - \->LIST 'Nomes' STO
+			Dados OBJ\-> DROP len n - 1. + ROLL DROP
+			len 1. - \->LIST 'Dados' STO
+		\>>
+		ExcluirLivros
+	ELSE
+		DROP
+	END
+END
+
+\>>
