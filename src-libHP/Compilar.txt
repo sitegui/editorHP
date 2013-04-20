@@ -14,7 +14,7 @@ CRLIB
 
 @ Instala a bibloteca gerada
 :1:937 PURGE
-DUP :1:937 STO 'GUI' STO
+DUP :1:937 STO 'EditorHP' STO
 PUSH
 	HOME 937 ATTACH
 POP

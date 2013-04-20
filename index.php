@@ -116,6 +116,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	<div class="submenu-item" id="submenuSalvar-salvar"><?=get('somenteSalvar')?></div>
 	<div class="submenu-item" id="submenuSalvar-salvarTodos" title="Ctrl+Shift+S"><?=get('salvarTodos')?></div>
 	<div class="submenu-item" id="submenuSalvar-salvarComo"><?=get('salvarComo')?></div>
+	<div class="submenu-item" id="submenuSalvar-baixarBiblioteca"><?=get('baixarBiblioteca')?></div>
 </div>
 
 <!-- Submenus de edição -->

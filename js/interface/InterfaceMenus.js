@@ -110,6 +110,10 @@ InterfaceMenus.init = function () {
 		}
 		Interface.abrirJanela("janelaBasica", opcoes)
 	}
+	get("submenuSalvar-baixarBiblioteca").onclick = function () {
+		JanelaDicas.disparar("acao", "baixarBiblioteca", true)
+		window.open("EditorHP.hp", "_blank")
+	}
 	
 	// Menu ajuda
 	get("menuAjuda").onclick = function () {

@@ -84,6 +84,7 @@ var strs = {
 	dica7: "You can change pages, attachments and indexes places. Just drap them around",
 	dica8: "You can attach equations, formulae, tables and imagens with your file",
 	dica9: "Did you like this software? Tell your friends! Help <a href='https://github.com/sitegui/editorHP/' target='_blank'>develop</a> more features",
+	dica10: "To install this library in your calculator save this file in HP's HOME directory and execute <code>EditorHP :1:937 STO HOME 937 ATTACH</code>. To access this later, use the APPS menu",
 	semAutoIndexar: "Book without auto index",
 	semAutoIndexar_conteudo: "You're trying to save a book with auto index off.<br>Do you want to turn it on again before saving?"
 }
