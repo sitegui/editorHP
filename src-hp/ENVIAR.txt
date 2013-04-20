@@ -1,0 +1,20 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Envia o livro atual para outra HP com a biblioteca instalada
+
+@ Monta o pacote
+\<-nome
+\<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-anexos \<-strings 7. \->LIST
+2. \->LIST
+'TEMP' STO
+
+@ Envia
+RCLF -33. SF -35. SF
+IFERR 'TEMP' SEND THEN
+	@ Ação cancelada pelo usuário
+	DROP
+END
+STOF
+'TEMP' PURGE
+
+\>>

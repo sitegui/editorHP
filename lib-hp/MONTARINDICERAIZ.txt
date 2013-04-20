@@ -13,6 +13,8 @@ END
 
 {{"\>> Buscar" -1.}} +
 
+{{"\>> Enviar livro" -2.}} +
+
 \<-nome SWAP 1.
 
 IF CLLCD CHOOSE THEN
@@ -26,12 +28,17 @@ IF CLLCD CHOOSE THEN
 			BUSCAR
 		END
 		MONTARINDICERAIZ
+	ELSE IF DUP -2. == THEN
+		@ Envia para a outra calculadora
+		DROP
+		ENVIAR
+		MONTARINDICERAIZ
 	ELSE
 		IF DUP THEN
 			'\<-posIndice' STO+ MONTARINDICE
 		ELSE
 			DROP MONTARANEXOS
 		END
-	END
+	END END
 END
 \>>

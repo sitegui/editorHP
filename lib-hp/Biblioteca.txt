@@ -5,9 +5,9 @@
 AbrirPasta \-> path \<<
 
 "Biblioteca"
-Nomes {{"\>> Remover livros" 0.} {"\>> Enviar livro" 1.} {"\>> Receber livro" 2.}} +
+Nomes {{"\>> Remover livros" 0.} {"\>> Receber livro" 1.}} +
 
-IF 1. CHOOSE THEN
+IF 1. CLLCD CHOOSE THEN
 	CASE
 		DUP TYPE 2. == THEN
 			@ Abre o livro selecionado
@@ -19,8 +19,7 @@ IF 1. CHOOSE THEN
 			END
 		END
 		DUP 0. == THEN DROP ExcluirLivros Biblioteca END
-		DUP 1. == THEN DROP EnviarLivro Biblioteca END
-		2. == THEN ReceberLivro Biblioteca END
+		1. == THEN ReceberLivro Biblioteca END
 	END
 END
 

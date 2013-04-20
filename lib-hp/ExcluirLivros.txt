@@ -5,7 +5,7 @@
 "Excluir"
 {{"\<< Voltar" 0.}} Nomes +
 
-IF 1. CHOOSE THEN
+IF 1. CLLCD CHOOSE THEN
 	@ Exclui o livro selecionado
 	IF DUP 0. \=/ THEN
 		Nomes SWAP POS Nomes SIZE \-> n len \<<

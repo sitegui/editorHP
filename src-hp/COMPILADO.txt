@@ -27,6 +27,12 @@ DIR
       END PICT STO { } PVIEW
     END
   \>>
+  ENVIAR
+  \<< \<-nome \<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-anexos \<-strings 7. \->LIST 2. \->LIST 'TEMP' STO RCLF -33. SF -35. SF
+    IFERR 'TEMP' SEND
+    THEN DROP
+    END STOF 'TEMP' PURGE
+  \>>
   COMPILARPAGINA
   \<< 0. 131. 0. 0. 0. \-> \<-n \<-largura tipo \<-altura \<-y
     \<< OBJ\-> '\<-n' STO "Gerando..." 1. DISP 1. \<-n
@@ -134,8 +140,8 @@ DIR
     \<< 1. GET NSUB 2. \->LIST
     \>> DOSUBS
     IF \<-anexos SIZE
-    THEN { { "Anexos" 0. } } +
-    END { { "Buscar" -1. } } + \<-nome SWAP 1.
+    THEN { { "\>> Anexos" 0. } } +
+    END { { "\>> Buscar" -1. } } + { { "\>> Enviar livro" -2. } } + \<-nome SWAP 1.
     IF CLLCD CHOOSE
     THEN
       IF DUP -1. ==
@@ -146,9 +152,13 @@ a ser buscado" ""
         ELSE BUSCAR
         END MONTARINDICERAIZ
       ELSE
-        IF DUP
-        THEN '\<-posIndice' STO+ MONTARINDICE
-        ELSE DROP MONTARANEXOS
+        IF DUP -2. ==
+        THEN DROP ENVIAR MONTARINDICERAIZ
+        ELSE
+          IF DUP
+          THEN '\<-posIndice' STO+ MONTARINDICE
+          ELSE DROP MONTARANEXOS
+          END
         END
       END
     END
