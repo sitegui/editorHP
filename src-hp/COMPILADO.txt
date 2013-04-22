@@ -6,74 +6,6 @@ CLLCD "Abrindo..." 1. DISP
 "sitegui.com.br" 3. DISP
 STR\->
 DIR
-  MONTARANEXOS
-  \<<
-    IF "Anexos" \<-anexos 0. CLLCD CHOOSE
-    THEN
-      IFERR STR\->
-      THEN "Formato inv\225lido" MSGBOX
-      END
-    ELSE MONTARINDICERAIZ
-    END
-  \>>
-  GETPAGINACOMPILADA
-  \<<
-    IF DUP 0. ==
-    THEN DROP "\205ndice inv\225lido" MSGBOX
-    ELSE '\<-cache' OVER GET
-      IF DUP 0. ==
-      THEN DROP '\<-paginas' OVER GET COMPILARPAGINA PICT RCL DUP ROT SWAP '\<-cache' UNROT PUT
-      ELSE SWAP DROP
-      END PICT STO { } PVIEW
-    END
-  \>>
-  ENVIAR
-  \<< \<-nome \<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-anexos \<-strings 7. \->LIST 2. \->LIST 'TEMP' STO RCLF -33. SF -35. SF
-    IFERR 'TEMP' SEND
-    THEN DROP
-    END STOF 'TEMP' PURGE
-  \>>
-  COMPILARPAGINA
-  \<< 0. 131. 0. 0. 0. \-> \<-n \<-largura tipo \<-altura \<-y
-    \<< OBJ\-> '\<-n' STO "Gerando..." 1. DISP 1. \<-n
-      FOR j OBJ\-> DROP 'tipo' STO
-        CASE tipo 0. ==
-          THEN PREOBJTXT
-          END tipo 1. ==
-          THEN PREOBJEQ
-          END tipo 2. ==
-          THEN PREOBJIMG
-          END tipo 3. ==
-          THEN PREOBJCABECALHO
-          END tipo 4. ==
-          THEN PREOBJREGUA
-          END
-        END \<-n j - 2. DISP
-      NEXT \<-largura R\->B \<-altura R\->B BLANK PICT STO "Montando..." 1. DISP 0. \<-n 1. -
-      FOR j \<-n j - 2. DISP
-        IF \<-n j - ROLL OBJ\-> DROP
-        THEN \-> h
-          \<< \<-largura R\->B h R\->B BLANK NEG PICT SWAP 0. R\->B \<-y R\->B 2. \->LIST SWAP GOR '\<-y' h 6. + STO+
-          \>>
-        ELSE 0. 0. \-> lado img eElemento w h
-          \<< img SIZE B\->R 'h' STO B\->R 'w' STO
-            CASE lado -1. ==
-              THEN 0.
-              END lado 0. ==
-              THEN \<-largura w - 2. / FLOOR
-              END lado 1. ==
-              THEN \<-largura w -
-              END
-            END R\->B \<-y R\->B 2. \->LIST PICT SWAP img GOR '\<-y' h
-            IF eElemento
-            THEN 6.
-            ELSE 0.
-            END + STO+
-          \>>
-        END
-      NEXT
-    \>>
-  \>>
   BUSCAR
   \<< { } \-> string opcoes
     \<< 1. \<-strings SIZE
@@ -96,7 +28,10 @@ DIR
     \<<
       IF \<-versao 1. \=/
       THEN "Vers\227o incompat\237vel" DOERR
-      END SalvarLivro DROP \<-paginas SIZE 'n' STO 1. n
+      END
+      IFERR SalvarLivro
+      THEN
+      END \<-paginas SIZE 'n' STO 1. n
       START 0.
       NEXT n \->LIST '\<-cache' STO MONTARINDICERAIZ
     \>>
@@ -181,6 +116,74 @@ a ser buscado" ""
           END
         END
       END
+    \>>
+  \>>
+  MONTARANEXOS
+  \<<
+    IF "Anexos" \<-anexos 0. CLLCD CHOOSE
+    THEN
+      IFERR STR\->
+      THEN "Formato inv\225lido" MSGBOX
+      END
+    ELSE MONTARINDICERAIZ
+    END
+  \>>
+  GETPAGINACOMPILADA
+  \<<
+    IF DUP 0. ==
+    THEN DROP "\205ndice inv\225lido" MSGBOX
+    ELSE '\<-cache' OVER GET
+      IF DUP 0. ==
+      THEN DROP '\<-paginas' OVER GET COMPILARPAGINA PICT RCL DUP ROT SWAP '\<-cache' UNROT PUT
+      ELSE SWAP DROP
+      END PICT STO { } PVIEW
+    END
+  \>>
+  ENVIAR
+  \<< \<-nome \<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-anexos \<-strings 7. \->LIST 2. \->LIST 'TEMP' STO RCLF -33. SF -35. SF
+    IFERR 'TEMP' SEND
+    THEN DROP
+    END STOF 'TEMP' PURGE
+  \>>
+  COMPILARPAGINA
+  \<< 0. 131. 0. 0. 0. \-> \<-n \<-largura tipo \<-altura \<-y
+    \<< OBJ\-> '\<-n' STO "Gerando..." 1. DISP 1. \<-n
+      FOR j OBJ\-> DROP 'tipo' STO
+        CASE tipo 0. ==
+          THEN PREOBJTXT
+          END tipo 1. ==
+          THEN PREOBJEQ
+          END tipo 2. ==
+          THEN PREOBJIMG
+          END tipo 3. ==
+          THEN PREOBJCABECALHO
+          END tipo 4. ==
+          THEN PREOBJREGUA
+          END
+        END \<-n j - 2. DISP
+      NEXT \<-largura R\->B \<-altura R\->B BLANK PICT STO "Montando..." 1. DISP 0. \<-n 1. -
+      FOR j \<-n j - 2. DISP
+        IF \<-n j - ROLL OBJ\-> DROP
+        THEN \-> h
+          \<< \<-largura R\->B h R\->B BLANK NEG PICT SWAP 0. R\->B \<-y R\->B 2. \->LIST SWAP GOR '\<-y' h 6. + STO+
+          \>>
+        ELSE 0. 0. \-> lado img eElemento w h
+          \<< img SIZE B\->R 'h' STO B\->R 'w' STO
+            CASE lado -1. ==
+              THEN 0.
+              END lado 0. ==
+              THEN \<-largura w - 2. / FLOOR
+              END lado 1. ==
+              THEN \<-largura w -
+              END
+            END R\->B \<-y R\->B 2. \->LIST PICT SWAP img GOR '\<-y' h
+            IF eElemento
+            THEN 6.
+            ELSE 0.
+            END + STO+
+          \>>
+        END
+      NEXT
     \>>
   \>>
 END

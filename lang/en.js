@@ -100,7 +100,9 @@ function _(chave, valor) {
 		if (typeof str != "string")
 			// Seleciona a versão de plural correta
 			str = valor==1 ? str[0] : str[1]
-		return str.replace("#", valor)
+		if (valor !== undefined)
+			str = str.replace("#", valor)
+		return str
 	} else
 		return "[["+chave+"]]"
 }

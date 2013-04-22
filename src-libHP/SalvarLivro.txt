@@ -1,6 +1,6 @@
 %%HP: T(3)A(R)F(.);
 \<< 
-@ Salva o livro na biblioteca e retorna 0
+@ Salva o livro na biblioteca
 
 AbrirPasta
 
@@ -15,7 +15,6 @@ ELSE
 	\<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-anexos \<-strings 7. \->LIST 1. \->LIST 'Dados' STO+
 END
 
-@ Volta para a pasta onde estava e retorna 0
+@ Volta para a pasta onde estava
 EVAL
-0
 \>>

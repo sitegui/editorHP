@@ -1,5 +1,3 @@
-"use strict";
-
 <?php
 // Reúne todos os arquivo JS para economizar requisições HTTP
 $arquivos = array(
@@ -37,4 +35,7 @@ foreach ($arquivos as $cada)
 
 $js = implode("\n", $js);
 header('Content-type: application/javascript');
+?>"use strict";
+
+<?php
 echo $js;
