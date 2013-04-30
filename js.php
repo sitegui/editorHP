@@ -25,6 +25,7 @@ $arquivos = array(
 	'interface/JanelaImagem.js',
 	'interface/JanelaAjuda.js',
 	'interface/JanelaDicas.js',
+	'interface/JanelaSintaxe.js',
 	'interface/JanelaDesenho.js',
 	'interface/Ordenavel.js',
 	'editor.js'
@@ -36,4 +37,7 @@ foreach ($arquivos as $cada)
 
 $js = implode("\n", $js);
 header('Content-type: application/javascript');
+?>"use strict";
+
+<?php
 echo $js;

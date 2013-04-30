@@ -9,9 +9,6 @@ OBJ\-> DROP 0. {} {} \-> \<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-ane
 		"Vers\227o incompat\237vel" DOERR
 	END
 	
-	@ Salva o livro na biblioteca
-	IFERR SalvarLivro THEN END
-	
 	@ Inicializa o cache de páginas
 	\<-paginas SIZE 'n' STO
 	1. n START 0. NEXT

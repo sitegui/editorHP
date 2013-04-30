@@ -102,9 +102,9 @@ JanelaImagem.inserirElemento = function () {
 			InterfaceEdicao.focar()
 		} else {
 			// Insere na página
-			html = "<div align='center'><img onclick='InterfaceEdicao.editarImagem(event)' src='"+url+"' data-imagem='"+
-				elemento.imagem+"' data-filtro='"+elemento.filtro+"' data-ajuste='"+elemento.ajuste+"' data-tamanho='"+
-				elemento.tamanho+"' data-cache='"+cache+"'"+(JanelaImagem.imagem.dataset.desenhado ? " data-desenhado='1'" : "")+"></div>"
+			html = "<figure><img onclick='InterfaceEdicao.editarImagem(event)' src='"+url+"' data-imagem='"+
+				elemento.imagem+"' width='"+(2*elemento.tamanho)+"px' data-filtro='"+elemento.filtro+"' data-ajuste='"+elemento.ajuste+"' data-tamanho='"+
+				elemento.tamanho+"' data-cache='"+cache+"'"+(JanelaImagem.imagem.dataset.desenhado ? " data-desenhado='1'" : "")+"></figure>"
 			InterfaceEdicao.focar()
 			document.execCommand("insertHTML", false, html)
 		}
@@ -132,7 +132,7 @@ JanelaImagem.gerarImagem = function (dataURL, desenhado) {
 		Interface.abrirJanela("janelaImagem", imagem)
 	}
 	imagem.onerror = function () {
-		alert("Erro ao abrir imagem")
+		alert(_("erroAbrirImagem"))
 		JanelaImagem.finalizarEdicao()
 	}
 	imagem.src = dataURL
@@ -169,7 +169,7 @@ JanelaImagem.carregarImagem = function () {
 		}
 		xhr.send()
 	} else {
-		alert("Imagem inválida")
+		alert(_("erroCarregarImagem"))
 		JanelaImagem.finalizarEdicao()
 	}
 }
@@ -198,7 +198,7 @@ JanelaImagem.onabrir = function (imagem) {
 		// Nova imagem ou imagem antiga sem original mas com alternativa
 		get("janelaImagem-filtro").value = imagem.dataset.desenhado ? "areas": "basico"
 		get("janelaImagem-ajuste").value = "0"
-		get("janelaImagem-tamanho").value = "131"
+		get("janelaImagem-tamanho").value = String(Math.min(imagem.width, 131))
 		get("janelaImagem-remover").style.display = "none"
 		get("janelaImagem-opcoes").style.display = ""
 		get("janelaImagem-confirmar").style.display = ""

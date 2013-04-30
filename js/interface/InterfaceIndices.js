@@ -11,7 +11,7 @@ InterfaceIndices.init = function () {
 	get("indices-remover").onclick = InterfaceIndices.remover
 	get("indices-acrescentar").onclick = InterfaceIndices.adicionar
 	get("indices-opcoes").onclick = function () {
-		opcoes = {}
+		var opcoes = {}
 		opcoes.titulo = _("autoIndexacao")
 		opcoes.conteudo = "<p>"+_("autoIndexacao_dica")+"</p>"+
 			"<p><input type='checkbox' id='js-check'"+(Interface.abaFoco.livro.autoIndexacao ? " checked" : "")+"> <label for='js-check'>"+_("autoIndexacao_ativar")+"</label></p>"
@@ -176,10 +176,15 @@ InterfaceIndices.atualizarLayout = function () {
 
 // Remove o índice selecionado
 InterfaceIndices.remover = function () {
-	var indice, arrayPai
+	var indice, arrayPai, pos
 	
 	if (!InterfaceIndices.foco)
 		return
+	
+	if (Interface.abaFoco.livro.autoIndexacao) {
+		alert(_("erroAlterarIndices"))
+		return
+	}
 	
 	indice = InterfaceIndices.getIndice(InterfaceIndices.foco)
 	
@@ -209,6 +214,11 @@ InterfaceIndices.remover = function () {
 // Adiciona um índice após o selecionado
 InterfaceIndices.adicionar = function () {
 	var indice, opcoes, select, i, pos, arrayPai
+	
+	if (Interface.abaFoco.livro.autoIndexacao) {
+		alert(_("erroAlterarIndices"))
+		return
+	}
 	
 	// Pega a posição que vai inserir
 	// Busca a array e posição que esse indice ocupa
@@ -268,11 +278,18 @@ InterfaceIndices.editar = function () {
 		return
 	
 	indice = InterfaceIndices.getIndice(InterfaceIndices.foco)
+	
+	// Verifica se é possível renomear o índice
+	if (Interface.abaFoco.livro.autoIndexacao && !indice.cabecalho) {
+		alert(_("erroRenomearIndice"))
+		return
+	}
+	
 	nomeAntigo = indice.nome
 	opcoes = {}
 	opcoes.titulo = _("editarIndice")
 	opcoes.conteudo = "<p>"+_("nome")+": <input size='30' id='js-nome' value=\""+Compilador.desanitizar(nomeAntigo).replace(/"/g, "&quot;")+"\"></p>"
-	if (indice instanceof FolhaIndice) {
+	if (indice instanceof FolhaIndice && !Interface.abaFoco.livro.autoIndexacao) {
 		select = ""
 		paginaAntiga = Interface.abaFoco.livro.paginas.indexOf(indice.pagina)
 		for (i=0; i<Interface.abaFoco.livro.paginas.length; i++)
@@ -283,21 +300,31 @@ InterfaceIndices.editar = function () {
 		var nome, pagina
 		
 		nome = Compilador.sanitizar(get("js-nome").value)
-		if (indice instanceof FolhaIndice)
+		if (indice instanceof FolhaIndice && !Interface.abaFoco.livro.autoIndexacao)
 			pagina = Number(get("js-pagina").value)
 		if (!nome)
 			return
 		
 		new Acao(_("edicaoIndice"), function () {
 			indice.nome = nome
-			if (indice instanceof FolhaIndice)
+			if (indice instanceof FolhaIndice && !Interface.abaFoco.livro.autoIndexacao)
 				indice.pagina = Interface.abaFoco.livro.paginas[pagina]
 			InterfaceIndices.atualizar()
+			if (Interface.abaFoco.livro.autoIndexacao && indice.cabecalho) {
+				indice.cabecalho.texto = nome
+				InterfacePaginas.montarMiniaturas()
+				InterfaceEdicao.atualizar()
+			}
 		}, function () {
 			indice.nome = nomeAntigo
-			if (indice instanceof FolhaIndice)
+			if (indice instanceof FolhaIndice && !Interface.abaFoco.livro.autoIndexacao)
 				indice.pagina = paginaAntiga==-1 ? null : Interface.abaFoco.livro.paginas[paginaAntiga]
 			InterfaceIndices.atualizar()
+			if (Interface.abaFoco.livro.autoIndexacao && indice.cabecalho) {
+				indice.cabecalho.texto = nomeAntigo
+				InterfacePaginas.montarMiniaturas()
+				InterfaceEdicao.atualizar()
+			}
 		})
 	}
 	Interface.abrirJanela("janelaBasica", opcoes)

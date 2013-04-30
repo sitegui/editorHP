@@ -85,7 +85,12 @@ var strs = {
 	dica6: "If you want to turn off auto paging and auto indexing, click on &#9660; in Pages and Indexes panels",
 	dica7: "You can change pages, attachments and indexes places. Just drap them around",
 	dica8: "You can attach equations, formulae, tables and imagens with your file",
-	dica9: "Did you like this software? Tell your friends! Help <a href='https://github.com/sitegui/editorHP/' target='_blank'>develop</a> more features"
+	dica9: "Did you like this software? Tell your friends! Help <a href='https://github.com/sitegui/editorHP/' target='_blank'>develop</a> more features",
+	dica10: "To install this library in your calculator save this file in HP's HOME directory and execute <code>EditorHP :1:937 STO HOME 937 ATTACH</code>. To access this later, use the APPS menu",
+	semAutoIndexar: "Book without auto index",
+	semAutoIndexar_conteudo: "You're trying to save a book with auto index off.<br>Do you want to turn it on again before saving?",
+	erroRenomearIndice: "You can't rename this index because it is not linked with any header",
+	erroAlterarIndices: "You can't add nor remove indexes while auto index is on"
 }
 
 // Retorna a tradução correta para o texto
@@ -97,7 +102,9 @@ function _(chave, valor) {
 		if (typeof str != "string")
 			// Seleciona a versão de plural correta
 			str = valor==1 ? str[0] : str[1]
-		return str.replace("#", valor)
+		if (valor !== undefined)
+			str = str.replace("#", valor)
+		return str
 	} else
 		return "[["+chave+"]]"
 }

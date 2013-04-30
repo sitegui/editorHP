@@ -22,7 +22,7 @@ var Compilador = {}
 
 // Interpreta o livro a partir de uma string
 Compilador.inflar = function (str) {
-	var obj, livro, i, pagina, elemento, temp, anexo, gerarIndice
+	var obj, livro, i, pagina, elemento, temp, anexo, gerarIndice, j
 	
 	// Junta as linhas de um elemento de texto, preservando os \n impostos pelo usuário
 	var juntarLinhas = function (linhas) {
@@ -49,6 +49,7 @@ Compilador.inflar = function (str) {
 	livro.modificacao = obj[2][1]
 	livro.autoPaginacao = Boolean(obj[2][2])
 	livro.autoIndexacao = Boolean(obj[2][3])
+	livro.naoUsuario = !livro.autoIndexacao
 	
 	// Constrói as páginas
 	for (i=0; i<obj[4].length; i++) {
@@ -111,8 +112,11 @@ Compilador.inflar = function (str) {
 	}
 	
 	// Constrói o índice
-	for (i=0; i<obj[3].length; i++)
-		livro.indices.push(gerarIndice(obj[3][i]))
+	if (livro.autoIndexacao)
+		Editor.autoIndexar(livro)
+	else
+		for (i=0; i<obj[3].length; i++)
+			livro.indices.push(gerarIndice(obj[3][i]))
 	
 	// Constrói os anexos
 	for (i=0; i<obj[5].length; i++) {
@@ -292,9 +296,9 @@ Compilador.gerarHTML = function (pagina) {
 		else if (el instanceof Equacao)
 			html += "<h6 "+getAlinhamento(el)+">"+escaparHTML(el)+"</h6>"
 		else if (el instanceof Imagem)
-			html += "<div align='center'><img src='"+el.cacheURL+"' data-imagem='"+el.imagem+
-			"' onclick='InterfaceEdicao.editarImagem(event)' data-filtro='"+el.filtro+"' data-ajuste='"+el.ajuste+
-			"' data-tamanho='"+el.tamanho+"' data-cache='"+el.cache+"'"+(el.desenhado ? " data-desenhado='1'" : "")+"></div>"
+			html += "<figure><img src='"+el.cacheURL+"' data-imagem='"+el.imagem+
+			"' onclick='InterfaceEdicao.editarImagem(event)' data-filtro='"+el.filtro+"' width='"+(2*el.tamanho)+"px' data-ajuste='"+el.ajuste+
+			"' data-tamanho='"+el.tamanho+"' data-cache='"+el.cache+"'"+(el.desenhado ? " data-desenhado='1'" : "")+"></figure>"
 		else if (el instanceof Cabecalho)
 			html += "<h"+el.nivel+" "+getAlinhamento(el)+">"+escaparHTML(el)+"</h"+el.nivel+">"
 		else if (el instanceof Regua)
@@ -833,7 +837,8 @@ Compilador.mapaPC2HP = (function () {
 		"\u2211": 133,
 		"\u2206": 155,
 		"\u220F": 156,
-		"\u2126": 157
+		"\u2126": 157,
+		"\xA0": 32
 	}
 	for (i in Compilador.mapaHP2PC)
 		retorno[Compilador.mapaHP2PC[i]] = Number(i)

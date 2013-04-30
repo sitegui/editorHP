@@ -12,6 +12,7 @@ InterfaceEdicao.atualizarFerramentas = function () {
 	var edicao, no, ferramenta = "", divs, i, alinhamento, e
 	edicao = get("edicao")
 	
+	JanelaSintaxe.fechar(false)
 	if (InterfaceEdicao.editandoImagem)
 		return
 	
@@ -44,6 +45,7 @@ InterfaceEdicao.atualizarFerramentas = function () {
 			break
 		} else if (no.nodeName == "H6") {
 			ferramenta = "ferramenta-equacao"
+			JanelaSintaxe.abrir(false)
 			break
 		} else if (no.nodeName.match(/^H[1-5]$/)) {
 			ferramenta = "ferramenta-"+no.nodeName.toLowerCase()
@@ -68,7 +70,7 @@ InterfaceEdicao.atualizarFerramentas = function () {
 
 // Define os ouvintes para os botões de edição
 InterfaceEdicao.init = function () {
-	var executar, intervalo = null, tds, i, inserirChar, anular
+	var executar, intervalo = null, tds, i, inserirChar, anular, edicaoOnBlur
 	
 	anular = function (evento) {
 		evento.preventDefault()
@@ -84,7 +86,12 @@ InterfaceEdicao.init = function () {
 	}
 	
 	get("edicao").onblur = function () {
+		// Esconde as ferramentas e inicia o processo de normalização do HTML
 		if (InterfaceEdicao.editandoImagem)
+			return
+		
+		if (document.activeElement == get("edicao"))
+			// O elemento tem o foco novamente
 			return
 		
 		clearInterval(intervalo)
@@ -135,8 +142,16 @@ InterfaceEdicao.init = function () {
 	get("ferramenta-h1").onclick = executar("formatBlock", "H1")
 	get("ferramenta-h2").onclick = executar("formatBlock", "H2")
 	get("ferramenta-h3").onclick = executar("formatBlock", "H3")
+	get("ferramenta-h3").addEventListener("click", function () {
+		get("ferramenta-h4").style.display = ""
+	})
 	get("ferramenta-h4").onclick = executar("formatBlock", "H4")
+	get("ferramenta-h4").style.display = "none"
+	get("ferramenta-h4").addEventListener("click", function () {
+		get("ferramenta-h5").style.display = ""
+	})
 	get("ferramenta-h5").onclick = executar("formatBlock", "H5")
+	get("ferramenta-h5").style.display = "none"
 	get("ferramenta-esquerda").onclick = executar("justifyLeft")
 	get("ferramenta-centro").onclick = executar("justifyCenter")
 	get("ferramenta-direita").onclick = executar("justifyRight")
@@ -163,7 +178,8 @@ InterfaceEdicao.init = function () {
 	
 	// Botões para inserir caractere
 	inserirChar = function (charc) {
-		return function () {
+		return function (evento) {
+			evento.currentTarget.classList.add("caracteres-usado")
 			document.execCommand("insertHTML", false, charc)
 		}
 	}

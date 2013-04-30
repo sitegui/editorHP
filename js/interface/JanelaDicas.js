@@ -12,7 +12,8 @@ JanelaDicas.dicas = [
 	{id: 6, tempo: 40, dica: _("dica6")},
 	{id: 7, tempo: 60, dica: _("dica7")},
 	{id: 8, tempo: 90, dica: _("dica8")},
-	{id: 9, tempo: 120, dica: _("dica9")}
+	{id: 9, tempo: 120, dica: _("dica9")},
+	{id: 10, acao: "baixarBiblioteca", dica: _("dica10")}
 ]
 
 // Guarda os ids das mensagens já disparadas
@@ -60,11 +61,12 @@ JanelaDicas.init = function () {
 // Dispara e exibe uma dica (se não disparada ainda)
 // Recebe o tipo de evento e valor atingido para identificar a dica
 // Retorna a dica (null se não for encontrada)
-JanelaDicas.disparar = function (evento, valor) {
+// Se forcar for true, mostra a dica mesmo que ela já tenha sido disparada
+JanelaDicas.disparar = function (evento, valor, forcar) {
 	var i, dica
 	for (i=0; i<JanelaDicas.dicas.length; i++) {
 		dica = JanelaDicas.dicas[i]
-		if ((evento in dica) && dica[evento] == valor && !dica.disparada) {
+		if ((evento in dica) && dica[evento] == valor && (forcar || !dica.disparada)) {
 			JanelaDicas.abrir(dica.dica)
 			JanelaDicas.disparadas.push(dica.id)
 			dica.disparada = true

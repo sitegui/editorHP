@@ -1,0 +1,11 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Monta a lista de anexos
+IF  "Anexos" \<-anexos 0. CLLCD CHOOSE THEN
+	IFERR STR\-> THEN
+		"Formato inv\225lido" MSGBOX
+	END
+ELSE
+	MONTARINDICERAIZ
+END
+\>>

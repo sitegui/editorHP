@@ -11,14 +11,41 @@ Editor.colagem = []
 Editor.tipoColagem = ""
 
 // Evita que a pessoa feche sem salvar algum arquivo
+// Também salva a sessão ativa
 addEventListener("beforeunload", function (evento) {
-	var i
-	for (i=0; i<InterfaceAbas.abas.length; i++)
-		if (InterfaceAbas.abas[i].livro.modificado) {
-			evento.preventDefault()
-			return
-		}
+	var i, ids = [], prevenir = false
+	for (i=0; i<InterfaceAbas.abas.length; i++) {
+		if (InterfaceAbas.abas[i].livro.modificado)
+			prevenir = true
+		ids.push(InterfaceAbas.abas[i].livro.id)
+	}
+	if (prevenir)
+		evento.preventDefault()
+	localStorage.setItem("editorHP-sessao", JSON.stringify(ids))
 })
+
+// Carrega os livros abertos da última vez
+Editor.reabrirSessao = function () {
+	var str, ids, i, n, arquivo, livro, aba
+	str = localStorage.getItem("editorHP-sessao")
+	n = 0
+	if (str != null) {
+		ids = JSON.parse(str)
+		for (i=0; i<ids.length; i++)
+			if (ids[i] in Arquivo.arquivos) {
+				arquivo = Arquivo.arquivos[ids[i]]
+				livro = Compilador.inflar(arquivo.conteudo)
+				livro.id = arquivo.id
+				aba = new Aba(livro)
+				InterfaceAbas.abas.push(aba)
+				n++
+			}
+	}
+	if (n == 0)
+		Editor.criarNovoLivro()
+	else
+		Interface.abaFoco = aba
+}
 
 // Cria um livro vazio
 Editor.criarNovoLivro = function () {
@@ -132,9 +159,10 @@ Editor.autoPaginar = function () {
 	})
 }
 
-// Aplica a auto indexação no livro aberto
-Editor.autoIndexar = function () {
-	var novosIndices, i, livro, j, elemento, ultimoNivel, localAtual, dif, novo, ultimo, temp, antes, criado
+// Aplica a auto indexação num livro
+// Se o livro não for dado, usa o livro atualmente aberto e dispara uma ação caso seja alterado
+Editor.autoIndexar = function (livro) {
+	var novosIndices, i, j, elemento, ultimoNivel, localAtual, dif, novo, ultimo, temp, antes, criado, background
 	
 	// Sobe até a raiz
 	var subir = function () {
@@ -145,11 +173,16 @@ Editor.autoIndexar = function () {
 		}
 	}
 	
+	background = false
+	if (livro === undefined)
+		livro = Interface.abaFoco.livro
+	else
+		background = true
+	
 	// Percorre cada página, criando os índices para os cabecalhos
 	novosIndices = []
 	novosIndices.acima = null
 	localAtual = novosIndices
-	livro = Interface.abaFoco.livro
 	ultimoNivel = 6
 	for (i=0; i<livro.paginas.length; i++) {
 		criado = false
@@ -163,6 +196,7 @@ Editor.autoIndexar = function () {
 					novo = new SubIndice
 					novo.nome = ultimo.nome
 					novo.indices.push(ultimo)
+					novo.cabecalho = ultimo.cabecalho
 					localAtual[localAtual.length-1] = novo
 					
 					// Desce e cria um índice folha
@@ -181,6 +215,7 @@ Editor.autoIndexar = function () {
 				novo = new FolhaIndice
 				novo.nome = elemento.texto
 				novo.pagina = livro.paginas[i]
+				novo.cabecalho = elemento
 				localAtual.push(novo)
 				ultimoNivel = elemento.nivel
 				criado = true
@@ -205,13 +240,19 @@ Editor.autoIndexar = function () {
 	// Limpa índices redundantes
 	var limpar = function (indices) {
 		var i
-		if (indices.length>1 && indices[0].pagina == indices[1].pagina)
+		if (indices.length>1 && indices[0] instanceof FolhaIndice && indices[0].pagina == indices[1].pagina)
 			indices.splice(0, 1)
 		for (i=0; i<indices.length; i++)
 			if (indices[i] instanceof SubIndice)
 				limpar(indices[i].indices)
 	}
 	limpar(novosIndices)
+	
+	// Se a operação for feita em background, já aplica o novo resultado
+	if (background) {
+		livro.indices = novosIndices
+		return
+	}
 	
 	// Compara o resultado para ver se mudou alguma coisa
 	antes = livro.indices

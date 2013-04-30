@@ -1,0 +1,9 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Compila um objeto do tipo régua horizontal
+
+@ Pega o tamanho
+DUP 6. + '\<-altura' STO+
+@ Salva numa lista
+1. 2. \->LIST \<-n ROLLD
+\>>

@@ -1,0 +1,33 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Monta um subíndice
+
+0. 0. {} \-> subindice n lista
+\<<
+	@ Pega o índice
+	\<-indice 'subindice' STO
+	\<-posIndice OBJ\-> 1. SWAP START
+		subindice SWAP GET 'subindice' STO
+	NEXT
+	
+	subindice OBJ\-> 2. - 'n' STO
+	IF THEN
+		@ É uma folha
+		SWAP DROP GETPAGINACOMPILADA
+		SUBIRINDICE
+	ELSE
+		@ É um sub-índice, monta a lista de escolhas
+		1. n FOR j
+			1. GET n 2. + j - 2. \->LIST 1. \->LIST 'lista' STO+
+		NEXT
+		{{".." 0.}} 'lista' STO+
+		IF lista 2. CLLCD CHOOSE THEN
+			IF DUP THEN
+				'\<-posIndice' STO+ MONTARINDICE
+			ELSE
+				DROP SUBIRINDICE
+			END
+		END
+	END
+\>>
+\>>

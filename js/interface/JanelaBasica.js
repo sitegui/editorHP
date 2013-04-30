@@ -14,6 +14,7 @@ JanelaBasica.init = function () {
 // Abre a página desejada
 // Recebe um objeto com as propriedades: titulo, conteudo, onconfirmar, oncancelar (opcional)
 JanelaBasica.onabrir = function (opcoes) {
+	var input
 	get("janelaBasica-titulo").textContent = opcoes.titulo
 	get("janelaBasica-conteudo").innerHTML = opcoes.conteudo
 	get("janelaBasica-confirmar").onclick = function () {
@@ -26,4 +27,9 @@ JanelaBasica.onabrir = function (opcoes) {
 		if (opcoes.oncancelar)
 			opcoes.oncancelar()
 	}
+	input = get("janelaBasica-conteudo").querySelector("input")
+	if (input)
+		setTimeout(function () {
+			input.select()
+		}, 100)
 }

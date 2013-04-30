@@ -6,7 +6,7 @@ InterfacePaginas.init = function () {
 	get("paginas-remover").onclick = InterfacePaginas.remover
 	get("paginas-acrescentar").onclick = InterfacePaginas.acrescentar
 	get("paginas-opcoes").onclick = function () {
-		opcoes = {}
+		var opcoes = {}
 		opcoes.titulo = _("autoPaginacao")
 		opcoes.conteudo = "<p>"+_("autoPaginacao_dica")+"</p>"+
 			"<p><input type='checkbox' id='js-check'"+(Interface.abaFoco.livro.autoPaginacao ? " checked" : "")+"> <label for='js-check'>"+_("autoPaginacao_ativar")+"</label></p>"

@@ -103,6 +103,11 @@
 .caracteres td:hover {
 	background-color:rgba(255,255,255,.75);
 }
+.caracteres-usado {
+	font-weight:bold;
+	color:#003;
+	box-shadow:inset 0 0 3px blue;
+}
 .desfazer {
 	margin-right:0;
 	border-top-right-radius:0;
