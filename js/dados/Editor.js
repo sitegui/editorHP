@@ -70,6 +70,7 @@ Editor.criarNovoLivro = function () {
 	indice = new FolhaIndice
 	indice.nome = _("paginaInicial")
 	indice.pagina = pagina
+	indice.cabecalho = cabecalho
 	livro.paginas.push(pagina)
 	livro.indices.push(indice)
 		
