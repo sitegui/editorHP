@@ -29,7 +29,6 @@ Ordenavel.comecar = function (that) {
 			that.dados.iniciado = false
 			that.dados.mX = evento.clientX
 			that.dados.mY = evento.clientY
-			evento.preventDefault()
 		}
 	}
 }

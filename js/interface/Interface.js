@@ -24,12 +24,17 @@ Interface.ultimoTipoFocado = ""
 
 // Indica se alguma operação está em andamento
 ;(function () {
-	var carregando = false
+	var carregando = false, intervalo = null
 	Object.defineProperty(Interface, "carregando", {get: function () {
 		return carregando
 	}, set: function (novo) {
 		carregando = Boolean(novo)
-		get("janelaCarregando").style.display = carregando ? "" : "none"
+		// Muda a visibilidade da janela depois de um tempo
+		// Isso serve para evitar problemas com onclick quando se muda o valor de carregando entre mousedown e mouseup
+		clearInterval(intervalo)
+		intervalo = setTimeout(function () {
+			get("janelaCarregando").style.display = carregando ? "" : "none"
+		}, 100)
 	}, enumerable: true})
 })()
 
