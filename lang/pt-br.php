@@ -56,6 +56,7 @@ $strs = array(
 	'formato' => 'Formato',
 	'creditos' => 'Créditos',
 	'ajudaSobre' => '<h1>EditorHP - Versão 1.2 (20/04/2013)</h1>
+		<p>Veja um vídeo explicando claramente <a href="http://youtube.com/watch?v=wUA79P--I8g" target="_blank">como usar o editor</a></p>
 		<p>Esse é um editor de texto para a calculadora HP50g feito em HTML, CSS e JS que funciona em FF 15+, Chrome. Ele gera um arquivo binário que pode ser salvo diretamente no cartão de memória SD ou passado por cabo por meio do programa oficial da HP. Não é preciso ter nada instalado na calculadora, além de que o arquivo pode ser aberto e editado novamente.</p>
 		<p><strong>Privacidade</strong><br>Seus dados são mantidos somente no seu navegador, para exclui-los basta limpar o cache. Algumas operações enviam dados para o servidor sitegui.com.br, mas nada é mantido por ele ou usado de qualquer outra forma. As operações que disparam essas conexões são: upload, download, inserir imagem de url, gerar ou abrir arquivo por url.</p>',
 	'ajudaFormato' => '<p>Cada arquivo de texto (chamado livro) é baseado em páginas, que contém textos (cabeçalhos e parágrafos), equações e imagens. O acesso a essas páginas é feito por meio de um índice. Além disso é possível anexar objetos (como equações, matrizes, fórmulas, gráficos) ao livro. O editor automaticamente divide seu texto em páginas e cria os índices para facilitar a navegação na calculadora.</p>',
@@ -63,6 +64,7 @@ $strs = array(
 		<p><strong>Código fonte</strong><br><a href="https://github.com/sitegui/editorHP/" target="_blank">github.com/sitegui/editorHP</a></p>
 		<p><strong>Fundo</strong><br><a href="http://subtlepatterns.com/" target="_blank">subtlepatterns.com</a></p>
 		<p><strong>Ícone</strong><br><a href="http://www.findicons.com/" target="_blank">findicons.com</a></p>
+		<p><strong>Vídeo de ajuda</strong><br><a href="http://engenhariacotidiana.com/" target="_blank">engenhariacotidiana.com</a></p>
 		<p><strong>Licença</strong><br><a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU GENERAL PUBLIC LICENSE</a><br>Copyright 2013 Guilherme de Oliveira Souza</p>',
 	'cancelar' => 'Cancelar',
 	'confirmar' => 'Confirmar',
