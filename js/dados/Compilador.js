@@ -421,22 +421,21 @@ Compilador.normalizar = function (raiz, onsucesso) {
 			var pos, canvas
 			
 			total--
-			if (!elemento)
-				return
-			
-			// Desenha no canvas e pega a dataURL
-			canvas = document.createElement("canvas")
-			canvas.width = elemento.pixels.width
-			canvas.height = elemento.pixels.height
-			canvas.getContext("2d").putImageData(elemento.pixels, 0, 0)
-			elemento.cacheURL = canvas.toDataURL()
-			
-			// Pré-compila para o formato da HP
-			elemento.cache = Compilador.precompilarPixels(elemento.pixels)
-			elemento.pixels = null
-			
-			pos = elementos.indexOf(img)
-			elementos.splice(pos, 1, elemento)
+			if (elemento) {
+				// Desenha no canvas e pega a dataURL
+				canvas = document.createElement("canvas")
+				canvas.width = elemento.pixels.width
+				canvas.height = elemento.pixels.height
+				canvas.getContext("2d").putImageData(elemento.pixels, 0, 0)
+				elemento.cacheURL = canvas.toDataURL()
+				
+				// Pré-compila para o formato da HP
+				elemento.cache = Compilador.precompilarPixels(elemento.pixels)
+				elemento.pixels = null
+				
+				pos = elementos.indexOf(img)
+				elementos.splice(pos, 1, elemento)
+			}
 			
 			if (total == 0)
 				onsucesso(elementos)

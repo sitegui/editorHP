@@ -149,15 +149,18 @@ CompiladorParalelo.aplicarFiltroPadrao = function (imagem, onload) {
 		imagem.src = src
 	}
 	
-	// Inicia o processo, carregando a imagem (pede ao servidor)
-	xhr = new XMLHttpRequest
-	xhr.open("GET", "carregarImagem.php?url="+encodeURIComponent(imagem.src))
-	xhr.onload = function () {
-		xhronload(xhr.responseText)
-	}
-	xhr.onerror = function () {
-		alert(_("erroCarregarImagem"))
-		onload(null)
-	}
-	xhr.send()
+	// Inicia o processo, carregando a imagem se necessário (pede ao servidor)
+	if (imagem.src.substr(0, 7) == "http://" || imagem.src.substr(0, 8) == "https://") {
+		xhr = new XMLHttpRequest
+		xhr.open("GET", "carregarImagem.php?url="+encodeURIComponent(imagem.src))
+		xhr.onload = function () {
+			xhronload(xhr.responseText)
+		}
+		xhr.onerror = function () {
+			alert(_("erroCarregarImagem"))
+			onload(null)
+		}
+		xhr.send()
+	} else
+		xhronload(imagem.src)
 }
