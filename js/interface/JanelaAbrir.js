@@ -131,18 +131,20 @@ JanelaAbrir.mostrarAbaURL = function () {
 JanelaAbrir.gerarItemRecente = function (arquivo) {
 	var el, elNome, elData, elBaixar, elExcluir, dif, difData
 	
-	// Calcula a diferença das datas
-	dif = (Date.now()-arquivo.modificacao)/(24*60*60*1e3)
+	// Calcula a diferença das datas em horas
+	dif = (Date.now()-arquivo.modificacao)/(60*60*1e3)
 	if (dif < 1)
-		difData = _("hoje")
-	else if (dif < 2)
+		difData = _("agoraPouco")
+	else if (dif < 24)
+		difData = _("horasAtras", Math.round(dif))
+	else if (dif < 48)
 		difData = _("ontem")
-	else if (dif < 30.4)
-		difData = _("diasAtras", Math.round(dif))
-	else if (dif < 60.8)
+	else if (dif < 730.5)
+		difData = _("diasAtras", Math.round(dif/24))
+	else if (dif < 1461)
 		difData = _("mesPassado")
 	else
-		difData = _("mesesAtras", Math.round(dif/30.4))
+		difData = _("mesesAtras", Math.round(dif/730.5))
 	
 	// Cria os elementos
 	el = document.createElement("div")

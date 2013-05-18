@@ -1,0 +1,6 @@
+AddOutputFilterByType DEFLATE text/html
+AddType application/octet-stream .hp
+
+<FilesMatch "(\.js|^(css|js)\.php)$">
+SetOutputFilter DEFLATE
+</FilesMatch>
