@@ -17,6 +17,6 @@ OBJ\-> DROP 0. {} {} \-> \<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-ane
 	1. n START 0. NEXT
 	n \->LIST '\<-cache' STO
 	
-	MONTARINDICERAIZ
+	1. MONTARINDICERAIZ
 \>>
 \>>

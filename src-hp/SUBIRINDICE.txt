@@ -1,7 +1,8 @@
 %%HP: T(3)A(R)F(.);
 \<<
 @ Sobe um nível no índice
-\<-posIndice TAIL DUP '\<-posIndice' STO
+\<-posIndice DUP HEAD SWAP TAIL DUP
+'\<-posIndice' STO
 IF SIZE THEN
 	MONTARINDICE
 ELSE

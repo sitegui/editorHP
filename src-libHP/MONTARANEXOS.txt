@@ -6,6 +6,6 @@ IF  "Anexos" \<-anexos 0. CLLCD CHOOSE THEN
 		"Formato inv\225lido" MSGBOX
 	END
 ELSE
-	MONTARINDICERAIZ
+	1. MONTARINDICERAIZ
 END
 \>>

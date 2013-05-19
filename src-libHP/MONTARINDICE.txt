@@ -1,8 +1,9 @@
 %%HP: T(3)A(R)F(.);
 \<<
 @ Monta um subíndice
+@ Recebe a opção que deve ser marcada por padrão (2. é o caso geral)
 
-0. 0. {} \-> subindice n lista
+0. 0. {} \-> ini subindice n lista
 \<<
 	@ Pega o índice
 	\<-indice 'subindice' STO
@@ -21,9 +22,9 @@
 			1. GET n 2. + j - 2. \->LIST 1. \->LIST 'lista' STO+
 		NEXT
 		{{".." 0.}} 'lista' STO+
-		IF lista 2. CLLCD CHOOSE THEN
+		IF lista ini CLLCD CHOOSE THEN
 			IF DUP THEN
-				'\<-posIndice' STO+ MONTARINDICE
+				'\<-posIndice' STO+ 2. MONTARINDICE
 			ELSE
 				DROP SUBIRINDICE
 			END

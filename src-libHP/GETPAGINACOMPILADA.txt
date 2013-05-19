@@ -16,6 +16,6 @@ ELSE
 	END
 	
 	@ Exibe na tela
-	PICT STO {} PVIEW
+	DUP PICT STO GVIEW
 END
 \>>

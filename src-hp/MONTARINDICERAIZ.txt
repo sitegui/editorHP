@@ -1,6 +1,7 @@
 %%HP: T(3)A(R)F(.);
 \<<
 @ Monta o índice raiz
+@ Recebe a opção que deve ser marcada por padrão (1. é o caso geral)
 
 \<-indice 1. \<<
 	1. GET NSUB 2. \->LIST
@@ -15,7 +16,7 @@ END
 
 {{"\>> Enviar livro" -2.}} +
 
-\<-nome SWAP 1.
+\<-nome SWAP ROT
 
 IF CLLCD CHOOSE THEN
 	IF DUP -1. == THEN
@@ -27,15 +28,15 @@ IF CLLCD CHOOSE THEN
 		ELSE
 			BUSCAR
 		END
-		MONTARINDICERAIZ
+		1. MONTARINDICERAIZ
 	ELSE IF DUP -2. == THEN
 		@ Envia para a outra calculadora
 		DROP
 		ENVIAR
-		MONTARINDICERAIZ
+		1. MONTARINDICERAIZ
 	ELSE
 		IF DUP THEN
-			'\<-posIndice' STO+ MONTARINDICE
+			'\<-posIndice' STO+ 2. MONTARINDICE
 		ELSE
 			DROP MONTARANEXOS
 		END

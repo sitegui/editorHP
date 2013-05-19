@@ -1,0 +1,39 @@
+%%HP: T(3)A(R)F(.);
+\<<
+@ Mostra uma imagem na tela
+@ Recebe a imagem a ser mostrada
+
+@ Pega o tamanho e já coloca a imagem na tela
+DUP SIZE #0h #0h 1. \-> img mX mY x y loop \<<
+img \->LCD
+
+WHILE loop REPEAT
+	@ Espera o usuário apertar alguma tecla
+	IFERR 0. WAIT THEN 0. 'loop' STO END
+	CASE
+	DUP 25.1 == THEN
+		IF y #35h \>= THEN y #35h - 'y' STO END
+	END
+	DUP 25.3 == THEN #0h 'y' STO END
+	DUP 36.1 == THEN
+		IF x #57h + mX < THEN x #57h + 'x' STO END
+	END
+	DUP 36.3 == THEN
+		IF mX #57h < THEN #0h ELSE mX #57h - END 'x' STO
+	END
+	DUP 35.1 == THEN
+		IF y #35h + mY < THEN y #35h + 'y' STO END
+	END
+	DUP 35.3 == THEN
+		IF mY #35h < THEN #0h ELSE mY #35h - END 'y' STO
+	END
+	DUP 34.1 == THEN
+		IF x #57h \>= THEN x #57h - 'x' STO END
+	END
+	DUP 34.3 == THEN #0h 'x' STO END
+	END
+	DROP
+	img x y 2. \->LIST mX mY 2. \->LIST SUB \->LCD
+END
+
+\>>
