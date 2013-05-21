@@ -55,6 +55,7 @@ var strs = {
 	autoPaginacao_ativar: "Activate auto page",
 	autoPaginacao_ativacao: "turning auto page on",
 	autoPaginacao_desativacao: "turning auto page off",
+	autoPaginacao_ativada: "To do this you should first turn auto page off",
 	movimentacaoPagina: "moving a page",
 	remocaoPaginas: ["deleting a page", "deleting # pages"],
 	insercaoPagina: "creating a page",
@@ -89,7 +90,7 @@ var strs = {
 	semAutoIndexar: "Book without auto index",
 	semAutoIndexar_conteudo: "You're trying to save a book with auto index off.<br>Do you want to turn it on again before saving?",
 	erroRenomearIndice: "You can't rename this index because it is not linked with any header",
-	erroAlterarIndices: "You can't add nor remove indexes while auto index is on"
+	erroAlterarIndices: "You can't add nor remove nor alter indexes while auto index is on"
 }
 
 // Retorna a tradução correta para o texto

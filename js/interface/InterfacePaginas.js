@@ -46,7 +46,15 @@ InterfacePaginas.init = function () {
 	}
 	
 	// Torna ordenável as páginas
-	new Ordenavel("paginas", function (antes, depois) {
+	new Ordenavel("paginas", function (antes, depois) {	
+		// Verifica se o auto-paginar está desligado
+		if (Interface.abaFoco.livro.autoPaginacao) {
+			InterfacePaginas.montarMiniaturas()
+			get("paginas-opcoes").click()
+			alert(_("autoIndexacao_ativada"))
+			return
+		}
+		
 		new Acao(_("movimentacaoPagina"), function () {
 			var pagina = Interface.abaFoco.livro.paginas.splice(antes, 1)[0]
 			Interface.abaFoco.livro.paginas.splice(depois, 0, pagina)
@@ -74,6 +82,13 @@ InterfacePaginas.init = function () {
 // Remove as páginas selecionadas
 InterfacePaginas.remover = function () {
 	var i, selecao = {}, divs, n = 0
+	
+	// Verifica se o auto-paginar está desligado
+	if (Interface.abaFoco.livro.autoPaginacao) {
+		get("paginas-opcoes").click()
+		alert(_("autoPaginacao_ativada"))
+		return
+	}
 	
 	// Pega a posição das páginas selecionadas
 	divs = get("paginas").childNodes
@@ -107,6 +122,14 @@ InterfacePaginas.remover = function () {
 // Adiciona um nova página
 InterfacePaginas.acrescentar = function () {
 	var pagina = new Pagina, pos
+	
+	// Verifica se o auto-paginar está desligado
+	if (Interface.abaFoco.livro.autoPaginacao) {
+		get("paginas-opcoes").click()
+		alert(_("autoPaginacao_ativada"))
+		return
+	}
+	
 	pos = Interface.abaFoco.livro.paginas.indexOf(Interface.abaFoco.paginaFoco)
 	new Acao(_("insercaoPagina"), function () {
 		Interface.abaFoco.livro.paginas.splice(pos+1, 0, pagina)

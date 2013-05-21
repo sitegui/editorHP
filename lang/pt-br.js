@@ -55,6 +55,7 @@ var strs = {
 	autoPaginacao_ativar: "Ativar auto paginação",
 	autoPaginacao_ativacao: "ativação da auto paginação",
 	autoPaginacao_desativacao: "desativação da auto paginação",
+	autoPaginacao_ativada: "Para realizar essa operação você deve desativar a auto-paginação antes",
 	movimentacaoPagina: "movimentação da página",
 	remocaoPaginas: ["remoção de uma página", "remoção de # páginas"],
 	insercaoPagina: "inserção de uma página",
@@ -89,7 +90,7 @@ var strs = {
 	semAutoIndexar: "Livro sem auto indexação",
 	semAutoIndexar_conteudo: "Você está salvando um livro com a opção de auto indexar desligada.<br>Deseja reativa-la antes de salvar?",
 	erroRenomearIndice: "Não é possível renomear o índice pois ele não está associado a um cabeçalho",
-	erroAlterarIndices: "Não é possível remover ou adicionar índices enquanto a auto indexação estiver ativa"
+	erroAlterarIndices: "Não é possível remover, adicionar ou alterar índices enquanto a auto indexação estiver ativa"
 }
 
 // Retorna a tradução correta para o texto

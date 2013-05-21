@@ -40,6 +40,14 @@ InterfaceIndices.init = function () {
 	ordenavel = new Ordenavel("indices", function () {
 		var antes, depois
 		
+		// Verifica se o auto-indexar está desligado
+		if (Interface.abaFoco.livro.autoIndexacao) {
+			InterfaceIndices.atualizar()
+			get("indices-opcoes").click()
+			alert(_("erroAlterarIndices"))
+			return
+		}
+		
 		antes = Interface.abaFoco.livro.indices
 		depois = InterfaceIndices.montarDasDivs()
 		
@@ -182,6 +190,7 @@ InterfaceIndices.remover = function () {
 		return
 	
 	if (Interface.abaFoco.livro.autoIndexacao) {
+		get("indices-opcoes").click()
 		alert(_("erroAlterarIndices"))
 		return
 	}
@@ -216,6 +225,7 @@ InterfaceIndices.adicionar = function () {
 	var indice, opcoes, select, i, pos, arrayPai
 	
 	if (Interface.abaFoco.livro.autoIndexacao) {
+		get("indices-opcoes").click()
 		alert(_("erroAlterarIndices"))
 		return
 	}
