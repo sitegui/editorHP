@@ -130,9 +130,11 @@ InterfaceMenus.init = function () {
 		Interface.abrirMenu(evento, "submenuLingua", "menuLingua")
 	}
 	get("submenuLingua-pt-br").onclick = function () {
+		JanelaDicas.limpar()
 		location.href = "?lang=pt-br"
 	}
 	get("submenuLingua-en").onclick = function () {
+		JanelaDicas.limpar()
 		location.href = "?lang=en"
 	}
 }

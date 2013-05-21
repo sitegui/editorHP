@@ -76,7 +76,7 @@ var strs = {
 	inserirImagem_url: "ou URL",
 	ou: "ou",
 	desenharAgora: "desenhar agora",
-	dica0: "Bem-vindo ao editor de textos para a HP50g. Basta escrever o que quiser no campo acima que tudo acontece",
+	dica0: "Bem-vindo ao editor de textos para a HP50g. Basta escrever o que quiser no campo acima que tudo acontece. Veja esse <a href=\"http://youtube.com/watch?v=wUA79P--I8g\" target=\"_blank\">vídeo explicativo</a>",
 	dica1: "Use cabeçalhos pra facilitar a navegação. O editor divide seu texto em páginas e cria o índice com base neles",
 	dica2: "Quando quiser, clique salvar para poder baixar o arquivo para a sua calculadora",
 	dica3: "Salve esse arquivo diretamente num cartão SD (ou use cabo+software). Para abri-lo na calculadora, vá em FILES > SD > seuarquivo > EVAL",
