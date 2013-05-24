@@ -6,6 +6,7 @@ var strs = {
 	erroInterno: "Internal error, please save and reload the page",
 	erroAbrirImagem: "Error on open image",
 	erroCarregarImagem: "Error on load image",
+	erroDownload: "Error on generate download file",
 	semTitulo: "Untitled",
 	paginaInicial: "Initial page",
 	paragrafoInicial: "Just write your text here\nMore at sitegui.com.br",

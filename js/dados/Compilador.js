@@ -467,32 +467,38 @@ Compilador.abrirUpload = function (arquivo, onsucesso) {
 
 // Gera um arquivo de download a partir de um objeto arquivo
 Compilador.gerarDownload = (function () {
-	var iframe, form, input, input2
+	var iframe
 	
-	// Monta o formulário quando a página estiver carregada
+	// Monta o frame para carregar o arquivo
 	addEventListener("load", function () {
 		iframe = document.createElement("iframe")
-		iframe.name = "iframeDownload"
-		form = document.createElement("form")
-		form.target = "iframeDownload"
-		form.method = "post"
-		form.action = "gerarDownload.php"
-		form.style.display = "none"
-		input = document.createElement("textarea") // Chrome não funciona com input :|
-		input.name = "livro"
-		input2 = document.createElement("input")
-		input2.name = "nome"
-		form.appendChild(input)
-		form.appendChild(input2)
-		form.appendChild(iframe)
-		document.body.appendChild(form)
+		iframe.style.display = "none"
+		document.body.appendChild(iframe)
 	})
 	
 	return function (arquivo) {
+		var ajax, erro
+		
+		// Trata erros
+		erro = function () {
+			Interface.carregando = false
+			alert(_("erroDownload"))
+		}
+		
 		// Envia
-		input.value = arquivo.conteudo
-		input2.value = arquivo.nome
-		form.submit()
+		ajax = new XMLHttpRequest
+		ajax.open("POST", "gerarDownload.php", true)
+		ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+		ajax.onload = function () {
+			if (ajax.status == 200) {
+				Interface.carregando = false
+				iframe.src = "fazerDownload.php?id="+ajax.responseText+"&nome="+encodeURIComponent(arquivo.nome)
+			} else
+				erro()
+		}
+		ajax.onerror = erro
+		ajax.send("livro="+encodeURIComponent(arquivo.conteudo))
+		Interface.carregando = true
 		
 		// Mostra ajuda
 		JanelaDicas.disparar("acao", "salvar")

@@ -4,6 +4,14 @@ $livro = $_POST['livro'];
 
 set_time_limit(60);
 
+// Elimina arquivos antigos (criados há mais de 1 hora)
+$scan = scandir('downloads');
+for ($i=0; $i<count($scan); $i++) {
+	$arq = 'downloads/' . $scan[$i];
+	if (substr($arq, -3) == '.hp' && filemtime($arq) < time()-3600)
+		unlink($arq);
+}
+
 // Prepara a relação entre os caracteres
 $mapaHP2PC = array(
 "\x00", "\x01", "\x02", "\x03", "\x04", "\x05", "\x06", "\x07",
@@ -69,13 +77,9 @@ $compilado .= chr(($tamanho>>12)%0x1000);
 $compilado .= $livro2;
 $compilado .= substr(file_get_contents('COMPILADO.hp'), 34);
 
-// Limpa espaços do nome
-$nome = $_POST['nome'];
-for ($i=0; $i<strlen($nome); $i++)
-	if ($nome[$i] == ' ' || $nome[$i] == '_')
-		$nome = substr($nome, 0, $i) . substr($nome, $i+1);
+// Salva no servidor num arquivo aleatório
+$arquivo = md5(uniqid());
+file_put_contents('downloads/' . $arquivo . '.hp', $compilado);
 
-// Manda como download
-header('Content-Disposition: attachment; filename="' . $nome . '.hp"');
-header('Content-Type: application/octet-stream');
-echo $compilado;
+// Retorna o nome do arquivo
+echo $arquivo;
