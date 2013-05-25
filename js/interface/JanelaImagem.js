@@ -95,6 +95,7 @@ JanelaImagem.inserirElemento = function () {
 			
 			// Atualiza na página
 			JanelaImagem.imagem.src = url
+			JanelaImagem.imagem.width = 2*elemento.tamanho
 			JanelaImagem.imagem.dataset.filtro = elemento.filtro
 			JanelaImagem.imagem.dataset.ajuste = elemento.ajuste
 			JanelaImagem.imagem.dataset.tamanho = elemento.tamanho
