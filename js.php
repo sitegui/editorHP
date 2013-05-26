@@ -11,6 +11,7 @@ $arquivos = array(
 	'dados/Anexo.js',
 	'dados/Arquivo.js',
 	'dados/Acao.js',
+	'dados/Sintaxe.js',
 	'interface/JanelaBasica.js',
 	'interface/Interface.js',
 	'interface/InterfaceAbas.js',

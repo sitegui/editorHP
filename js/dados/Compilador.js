@@ -294,7 +294,7 @@ Compilador.gerarHTML = function (pagina) {
 		if (el instanceof Texto)
 			html += "<p "+getAlinhamento(el)+">"+escaparHTML(el).replace(/\n/g, "<br>")+"</p>"
 		else if (el instanceof Equacao)
-			html += "<h6 "+getAlinhamento(el)+">"+escaparHTML(el)+"</h6>"
+			html += "<h6 "+getAlinhamento(el)+(Sintaxe.validarEquacao(el.texto) ? "" : " class='erroSintaxe'")+">"+escaparHTML(el)+"</h6>"
 		else if (el instanceof Imagem)
 			html += "<figure><img src='"+el.cacheURL+"' data-imagem='"+el.imagem+
 			"' onclick='InterfaceEdicao.editarImagem(event)' data-filtro='"+el.filtro+"' width='"+(2*el.tamanho)+"px' data-ajuste='"+el.ajuste+

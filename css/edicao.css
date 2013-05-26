@@ -69,4 +69,22 @@ h6 {
     white-space:pre;
 	font-size:medium;
 	font-weight:normal;
+	padding:3px;
+}
+h6.erroSintaxe {
+	font-weight:bold;
+	color:#900;
+	box-shadow:0 0 3px 0 red;
+	position:relative;
+	border-radius:3px;
+}
+h6.erroSintaxe:before {
+	background-image:url(img/erro.png);
+	width:16px;
+	height:16px;
+	display:inline-block;
+	position:absolute;
+	right:-8px;
+	top:-8px;
+	content:"";
 }

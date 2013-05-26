@@ -46,6 +46,10 @@ InterfaceEdicao.atualizarFerramentas = function () {
 		} else if (no.nodeName == "H6") {
 			ferramenta = "ferramenta-equacao"
 			JanelaSintaxe.abrir(false)
+			if (Sintaxe.validarEquacao(Compilador.sanitizar(no.textContent)))
+				no.classList.remove("erroSintaxe")
+			else
+				no.classList.add("erroSintaxe")
 			break
 		} else if (no.nodeName.match(/^H[1-5]$/)) {
 			ferramenta = "ferramenta-"+no.nodeName.toLowerCase()
@@ -255,6 +259,7 @@ InterfaceEdicao.atualizar = function () {
 		edicao.classList.remove("edicao-inativo")
 		edicao.contentEditable = "true"
 		edicao.innerHTML = Compilador.gerarHTML(Interface.abaFoco.paginaFoco)
+		edicao.scrollTop = 0
 	} else {
 		edicao.classList.add("edicao-inativo")
 		edicao.contentEditable = "false"
