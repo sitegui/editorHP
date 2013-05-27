@@ -142,7 +142,21 @@ InterfaceEdicao.init = function () {
 	
 	// Formatação
 	get("ferramenta-texto").onclick = executar("formatBlock", "P")
-	get("ferramenta-equacao").onclick = executar("formatBlock", "H6")
+	get("ferramenta-equacao").onclick = function () {
+		var no, str, range
+		document.execCommand("formatBlock", false, "H6")
+		no = getSelection().getRangeAt(0).commonAncestorContainer
+		str = no.textContent
+		if (str.charAt(0) != "'" || str.charAt(str.length-1) != "'") {
+			no.textContent = "'"+str+"'"
+			range = document.createRange()
+			range.setStart(no.childNodes[0], 1)
+			range.setEnd(no.childNodes[0], 1)
+			window.getSelection().removeAllRanges()
+			window.getSelection().addRange(range)
+		}
+		InterfaceEdicao.atualizarFerramentas()
+	}
 	get("ferramenta-h1").onclick = executar("formatBlock", "H1")
 	get("ferramenta-h2").onclick = executar("formatBlock", "H2")
 	get("ferramenta-h3").onclick = executar("formatBlock", "H3")

@@ -68,8 +68,8 @@ Sintaxe.inflar = function (str) {
 		} else if (c == ")") {
 			salvarCache()
 			if (nivelAtual.pai) {
-				nivelAtual = nivelAtual.pai
 				temp = nivelAtual
+				nivelAtual = nivelAtual.pai
 				delete temp.pai
 			} else
 				break

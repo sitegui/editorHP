@@ -12,23 +12,23 @@ WHILE loop REPEAT
 	IFERR 0. WAIT THEN 0. 'loop' STO END
 	CASE
 	DUP 25.1 == THEN
-		IF y #35h \>= THEN y #35h - 'y' STO END
+		IF y #28h \>= THEN y #28h - 'y' STO END
 	END
 	DUP 25.3 == THEN #0h 'y' STO END
 	DUP 36.1 == THEN
-		IF x #57h + mX < THEN x #57h + 'x' STO END
+		IF x #42h + mX < THEN x #42h + 'x' STO END
 	END
 	DUP 36.3 == THEN
-		IF mX #57h < THEN #0h ELSE mX #57h - END 'x' STO
+		IF mX #42h < THEN #0h ELSE mX #42h - END 'x' STO
 	END
 	DUP 35.1 == THEN
-		IF y #35h + mY < THEN y #35h + 'y' STO END
+		IF y #28h + mY < THEN y #28h + 'y' STO END
 	END
 	DUP 35.3 == THEN
-		IF mY #35h < THEN #0h ELSE mY #35h - END 'y' STO
+		IF mY #28h < THEN #0h ELSE mY #28h - END 'y' STO
 	END
 	DUP 34.1 == THEN
-		IF x #57h \>= THEN x #57h - 'x' STO END
+		IF x #42h \>= THEN x #42h - 'x' STO END
 	END
 	DUP 34.3 == THEN #0h 'x' STO END
 	END

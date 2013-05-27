@@ -6,53 +6,6 @@ CLLCD "Abrindo..." 1. DISP
 "sitegui.com.br" 3. DISP
 STR\->
 DIR
-  ENVIAR
-  \<< \<-nome \<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-anexos \<-strings 7. \->LIST 2. \->LIST 'TEMP' STO RCLF -33. SF -35. SF
-    IFERR 'TEMP' SEND
-    THEN DROP
-    END STOF 'TEMP' PURGE
-  \>>
-  COMPILARPAGINA
-  \<< 0. 131. 0. 0. 0. \-> \<-n \<-largura tipo \<-altura \<-y
-    \<< OBJ\-> '\<-n' STO "Gerando..." 1. DISP 1. \<-n
-      FOR j OBJ\-> DROP 'tipo' STO
-        CASE tipo 0. ==
-          THEN PREOBJTXT
-          END tipo 1. ==
-          THEN PREOBJEQ
-          END tipo 2. ==
-          THEN PREOBJIMG
-          END tipo 3. ==
-          THEN PREOBJCABECALHO
-          END tipo 4. ==
-          THEN PREOBJREGUA
-          END
-        END \<-n j - 2. DISP
-      NEXT \<-largura R\->B \<-altura R\->B BLANK PICT STO "Montando..." 1. DISP 0. \<-n 1. -
-      FOR j \<-n j - 2. DISP
-        IF \<-n j - ROLL OBJ\-> DROP
-        THEN \-> h
-          \<< \<-largura R\->B h R\->B BLANK NEG PICT SWAP 0. R\->B \<-y R\->B 2. \->LIST SWAP GOR '\<-y' h 6. + STO+
-          \>>
-        ELSE 0. 0. \-> lado img eElemento w h
-          \<< img SIZE B\->R 'h' STO B\->R 'w' STO
-            CASE lado -1. ==
-              THEN 0.
-              END lado 0. ==
-              THEN \<-largura w - 2. / FLOOR
-              END lado 1. ==
-              THEN \<-largura w -
-              END
-            END R\->B \<-y R\->B 2. \->LIST PICT SWAP img GOR '\<-y' h
-            IF eElemento
-            THEN 6.
-            ELSE 0.
-            END + STO+
-          \>>
-        END
-      NEXT
-    \>>
-  \>>
   BUSCAR
   \<< { } \-> string opcoes
     \<< 1. \<-strings SIZE
@@ -106,11 +59,7 @@ DIR
   PREOBJEQ
   \<<
     IFERR STR\->
-    THEN "'" SWAP + "'" +
-      IFERR STR\->
-      THEN DROP "[\019\002\019Erro na equa\231\227o\019\002\019]" 2. \->GROB
-      ELSE 0. \->GROB
-      END
+    THEN DROP "[\019\002\019Erro na equa\231\227o\019\002\019]" 2. \->GROB
     ELSE 0. \->GROB
     END DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 1. 0. 4. \->LIST \<-n ROLLD
   \>>
@@ -185,37 +134,37 @@ a ser buscado" ""
         END
         CASE DUP 25.1 ==
           THEN
-            IF y # 35h \>=
-            THEN y # 35h - 'y' STO
+            IF y # 28h \>=
+            THEN y # 28h - 'y' STO
             END
           END DUP 25.3 ==
           THEN # 0h 'y' STO
           END DUP 36.1 ==
           THEN
-            IF x # 57h + mX <
-            THEN x # 57h + 'x' STO
+            IF x # 42h + mX <
+            THEN x # 42h + 'x' STO
             END
           END DUP 36.3 ==
           THEN
-            IF mX # 57h <
+            IF mX # 42h <
             THEN # 0h
-            ELSE mX # 57h -
+            ELSE mX # 42h -
             END 'x' STO
           END DUP 35.1 ==
           THEN
-            IF y # 35h + mY <
-            THEN y # 35h + 'y' STO
+            IF y # 28h + mY <
+            THEN y # 28h + 'y' STO
             END
           END DUP 35.3 ==
           THEN
-            IF mY # 35h <
+            IF mY # 28h <
             THEN # 0h
-            ELSE mY # 35h -
+            ELSE mY # 28h -
             END 'y' STO
           END DUP 34.1 ==
           THEN
-            IF x # 57h \>=
-            THEN x # 57h - 'x' STO
+            IF x # 42h \>=
+            THEN x # 42h - 'x' STO
             END
           END DUP 34.3 ==
           THEN # 0h 'x' STO
@@ -234,6 +183,53 @@ a ser buscado" ""
       ELSE SWAP DROP
       END DUP PICT STO GVIEW
     END
+  \>>
+  ENVIAR
+  \<< \<-nome \<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-anexos \<-strings 7. \->LIST 2. \->LIST 'TEMP' STO RCLF -33. SF -35. SF
+    IFERR 'TEMP' SEND
+    THEN DROP
+    END STOF 'TEMP' PURGE
+  \>>
+  COMPILARPAGINA
+  \<< 0. 131. 0. 0. 0. \-> \<-n \<-largura tipo \<-altura \<-y
+    \<< OBJ\-> '\<-n' STO "Gerando..." 1. DISP 1. \<-n
+      FOR j OBJ\-> DROP 'tipo' STO
+        CASE tipo 0. ==
+          THEN PREOBJTXT
+          END tipo 1. ==
+          THEN PREOBJEQ
+          END tipo 2. ==
+          THEN PREOBJIMG
+          END tipo 3. ==
+          THEN PREOBJCABECALHO
+          END tipo 4. ==
+          THEN PREOBJREGUA
+          END
+        END \<-n j - 2. DISP
+      NEXT \<-largura R\->B \<-altura R\->B BLANK PICT STO "Montando..." 1. DISP 0. \<-n 1. -
+      FOR j \<-n j - 2. DISP
+        IF \<-n j - ROLL OBJ\-> DROP
+        THEN \-> h
+          \<< \<-largura R\->B h R\->B BLANK NEG PICT SWAP 0. R\->B \<-y R\->B 2. \->LIST SWAP GOR '\<-y' h 6. + STO+
+          \>>
+        ELSE 0. 0. \-> lado img eElemento w h
+          \<< img SIZE B\->R 'h' STO B\->R 'w' STO
+            CASE lado -1. ==
+              THEN 0.
+              END lado 0. ==
+              THEN \<-largura w - 2. / FLOOR
+              END lado 1. ==
+              THEN \<-largura w -
+              END
+            END R\->B \<-y R\->B 2. \->LIST PICT SWAP img GOR '\<-y' h
+            IF eElemento
+            THEN 6.
+            ELSE 0.
+            END + STO+
+          \>>
+        END
+      NEXT
+    \>>
   \>>
 END
 'TEMPLIVRO' PGDIR

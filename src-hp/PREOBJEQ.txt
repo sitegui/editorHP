@@ -4,14 +4,8 @@
 
 @ Transforma em imagem
 IFERR STR\-> THEN
-	@ Ultima chance, adiciona aspas de equação
-	"'" SWAP + "'" +
-	IFERR STR\-> THEN
-		DROP
-		"[\019\002\019Erro na equa\231\227o\019\002\019]" 2. \->GROB
-	ELSE
-		0. \->GROB
-	END
+	DROP
+	"[\019\002\019Erro na equa\231\227o\019\002\019]" 2. \->GROB
 ELSE
 	0. \->GROB
 END
