@@ -3,14 +3,11 @@ var Sintaxe = {}
 
 // Retorna se a string é uma equação válida (de acordo com a sintaxe da HP)
 // Recebe a string que está dentro de uma tag <code>, por exemplo
-// Aceita um subconjunto das sintaxes da HP, voltado somente a expressões
+// Aceita um subconjunto das sintaxes da HP, voltado somente a expressões, vetores e matrizes
 Sintaxe.validarEquacao = function (str) {
 	var expressao
 	
 	str = str.trim()
-	if (str.charAt(0) != "'" || str.charAt(str.length-1) != "'")
-		return false
-	str = str.substr(1, str.length-2)
 	
 	try {
 		// Infla e interpreta a equação
@@ -29,6 +26,8 @@ Sintaxe.TIPO_VARIAVEL = 3
 Sintaxe.TIPO_PARENTESES = 4
 Sintaxe.TIPO_FUNCAO = 5
 Sintaxe.TIPO_DERIVADA = 6
+Sintaxe.TIPO_VETOR = 7
+Sintaxe.TIPO_EQUACAO = 8
 
 /*
 
@@ -36,14 +35,77 @@ Funções de apoio
 
 */
 
+// Infla um vetor e suas expressões subsequentes
+// "1 2, 3 'X+1'" => ["1", "2", "3", ["X+1"]]
+// Se houver algum desbalanceamento, lança uma exceção
+Sintaxe.inflar = function (str) {
+	var i, len, c, retorno, nivelAtual, cache, equacao, novo, temp
+	
+	len = str.length
+	cache = ""
+	retorno = []
+	retorno.tipo = Sintaxe.TIPO_VETOR
+	retorno.pai = null
+	nivelAtual = retorno
+	equacao = false // Indica se está dentro de uma equação
+	
+	var salvarCache = function () {
+		if (cache.length) {
+			nivelAtual.push(cache)
+			cache = ""
+		}
+	}
+	
+	for (i=0; i<len; i++) {
+		c = str[i]
+		if ((c == " " || c == ",") && !equacao) {
+			// " " e "," separam elementos do vetor
+			salvarCache()
+		} else if (c == "'") {
+			// Entra ou sai de uma equação
+			if (equacao) {
+				nivelAtual.push(Sintaxe.inflarEquacao(cache))
+				cache = ""
+			}
+			equacao = !equacao
+		} else if (c == "[" && !equacao) {
+			// Inicia um novo vetor
+			salvarCache()
+			novo = []
+			novo.pai = nivelAtual
+			novo.tipo = Sintaxe.TIPO_VETOR
+			nivelAtual.push(novo)
+			nivelAtual = novo
+		} else if (c == "]" && !equacao) {
+			// Finaliza um nível de vetor
+			salvarCache()
+			if (nivelAtual.pai) {
+				temp = nivelAtual
+				nivelAtual = nivelAtual.pai
+				delete temp.pai
+			} else
+				throw 0
+		} else
+			cache += c
+	}
+	salvarCache()
+	
+	if (nivelAtual.pai == null && i == len) {
+		delete nivelAtual.pai
+		return retorno
+	}
+	throw 0
+}
+
 // Infla uma string nos parênteses
 // "a^(b*(c+d)-e)+f" => ["a^", ["b*", ["c+d"], "-e"], "+f"]
 // Se houver desbalanceamento de parênteses, lança uma exceção
-Sintaxe.inflar = function (str) {
+Sintaxe.inflarEquacao = function (str) {
 	var i, len, c, nivelAtual, retorno, cache, novo, temp
 	
 	len = str.length
 	retorno = []
+	retorno.tipo = Sintaxe.TIPO_EQUACAO
 	retorno.pai = null
 	cache = ""
 	nivelAtual = retorno
@@ -72,7 +134,7 @@ Sintaxe.inflar = function (str) {
 				nivelAtual = nivelAtual.pai
 				delete temp.pai
 			} else
-				break
+				throw 0
 		} else if (c == " ")
 			salvarCache()
 		else
@@ -122,6 +184,22 @@ Sintaxe.separar = function (str) {
 
 // Interpreta uma estrutura já inflada
 Sintaxe.interpretar = function (estrutura) {
+	var i
+	
+	for (i=0; i<estrutura.length; i++) {
+		if (estrutura[i].tipo == Sintaxe.TIPO_VETOR)
+			Sintaxe.interpretar(estrutura[i])
+		else if (estrutura[i].tipo == Sintaxe.TIPO_EQUACAO)
+			Sintaxe.interpretarEquacao(estrutura[i])
+		else if (estrutura[i].match(/^\d*(\.\d*)?(E[+-]?\d+)?$/))
+			estrutura[i] = {valor: estrutura, tipo: Sintaxe.TIPO_NUMERO}
+		else
+			throw 0
+	}
+}
+
+// Interpreta uma estrutura de equação já inflada
+Sintaxe.interpretarEquacao = function (estrutura) {
 	var i, el, len, j, args, elAntes, elDepois, valor
 	
 	// Faz uma expansão básica
@@ -132,7 +210,7 @@ Sintaxe.interpretar = function (estrutura) {
 			;[].splice.apply(estrutura, args)
 			i += args.length-3
 		} else
-			Sintaxe.interpretar(el)
+			Sintaxe.interpretarEquacao(el)
 	}
 	
 	// Transforma variável seguido de parênteses em função
