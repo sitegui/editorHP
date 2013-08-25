@@ -686,7 +686,7 @@ Compilador.normalizarElemento = function (no) {
 	switch (no.nodeName) {
 		case "P":
 			no.innerHTML = no.innerHTML.replace(/<br(?=\W)[^>]*?>/gi, "\n")
-			texto = Compilador.sanitizar(no.textContent.trim())
+			texto = Compilador.sanitizar(no.textContent)
 			if (texto == "")
 				return null
 			elemento = new Texto
@@ -694,7 +694,7 @@ Compilador.normalizarElemento = function (no) {
 			elemento.alinhamento = alinhamento
 			return elemento
 		case "H6":
-			texto = Compilador.sanitizar(no.textContent.trim())
+			texto = Compilador.sanitizar(no.textContent)
 			if (texto == "")
 				return null
 			elemento = new Equacao
@@ -723,7 +723,7 @@ Compilador.normalizarElemento = function (no) {
 		case "H3":
 		case "H4":
 		case "H5":
-			texto = Compilador.sanitizar(no.textContent.trim())
+			texto = Compilador.sanitizar(no.textContent)
 			if (texto == "")
 				return null
 			elemento = new Cabecalho
