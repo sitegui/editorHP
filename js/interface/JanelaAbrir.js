@@ -12,7 +12,7 @@ JanelaAbrir.init = function () {
 	}
 	get("janelaAbrir-upload-arquivo").onchange = get("janelaAbrir-upload-abrir").onclick = function () {
 		// Inicia a abertura
-		Compilador.abrirUpload(get("janelaAbrir-upload-arquivo").files.item(0), function (str) {
+		Compilador.file2string(get("janelaAbrir-upload-arquivo").files.item(0), function (str) {
 			var livro, aba
 			
 			Interface.fecharJanela()

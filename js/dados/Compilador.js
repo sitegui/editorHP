@@ -3,11 +3,11 @@
 /*
 Fluxo das transformações:
 
-+------+ normalizar +---------+ compilar +--------+ gerarDownload.php +---------+
-|      | ---------> |         | -------> |        | ----------------> |         |
-| HTML |            | Objetos |          | String |                   | Arquivo |
-|      | <--------- |         | <------- |        | <---------------- |         |
-+------+ gerarHTML* +---------+ inflar   +--------+ abrirUpload.php   +---------+
++------+ normalizar +---------+ compilar +--------+ string2buffer +---------+
+|      | ---------> |         | -------> |        | ------------> |         |
+| HTML |            | Objetos |          | String |               | Arquivo |
+|      | <--------- |         | <------- |        | <------------ |         |
++------+ gerarHTML* +---------+  inflar  +--------+  file2string  +---------+
 
 *Existe também gerarMiniHTML para a miniatura da página
 
@@ -449,20 +449,63 @@ Compilador.normalizar = function (raiz, onsucesso) {
 		onsucesso(elementos)
 }
 
-// Abre um arquivo enviado pelo usuário
-// Função assíncrona, executa onsucesso quando acabar (o conteúdo do arquivo vai como argumento)
-Compilador.abrirUpload = function (arquivo, onsucesso) {
-	var xhr, dados
-	
-	dados = new FormData
-	dados.append("arquivo", arquivo)
-	
-	xhr = new XMLHttpRequest
-	xhr.open("POST", "abrirUpload.php")
-	xhr.send(dados)
-	xhr.onload = function () {
-		onsucesso(xhr.responseText)
+// Converte a string compilada para uma array de chars (Uint8Array) com os binários do arquivo
+// Função assíncrona, executa onsucesso quando acabar (o buffer vai como argumento)
+Compilador.string2buffer = function (string, onsucesso) {
+	// Carrega o arquivo compilado
+	var ajax = new XMLHttpRequest
+	ajax.open("GET", "COMPILADO.hp", true)
+	ajax.onload = function () {
+		var buffer, compilado, i, tamanho
+		
+		// Cria o buffer final
+		compilado = new Uint8Array(ajax.response.slice(34))
+		buffer = new Uint8Array(18+string.length+compilado.length)
+		
+		// Preenche o cabeçalho com "HPHP49-C\x9d-\x90\x9b8,*"
+		buffer.set([72, 80, 72, 80, 52, 57, 45, 67, 157, 45, 144, 155, 56, 44, 42])
+		
+		// Preenche o tamanho
+		tamanho = 5+2*string.length
+		buffer[15] = tamanho%0x10 * 16
+		buffer[16] = (tamanho>>4)%0x1000
+		buffer[17] = (tamanho>>12)%0x1000
+		
+		// Preenche com a string codificada
+		for (i=0; i<string.length; i++)
+			buffer[18+i] = Compilador.mapaPC2HP[string[i]]
+		
+		// Preenche com o programa
+		buffer.set(compilado, 18+string.length)
+		
+		onsucesso(buffer)
 	}
+	ajax.responseType = "arraybuffer"
+	ajax.send()
+}
+
+// Converte um File em uma string compilada
+// Função assíncrona, executa onsucesso quando acabar (a string compilada vai como argumento)
+Compilador.file2string = function (file, onsucesso) {
+	var fr
+	fr = new FileReader
+	fr.onload = function () {
+		var string, tamanho, buffer, i
+		
+		string = ""
+		buffer = new Uint8Array(fr.result)
+		
+		// Pega o tamanho
+		tamanho = (buffer[15]>>4)+(buffer[16]<<4)+(buffer[17]<<12)
+		tamanho = (tamanho-5)/2
+		
+		// Pega a string
+		for (i=0; i<tamanho; i++)
+			string += Compilador.mapaHP2PC[buffer[18+i]]
+		
+		onsucesso(string)
+	}
+	fr.readAsArrayBuffer(file)
 }
 
 // Gera um arquivo de download a partir de um objeto arquivo
