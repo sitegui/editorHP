@@ -1,8 +1,6 @@
 // Arquivo de línguagem para o inglês
 // Substituições para o JS
 var strs = {
-	erroAbrirUrl: "Error on open URL",
-	erroGerarUrl: "Error on generate URL",
 	erroInterno: "Internal error, please save and reload the page",
 	erroAbrirImagem: "Error on open image",
 	erroCarregarImagem: "Error on load image",
@@ -47,8 +45,6 @@ var strs = {
 	colagemAnexos: ["pasting one attachment", "pasting # attachment"],
 	editarAnexo: "Edit attachment",
 	edicaoAnexo: "editing an attachment",
-	urlGerada: "Generated URL",
-	urlGerada_dica: "Just copy-paste this link in your browser to download the file. Or use the 'open link' option to edit it again",
 	salvarComo: "Save # as",
 	salvar: "Save #",
 	autoPaginacao: "Auto page",
@@ -61,7 +57,6 @@ var strs = {
 	remocaoPaginas: ["deleting a page", "deleting # pages"],
 	insercaoPagina: "creating a page",
 	colagemPaginas: ["pasting a page", "pasting # pages"],
-	urlInvalida: "Invalida URL",
 	semArquivos: "You don't have any recently saved file",
 	agoraPouco: "just now",
 	horasAtras: "# hours ago",

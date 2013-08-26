@@ -108,12 +108,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <!-- Submenus dos menus -->
 <div id="submenuAbrir" class="submenu" style="display:none">
 	<div class="submenu-item" id="submenuAbrir-upload"><?=get('upload')?></div>
-	<div class="submenu-item" id="submenuAbrir-URL"><?=get('url')?></div>
 	<div class="submenu-item" id="submenuAbrir-novo" title="Ctrl+N"><?=get('novo')?></div>
 </div>
 <div id="submenuSalvar" class="submenu" style="display:none">
 	<div class="submenu-item" id="submenuSalvar-arquivo"><?=get('gerarArquivo')?></div>
-	<div class="submenu-item" id="submenuSalvar-URL"><?=get('gerarUrl')?></div>
 	<div class="submenu-item" id="submenuSalvar-salvar"><?=get('somenteSalvar')?></div>
 	<div class="submenu-item" id="submenuSalvar-salvarTodos" title="Ctrl+Shift+S"><?=get('salvarTodos')?></div>
 	<div class="submenu-item" id="submenuSalvar-salvarComo"><?=get('salvarComo')?></div>
@@ -273,7 +271,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	<div class="janela-barra">
 		<div class="janela-lista" id="janelaAbrir-recentes"><?=get('recentes')?></div>
 		<div class="janela-lista" id="janelaAbrir-upload"><?=get('upload')?></div>
-		<div class="janela-lista" id="janelaAbrir-URL"><?=get('url')?></div>
 		<div class="janela-lista" id="janelaAbrir-novo" title="Ctrl+N"><?=get('novo')?></div>
 	</div>
 	<div class="janela-painel">
@@ -283,10 +280,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				<p><?=get('uploadIntro')?></p>
 				<input type="file" id="janelaAbrir-upload-arquivo" accept=".hp">
 				<div class="botao-verde" id="janelaAbrir-upload-abrir"><?=get('abrir')?></div>
-			</div>
-			<div id="janelaAbrir-abaURL" style="display:none">
-				<p><?=get('urlIntro')?></p>
-				<input size="40" id="janelaAbrir-URL-input"> <div class="botao-verde" id="janelaAbrir-URL-abrir"><?=get('abrir')?></div>
 			</div>
 		</div>
 	</div>

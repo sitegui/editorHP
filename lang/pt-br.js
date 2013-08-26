@@ -1,8 +1,6 @@
 // Arquivo de línguagem para o português brasileiro
 // Substituições para o JS
 var strs = {
-	erroAbrirUrl: "Erro ao abrir URL",
-	erroGerarUrl: "Erro ao gerar URL",
 	erroInterno: "Erro interno, por favor salve e recarregue a página",
 	erroAbrirImagem: "Erro ao abrir imagem",
 	erroCarregarImagem: "Erro ao carregar imagem",
@@ -47,8 +45,6 @@ var strs = {
 	colagemAnexos: ["colagem de um anexo", "colagem de # anexos"],
 	editarAnexo: "Editar anexo",
 	edicaoAnexo: "edição de um anexo",
-	urlGerada: "URL gerada",
-	urlGerada_dica: "Basta copiar e colar esse link no seu navegador para baixar o arquivo. Ou use a opção de abrir link para edita-lo",
 	salvarComo: "Salvar # como",
 	salvar: "Salvar #",
 	autoPaginacao: "Auto paginação",
@@ -61,7 +57,6 @@ var strs = {
 	remocaoPaginas: ["remoção de uma página", "remoção de # páginas"],
 	insercaoPagina: "inserção de uma página",
 	colagemPaginas: ["colagem de uma página", "colagem de # páginas"],
-	urlInvalida: "URL inválida",
 	semArquivos: "Você não tem nenhum arquivo salvo recentemente",
 	agoraPouco: "agora pouco",
 	horasAtras: "# horas atrás",

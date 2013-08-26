@@ -548,40 +548,6 @@ Compilador.gerarDownload = (function () {
 	}
 })()
 
-// Interpreta o livro a partir de uma dataURL
-Compilador.abrirURL = function (url, onsucesso) {
-	var xhr, dados
-	xhr = new XMLHttpRequest
-	xhr.open("POST", "abrirURL.php")
-	dados = new FormData
-	dados.append("url", url)
-	xhr.send(dados)
-	xhr.onload = function () {
-		onsucesso(xhr.responseText)
-	}
-	xhr.onerror = function () {
-		alert(_("erroAbrirUrl"))
-	}
-}
-
-// Gera um link para abrir o arquivo
-// Função assíncrona, executa onsucesso quando obtiver a resposta
-Compilador.gerarUrl = function (livro, onsucesso) {
-	var str, xhr, dados
-	str = Compilador.compilar(livro)
-	xhr = new XMLHttpRequest
-	xhr.open("POST", "gerarURL.php")
-	dados = new FormData
-	dados.append("livro", str)
-	xhr.send(dados)
-	xhr.onload = function () {
-		onsucesso(xhr.responseText)
-	}
-	xhr.onerror = function () {
-		alert(_("erroGerarUrl"))
-	}
-}
-
 // Sanitiza uma string do PC (troca os tri-graphs e remove caracteres inválidos)
 Compilador.sanitizar = function (str) {
 	var i, str2 = ""

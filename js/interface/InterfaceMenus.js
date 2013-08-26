@@ -13,9 +13,6 @@ InterfaceMenus.init = function () {
 	get("submenuAbrir-upload").onclick = function () {
 		Interface.abrirJanela("janelaAbrir", "upload")
 	}
-	get("submenuAbrir-URL").onclick = function () {
-		Interface.abrirJanela("janelaAbrir", "URL")
-	}
 	get("submenuAbrir-novo").onclick = function () {
 		Editor.criarNovoLivro()
 	}
@@ -39,15 +36,6 @@ InterfaceMenus.init = function () {
 			// Salva e baixa o livro
 			InterfaceMenus.salvarLivro(Interface.abaFoco.livro, Compilador.gerarDownload)
 		}
-	}
-	get("submenuSalvar-URL").onclick = function () {
-		Compilador.gerarUrl(Interface.abaFoco.livro, function (url) {
-			var opcoes = {}
-			opcoes.titulo = _("urlGerada")
-			opcoes.conteudo = "<p>"+_("urlGerada_dica")+"</p>"
-			opcoes.conteudo += "<input style='width:100%' onclick='this.select()' value='"+url+"'>"
-			Interface.abrirJanela("janelaBasica", opcoes)
-		})
 	}
 	get("submenuSalvar-salvar").onclick = function () {
 		InterfaceMenus.salvarLivro(Interface.abaFoco.livro)

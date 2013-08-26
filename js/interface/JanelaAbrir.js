@@ -5,7 +5,6 @@ var JanelaAbrir = {}
 JanelaAbrir.init = function () {
 	get("janelaAbrir-recentes").onclick = JanelaAbrir.mostrarAbaRecentes
 	get("janelaAbrir-upload").onclick = JanelaAbrir.mostrarAbaUpload
-	get("janelaAbrir-URL").onclick = JanelaAbrir.mostrarAbaURL
 	get("janelaAbrir-novo").onclick = function () {
 		Interface.fecharJanela()
 		Editor.criarNovoLivro()
@@ -35,33 +34,6 @@ JanelaAbrir.init = function () {
 		})
 		Interface.carregando = true
 	}
-	get("janelaAbrir-URL-abrir").onclick = function () {
-		var url
-		url = get("janelaAbrir-URL-input").value
-		if (url.substr(0, 37) != "data:application/octet-stream;base64,")
-			alert(_("urlInvalida"))
-		Compilador.abrirURL(url, function (str) {
-			var livro, aba
-			
-			Interface.fecharJanela()
-			
-			// Abre o livro numa nova aba
-			livro = Compilador.inflar(str)
-			aba = new Aba(livro)
-			InterfaceAbas.abas.push(aba)
-			Interface.abaFoco = aba
-			
-			// Salva no arquivo
-			Arquivo.salvarLivro(livro)
-			Interface.carregando = false
-		
-			// Se só tinha uma aba antes e era um novo arquivo, pode fecha-la
-			if (InterfaceAbas.abas.length == 2 && InterfaceAbas.abas[0].livro.novo && !InterfaceAbas.abas[0].livro.modificado) {
-				InterfaceAbas.abas[0].fechar()
-				Editor.numNovosLivros--
-			}
-		})
-	}
 }
 
 // Abre a página desejada
@@ -73,9 +45,6 @@ JanelaAbrir.onabrir = function (pagina) {
 		case "upload":
 			JanelaAbrir.mostrarAbaUpload()
 			break
-		case "URL":
-			JanelaAbrir.mostrarAbaURL()
-			break
 	}
 }
 
@@ -84,10 +53,8 @@ JanelaAbrir.mostrarAbaRecentes = function () {
 	var aba = get("janelaAbrir-abaRecentes"), id, arquivos, i
 	get("janelaAbrir-recentes").classList.add("janela-lista-selecionado")
 	get("janelaAbrir-upload").classList.remove("janela-lista-selecionado")
-	get("janelaAbrir-URL").classList.remove("janela-lista-selecionado")
 	aba.style.display = ""
 	get("janelaAbrir-abaUpload").style.display = "none"
-	get("janelaAbrir-abaURL").style.display = "none"
 	
 	// Cria a lista de itens recentes
 	aba.innerHTML = ""
@@ -109,22 +76,10 @@ JanelaAbrir.mostrarAbaRecentes = function () {
 JanelaAbrir.mostrarAbaUpload = function () {
 	get("janelaAbrir-recentes").classList.remove("janela-lista-selecionado")
 	get("janelaAbrir-upload").classList.add("janela-lista-selecionado")
-	get("janelaAbrir-URL").classList.remove("janela-lista-selecionado")
 	get("janelaAbrir-abaRecentes").style.display = "none"
 	get("janelaAbrir-abaUpload").style.display = ""
-	get("janelaAbrir-abaURL").style.display = "none"
 	get("janelaAbrir-upload-arquivo").value = ""
 	get("janelaAbrir-upload-arquivo").click()
-}
-
-// Mostra a aba de importar de um link
-JanelaAbrir.mostrarAbaURL = function () {
-	get("janelaAbrir-recentes").classList.remove("janela-lista-selecionado")
-	get("janelaAbrir-upload").classList.remove("janela-lista-selecionado")
-	get("janelaAbrir-URL").classList.add("janela-lista-selecionado")
-	get("janelaAbrir-abaRecentes").style.display = "none"
-	get("janelaAbrir-abaUpload").style.display = "none"
-	get("janelaAbrir-abaURL").style.display = ""
 }
 
 // Cria um item pra lista de arquivos recentes
