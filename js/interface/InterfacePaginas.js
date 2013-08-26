@@ -51,7 +51,7 @@ InterfacePaginas.init = function () {
 		if (Interface.abaFoco.livro.autoPaginacao) {
 			InterfacePaginas.montarMiniaturas()
 			get("paginas-opcoes").click()
-			alert(_("autoIndexacao_ativada"))
+			alert(_("autoPaginacao_ativada"))
 			return
 		}
 		

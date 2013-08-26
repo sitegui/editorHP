@@ -10,6 +10,7 @@ $strs = array(
 	'upload' => 'Upload',
 	'url' => 'URL',
 	'novo' => 'Novo',
+	'gerarArquivo' => 'Gerar arquivo',
 	'gerarUrl' => 'Gerar URL',
 	'somenteSalvar' => 'Somente salvar',
 	'salvarTodos' => 'Salvar todos',

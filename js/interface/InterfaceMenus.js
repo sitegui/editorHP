@@ -21,7 +21,7 @@ InterfaceMenus.init = function () {
 	}
 	
 	// Menu salvar
-	get("menuSalvar").onclick = function (evento) {
+	get("menuSalvar").onclick = get("submenuSalvar-arquivo").onclick = function (evento) {
 		var i, arquivo, livro
 		livro = Interface.abaFoco.livro
 		JanelaDicas.marcarDisparada("tempo", 10) // Não mostra a dica de salvar, pois já deve saber salvar

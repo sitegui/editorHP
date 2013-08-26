@@ -112,6 +112,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	<div class="submenu-item" id="submenuAbrir-novo" title="Ctrl+N"><?=get('novo')?></div>
 </div>
 <div id="submenuSalvar" class="submenu" style="display:none">
+	<div class="submenu-item" id="submenuSalvar-arquivo"><?=get('gerarArquivo')?></div>
 	<div class="submenu-item" id="submenuSalvar-URL"><?=get('gerarUrl')?></div>
 	<div class="submenu-item" id="submenuSalvar-salvar"><?=get('somenteSalvar')?></div>
 	<div class="submenu-item" id="submenuSalvar-salvarTodos" title="Ctrl+Shift+S"><?=get('salvarTodos')?></div>
