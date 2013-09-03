@@ -17,6 +17,7 @@
 	opacity:1;
 	transition:opacity .5s;
 	-webkit-transition:opacity .5s;
+	font-family:"Lucida Console", Monaco, monospace;
 }
 .edicao-conteudo figure {
 	text-align:center !important;
@@ -40,6 +41,9 @@
 }
 
 /* Estilos dos elementos */
+h1, h2, h3, h4, h5, h6, p {
+	margin:1em 0;
+}
 h1 {
 	font-size:large;
 	font-weight:bold;
@@ -70,6 +74,7 @@ h6 {
 	font-size:medium;
 	font-weight:normal;
 	padding:3px;
+	font-style:italic;
 }
 h6.erroSintaxe {
 	font-weight:bold;
