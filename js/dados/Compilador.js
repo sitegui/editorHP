@@ -696,7 +696,7 @@ Compilador.normalizarElemento = function (no) {
 		case "P":
 			no.innerHTML = no.innerHTML.replace(/<br(?=\W)[^>]*?>/gi, "\n")
 			texto = Compilador.sanitizar(no.textContent)
-			if (texto == "")
+			if (texto.match(/^[\0- ]*$/))
 				return null
 			elemento = new Texto
 			elemento.texto = texto
@@ -704,7 +704,7 @@ Compilador.normalizarElemento = function (no) {
 			return elemento
 		case "H6":
 			texto = Compilador.sanitizar(no.textContent)
-			if (texto == "")
+			if (texto.match(/^[\0- ]*$/))
 				return null
 			elemento = new Equacao
 			elemento.texto = texto
@@ -733,7 +733,7 @@ Compilador.normalizarElemento = function (no) {
 		case "H4":
 		case "H5":
 			texto = Compilador.sanitizar(no.textContent)
-			if (texto == "")
+			if (texto.match(/^[\0- ]*$/))
 				return null
 			elemento = new Cabecalho
 			elemento.texto = texto

@@ -18,6 +18,7 @@
 	transition:opacity .5s;
 	-webkit-transition:opacity .5s;
 	font-family:"Lucida Console", Monaco, monospace;
+    white-space:pre-wrap;
 }
 .edicao-conteudo figure {
 	text-align:center !important;
