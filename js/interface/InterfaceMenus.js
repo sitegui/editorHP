@@ -34,7 +34,7 @@ InterfaceMenus.init = function () {
 			get("submenuSalvar-salvarComo").classList[livro.novo ? "add" : "remove"]("submenu-item-desabilitado")
 		} else {
 			// Salva e baixa o livro
-			InterfaceMenus.salvarLivro(Interface.abaFoco.livro, Compilador.gerarDownload)
+			InterfaceMenus.salvarLivro(Interface.abaFoco.livro, InterfaceMenus.iniciarDownload)
 		}
 	}
 	get("submenuSalvar-salvar").onclick = function () {
@@ -184,7 +184,10 @@ InterfaceMenus.salvarLivro = function (livro, onsucesso) {
 	}
 }
 
-// Abre o janela de abrir arquivos
-InterfaceMenus.abrirJanelaAbrir = function () {
-	document.getElementById("janelaAbrir").style.display = ""
+// Abre a janela de download e gere o download de um livro recém salvo
+InterfaceMenus.iniciarDownload = function (arquivo) {
+	var url, nome
+	url = Compilador.string2file(arquivo.conteudo)
+	nome = arquivo.nome.replace(/[^a-zA-Z0-9]/g, "")+".hp"
+	Interface.abrirJanela("janelaDownload", {url: url, nome: nome})
 }

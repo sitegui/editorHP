@@ -1,5 +1,6 @@
 AddOutputFilterByType DEFLATE text/html
 AddType application/octet-stream .hp
+AddType text/cache-manifest .manifest
 
 <FilesMatch "(\.js|^(css|js)\.php)$">
 SetOutputFilter DEFLATE

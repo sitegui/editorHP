@@ -3,11 +3,11 @@
 /*
 Fluxo das transformações:
 
-+------+ normalizar +---------+ compilar +--------+ string2buffer +---------+
-|      | ---------> |         | -------> |        | ------------> |         |
-| HTML |            | Objetos |          | String |               | Arquivo |
-|      | <--------- |         | <------- |        | <------------ |         |
-+------+ gerarHTML* +---------+  inflar  +--------+  file2string  +---------+
++------+ normalizar +---------+ compilar +--------+ string2file +---------+
+|      | ---------> |         | -------> |        | ----------> |         |
+| HTML |            | Objetos |          | String |             | Arquivo |
+|      | <--------- |         | <------- |        | <---------- |         |
++------+ gerarHTML* +---------+  inflar  +--------+ file2string +---------+
 
 *Existe também gerarMiniHTML para a miniatura da página
 
@@ -449,39 +449,32 @@ Compilador.normalizar = function (raiz, onsucesso) {
 		onsucesso(elementos)
 }
 
-// Converte a string compilada para uma array de chars (Uint8Array) com os binários do arquivo
-// Função assíncrona, executa onsucesso quando acabar (o buffer vai como argumento)
-Compilador.string2buffer = function (string, onsucesso) {
-	// Carrega o arquivo compilado
-	var ajax = new XMLHttpRequest
-	ajax.open("GET", "COMPILADO.hp", true)
-	ajax.onload = function () {
-		var buffer, compilado, i, tamanho
-		
-		// Cria o buffer final
-		compilado = new Uint8Array(ajax.response.slice(34))
-		buffer = new Uint8Array(18+string.length+compilado.length)
-		
-		// Preenche o cabeçalho com "HPHP49-C\x9d-\x90\x9b8,*"
-		buffer.set([72, 80, 72, 80, 52, 57, 45, 67, 157, 45, 144, 155, 56, 44, 42])
-		
-		// Preenche o tamanho
-		tamanho = 5+2*string.length
-		buffer[15] = tamanho%0x10 * 16
-		buffer[16] = (tamanho>>4)%0x1000
-		buffer[17] = (tamanho>>12)%0x1000
-		
-		// Preenche com a string codificada
-		for (i=0; i<string.length; i++)
-			buffer[18+i] = Compilador.mapaPC2HP[string[i]]
-		
-		// Preenche com o programa
-		buffer.set(compilado, 18+string.length)
-		
-		onsucesso(buffer)
-	}
-	ajax.responseType = "arraybuffer"
-	ajax.send()
+// Converte a string compilada para um objeto URL (blob://)
+// Usa a constante global COMPILADO
+Compilador.string2file = function (string) {
+	var buffer, i, tamanho
+	
+	// Cria o buffer final
+	buffer = new Uint8Array(18+string.length+COMPILADO.length)
+	
+	// Preenche o cabeçalho com "HPHP49-C\x9d-\x90\x9b8,*"
+	buffer.set([72, 80, 72, 80, 52, 57, 45, 67, 157, 45, 144, 155, 56, 44, 42])
+	
+	// Preenche o tamanho
+	tamanho = 5+2*string.length
+	buffer[15] = tamanho%0x10 * 16
+	buffer[16] = (tamanho>>4)%0x1000
+	buffer[17] = (tamanho>>12)%0x1000
+	
+	// Preenche com a string codificada
+	for (i=0; i<string.length; i++)
+		buffer[18+i] = Compilador.mapaPC2HP[string[i]]
+	
+	// Preenche com o programa
+	buffer.set(COMPILADO, 18+string.length)
+	
+	// Cria e retorna um objeto URL
+	return URL.createObjectURL(new Blob([buffer], {type: ""}))
 }
 
 // Converte um File em uma string compilada
@@ -507,46 +500,6 @@ Compilador.file2string = function (file, onsucesso) {
 	}
 	fr.readAsArrayBuffer(file)
 }
-
-// Gera um arquivo de download a partir de um objeto arquivo
-Compilador.gerarDownload = (function () {
-	var iframe
-	
-	// Monta o frame para carregar o arquivo
-	addEventListener("load", function () {
-		iframe = document.createElement("iframe")
-		iframe.style.display = "none"
-		document.body.appendChild(iframe)
-	})
-	
-	return function (arquivo) {
-		var ajax, erro
-		
-		// Trata erros
-		erro = function () {
-			Interface.carregando = false
-			alert(_("erroDownload"))
-		}
-		
-		// Envia
-		ajax = new XMLHttpRequest
-		ajax.open("POST", "gerarDownload.php", true)
-		ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
-		ajax.onload = function () {
-			if (ajax.status == 200) {
-				Interface.carregando = false
-				iframe.src = "fazerDownload.php?id="+ajax.responseText+"&nome="+encodeURIComponent(arquivo.nome)
-			} else
-				erro()
-		}
-		ajax.onerror = erro
-		ajax.send("livro="+encodeURIComponent(arquivo.conteudo))
-		Interface.carregando = true
-		
-		// Mostra ajuda
-		JanelaDicas.disparar("acao", "salvar")
-	}
-})()
 
 // Sanitiza uma string do PC (troca os tri-graphs e remove caracteres inválidos)
 Compilador.sanitizar = function (str) {

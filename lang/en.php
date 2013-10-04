@@ -55,7 +55,7 @@ $strs = array(
 	'creditos' => 'Credits',
 	'ajudaSobre' => '<h1>HP Editor - Version 1.2 (04/20/2013)</h1>
 		<p>This is a text editor for HP50g calculator made with HTML, CSS and JS that works fine in FF 15+ and Chrome. It creates a binary file that can be directly saved in a SD card or transmitted via wire using official software from HP. Nothing needs to be installed in the calculator, and the file can be opened and edited again.</p>
-		<p><strong>Privacy</strong><br>All your data are kept in your browser, you can clean your cache to erase then. Some actions send data to sitegui.com.br, but nothing is kept by it or used in any other manner. The operations that make these requests are: upload, download, insert image from url, generate and open file from url.</p>',
+		<p><strong>Privacy</strong><br>All your data are kept in your browser, you can clean your cache to erase then. Some actions send data to sitegui.com.br, but nothing is kept by it or used in any other manner.</p>',
 	'ajudaFormato' => '<p>Each file text (called book) is based in pages, which contains text (headers and paragraphs), equations and images. These pages are accessed by an index. It is also possible to attach objects (like equations, matrixes, formulae and graphs) to the book. The editor automatically divides your text in pages and creates the right indexes to make the navigation easier in the calculator.</p>',
 	'ajudaCreditos' => '<p><strong>Conceiver, programmer and designer</strong><br>Guilherme de Oliveira Souza (<a href="http://sitegui.com.br">sitegui.com.br</a>)<br><a href="#" onclick="window.open(\'/fale_conosco/?assunto=editorHP\', \'janelaFaleConosco\', \'width=500,height=500\'); return false">Contact us</a></p>
 		<p><strong>Source code</strong><br><a href="https://github.com/sitegui/editorHP/" target="_blank">github.com/sitegui/editorHP</a></p>
@@ -102,5 +102,15 @@ $strs = array(
 		Vector: <code>[3 \'X*COS(θ)\']</code><br>
 		Matrix: <code>[[1 \'A\'][3 4]]</code><br>
 		List: <code>{\'X = 3\' (1.,-1.)}</code>',
-	'baixarBiblioteca' => 'Download library'
+	'baixarBiblioteca' => 'Download library',
+	'download' => 'Download',
+	'janelaDownload' => '<div><p>Your file is ready. To open it in the calculator follow these steps:</p>
+		<ol>
+		<li><a id="janelaDownload-link" title="Click to download">Click here to download it</a></li>
+		<li>Save it in a SD card with up to 2 GiB of total space</li>
+		<li>Insert the SD card in the HP50g turned off</li>
+		<li>Go to FILES (white shift + APPS)</li>
+		<li>Select the 3:SD port and press the right key</li>
+		<li>Select it in the list and press the EVAL option in the screen (F5)</li>
+		</ol></div>'
 );

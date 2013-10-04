@@ -1,0 +1,20 @@
+CACHE MANIFEST
+
+# EditorHP
+# rev #1
+# Guilherme de Oliveira Souza
+# http://sitegui.com.br
+
+img/br.png
+img/debut_dark.png
+img/erro.png
+img/icone.png
+img/type.png
+img/us.png
+lang/en.js
+lang/pt-br.js
+css.php
+EditorHP.hp
+index.php
+js.php
+js/dados/CompiladorParalelo-worker.js

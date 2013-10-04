@@ -6,14 +6,14 @@ JanelaDicas.dicas = [
 	{id: 0, tempo: 0, dica: _("dica0")},
 	{id: 1, tempo: 5, dica: _("dica1")},
 	{id: 2, tempo: 10, dica: _("dica2")},
-	{id: 3, acao: "salvar", dica: _("dica3")},
 	{id: 4, acao: "temSalvo", dica: _("dica4")},
 	{id: 5, tempo: 20, dica: _("dica5")}, 
 	{id: 6, tempo: 40, dica: _("dica6")},
 	{id: 7, tempo: 60, dica: _("dica7")},
 	{id: 8, tempo: 90, dica: _("dica8")},
 	{id: 9, tempo: 120, dica: _("dica9")},
-	{id: 10, acao: "baixarBiblioteca", dica: _("dica10")}
+	{id: 10, acao: "baixarBiblioteca", dica: _("dica10")},
+	{id: 11, acao: "offline", dica: _("dica11")}
 ]
 
 // Guarda os ids das mensagens já disparadas

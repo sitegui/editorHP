@@ -68,14 +68,16 @@ InterfacePaginas.init = function () {
 			InterfacePaginas.atualizarPagina(Interface.abaFoco.livro.paginas[antes])
 			InterfaceIndices.atualizarLayout()
 		})
-	}, function () {
+	}, function (el) {
 		[].forEach.call(get("paginas").childNodes, function (div) {
 			div.classList.add("pagina-minimizada")
 		})
-	}, function () {
+		el.style.cursor = "ns-resize"
+	}, function (el) {
 		[].forEach.call(get("paginas").childNodes, function (div) {
 			div.classList.remove("pagina-minimizada")
 		})
+		el.style.cursor = ""
 	})
 }
 

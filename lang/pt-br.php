@@ -57,7 +57,7 @@ $strs = array(
 		<p>Veja um vídeo explicando claramente <a href="http://youtube.com/watch?v=wUA79P--I8g" target="_blank">como usar o editor</a></p>
 		<p>Também sugiro fortemente olhar esse <a href="http://youtube.com/watch?v=OQNAKLPuw0c" target="_blank">tutorial</a> em caso de maiores dúvidas. Nesse <a href="http://www.youtube.com/user/jrozsas" target="_blank">mesmo canal</a>, tem vários outros tutoriais para esse editor</p>
 		<p>Esse é um editor de texto para a calculadora HP50g feito em HTML, CSS e JS que funciona em FF 15+, Chrome. Ele gera um arquivo binário que pode ser salvo diretamente no cartão de memória SD ou passado por cabo por meio do programa oficial da HP. Não é preciso ter nada instalado na calculadora, além de que o arquivo pode ser aberto e editado novamente.</p>
-		<p><strong>Privacidade</strong><br>Seus dados são mantidos somente no seu navegador, para exclui-los basta limpar o cache. Algumas operações enviam dados para o servidor sitegui.com.br, mas nada é mantido por ele ou usado de qualquer outra forma. As operações que disparam essas conexões são: upload, download, inserir imagem de url, gerar ou abrir arquivo por url.</p>',
+		<p><strong>Privacidade</strong><br>Seus dados são mantidos somente no seu navegador, para exclui-los basta limpar o cache. Algumas operações enviam dados para o servidor sitegui.com.br, mas nada é mantido por ele ou usado de qualquer outra forma.</p>',
 	'ajudaFormato' => '<p>Cada arquivo de texto (chamado livro) é baseado em páginas, que contém textos (cabeçalhos e parágrafos), equações e imagens. O acesso a essas páginas é feito por meio de um índice. Além disso é possível anexar objetos (como equações, matrizes, fórmulas, gráficos) ao livro. O editor automaticamente divide seu texto em páginas e cria os índices para facilitar a navegação na calculadora.</p>',
 	'ajudaCreditos' => '<p><strong>Idealizador, programador, designer e feliz</strong><br>Guilherme de Oliveira Souza (<a href="http://sitegui.com.br">sitegui.com.br</a>)<br><a href="#" onclick="window.open(\'/fale_conosco/?assunto=editorHP\', \'janelaFaleConosco\', \'width=500,height=500\'); return false">Fale Conosco</a></p>
 		<p><strong>Código fonte</strong><br><a href="https://github.com/sitegui/editorHP/" target="_blank">github.com/sitegui/editorHP</a></p>
@@ -105,5 +105,15 @@ $strs = array(
 		Vetor: <code>[3 \'X*COS(θ)\']</code><br>
 		Matriz: <code>[[1 \'A\'][3 4]]</code><br>
 		Lista: <code>{\'X = 3\' (1.,-1.)}</code>',
-	'baixarBiblioteca' => 'Baixar biblioteca'
+	'baixarBiblioteca' => 'Baixar biblioteca',
+	'download' => 'Download',
+	'janelaDownload' => '<div><p>Seu arquivo está compilado. Para abri-lo na calculadora siga os passos:</p>
+		<ol>
+		<li><a id="janelaDownload-link" title="Clique para fazer o download">Clique aqui para baixa-lo</a></li>
+		<li>Salve-o num cartão SD de até 2 GiB</li>
+		<li>Coloque o cartão na calculadora HP50g desligada</li>
+		<li>Vá em FILES (shift branco + APPS)</li>
+		<li>Selecione a porta 3:SD e pressione a seta da direita</li>
+		<li>Selecione-o na lista e pressione a opção EVAL da tela (F5)</li>
+		</ol></div>'
 );

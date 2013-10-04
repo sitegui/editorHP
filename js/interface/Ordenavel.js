@@ -2,7 +2,7 @@
 // Recebe a div que contêm imediatamente as divs a serem ordenadas
 // Executa a função ontrocar quando uma troca foi realizado pelo usuário
 // Envia a posição inicial e final do elemento trocado
-// oninicar e onfinalizar são chamadas quando a movimentação efetivamente começa ou termina (opcionais)
+// oninicar(el) e onfinalizar(el) são chamadas quando a movimentação efetivamente começa ou termina (opcionais)
 var Ordenavel = function (div, ontrocar, oniniciar, onfinalizar) {
 	var movimentar = Ordenavel.movimentar(this)
 	div = get(div)
@@ -29,6 +29,7 @@ Ordenavel.comecar = function (that) {
 			that.dados.iniciado = false
 			that.dados.mX = evento.clientX
 			that.dados.mY = evento.clientY
+			evento.preventDefault()
 		}
 	}
 }
@@ -45,13 +46,19 @@ Ordenavel.prototype.atualizarNivelMaximo = function () {
 // Controla uma possível movimentação da div (ouvinte de mousemove)
 Ordenavel.movimentar = function (that) {
 	return function (evento) {
-		var y, dy, min, max, px, dados = that.dados
+		var y, dx, dy, dist, min, max, px, dados = that.dados
 		
 		if (dados) {
 			// Inica o movimento
 			if (!dados.iniciado) {
+				dx = evento.clientX-dados.mX
+				dy = evento.clientY-dados.mY
+				dist = Math.sqrt(dx*dx+dy*dy)
+				if (dist < 15)
+					// Sensibilidade mínima
+					return
 				if (that.oniniciar)
-					that.oniniciar()
+					that.oniniciar(dados.el)
 				dados.posIni = [].indexOf.call(that.raiz.childNodes, dados.el)
 				dados.posFim = dados.posIni
 				dados.DY = Ordenavel.getHeight(dados.el)
@@ -134,7 +141,7 @@ Ordenavel.terminar = function (that) {
 	return function (evento) {
 		if (that.dados && that.dados.iniciado) {
 			if (that.onfinalizar)
-				that.onfinalizar()
+				that.onfinalizar(that.dados.el)
 			that.dados.el.style.zIndex = ""
 			that.dados.el.style.position = ""
 			that.dados.el.style.top = ""

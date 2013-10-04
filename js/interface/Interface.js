@@ -59,6 +59,7 @@ Interface.init = function () {
 	JanelaAjuda.init()
 	JanelaImagem.init()
 	JanelaDesenho.init()
+	JanelaDownload.init()
 }
 
 // Controla atalhos
@@ -76,7 +77,7 @@ addEventListener("keydown", function (evento) {
 		Interface.abrirJanela("janelaAbrir", "recentes")
 	else if (evento.ctrlKey && !evento.shiftKey && evento.keyCode == 83)
 		// Ctrl+S = salvar
-		InterfaceMenus.salvarLivro(Interface.abaFoco.livro, Compilador.gerarDownload)
+		InterfaceMenus.salvarLivro(Interface.abaFoco.livro, InterfaceMenus.iniciarDownload)
 	else if (evento.ctrlKey && evento.shiftKey && evento.keyCode == 83)
 		// Ctrl+Shift+S = salvar todos
 		for (i=0; i<InterfaceAbas.abas.length; i++)
@@ -208,6 +209,9 @@ Interface.abrirJanela = function (janela, argumento) {
 			break
 		case "janelaDesenho":
 			JanelaDesenho.onabrir()
+			break
+		case "janelaDownload":
+			JanelaDownload.onabrir(argumento)
 			break
 	}
 }

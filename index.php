@@ -51,7 +51,7 @@ function get($str) {
 }
 
 ?><!DOCTYPE HTML>
-<html>
+<html manifest="cache.manifest">
 <head>
 <meta charset="utf-8">
 <!--
@@ -311,6 +311,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<div id="janelaBasica-conteudo"></div>
 		<div class="janelaBasica-cancelar botao-vermelho" id="janelaBasica-cancelar"><?=get('cancelar')?></div>
 		<div class="janelaBasica-confirmar botao-verde" id="janelaBasica-confirmar"><?=get('confirmar')?></div>
+	</div>
+</div>
+
+<!-- Janela de download -->
+<div id="janelaDownload" class="janelaMenor" style="display:none">
+	<div class="janela-titulo"><?=get('download')?></div>
+	<div class="janela-fechar minibotao-vermelho" id="janelaDownload-fechar">&times;</div>
+	<div class="janelaBasica-conteudo">
+		<?=get('janelaDownload')?>
+		<div class="janelaBasica-cancelar botao-vermelho" id="janelaDownload-cancelar"><?=get('cancelar')?></div>
 	</div>
 </div>
 

@@ -117,7 +117,7 @@ JanelaAbrir.gerarItemRecente = function (arquivo) {
 	
 	// Ouvintes
 	elBaixar.onclick = function (evento) {
-		Compilador.gerarDownload(arquivo)
+		InterfaceMenus.iniciarDownload(arquivo)
 		evento.stopPropagation()
 	}
 	elExcluir.onclick = function (evento) {

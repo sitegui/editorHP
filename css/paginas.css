@@ -13,6 +13,8 @@
 	margin:20px;
 	padding:15px;
 	cursor:pointer;
+	font-family:"Lucida Console", Monaco, monospace;
+    white-space:pre-wrap;
 }
 .pagina:hover {
 	background-color:rgba(0,0,0,.25);

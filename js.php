@@ -26,17 +26,36 @@ $arquivos = array(
 	'interface/JanelaDicas.js',
 	'interface/JanelaSintaxe.js',
 	'interface/JanelaDesenho.js',
+	'interface/JanelaDownload.js',
 	'interface/Ordenavel.js',
 	'editor.js'
 );
 
 $js = array();
 foreach ($arquivos as $cada)
-	$js[] = "/*** $cada ***/\n" . file_get_contents('js/' . $cada);
+	$js[] = getCabecalho($cada) . file_get_contents('js/' . $cada);
 
 $js = implode("\n", $js);
 header('Content-type: application/javascript');
+
+// Gera a array de bytes do programa compilado para HP
+// Ignora os 34 primeiros bytes, pois é onde o livre será inserido
+$compiladoStr = str_split(substr(file_get_contents('COMPILADO.HP'), 34));
+$compilado = array();
+foreach ($compiladoStr as $c)
+	$compilado[] = ord($c);
+$compilado = implode(', ', $compilado);
+
+// Gera um comentário de cabeçalho para cada arquivo
+function getCabecalho($nome) {
+	$estrelas = str_repeat('*', strlen($nome)+4);
+	$espacos = str_repeat(' ', strlen($nome)+2);
+	return "/$estrelas\n *$espacos*\n * $nome *\n *$espacos*\n $estrelas/\n\n";
+}
+
 ?>"use strict";
 
-<?php
-echo $js;
+<?=$js?>
+
+<?=getCabecalho('COMPILADO.HP')?>
+var COMPILADO = new Uint8Array([<?=$compilado?>])
