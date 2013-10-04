@@ -6,25 +6,7 @@ InterfacePaginas.init = function () {
 	get("paginas-remover").onclick = InterfacePaginas.remover
 	get("paginas-acrescentar").onclick = InterfacePaginas.acrescentar
 	get("paginas-opcoes").onclick = function () {
-		var opcoes = {}
-		opcoes.titulo = _("autoPaginacao")
-		opcoes.conteudo = "<p>"+_("autoPaginacao_dica")+"</p>"+
-			"<p><input type='checkbox' id='js-check'"+(Interface.abaFoco.livro.autoPaginacao ? " checked" : "")+"> <label for='js-check'>"+_("autoPaginacao_ativar")+"</label></p>"
-		opcoes.onconfirmar = function () {
-			var antes = Interface.abaFoco.livro.autoPaginacao, novo = get("js-check").checked
-			if (novo == antes)
-				return
-			new Acao(novo ? _("autoPaginacao_ativacao") : _("autoPaginacao_desativacao"), function () {
-				Interface.abaFoco.livro.autoPaginacao = novo
-			}, function () {
-				Interface.abaFoco.livro.autoPaginacao = antes
-			})
-			if (Interface.abaFoco.livro.autoPaginacao)
-				Editor.autoPaginar()
-			if (Interface.abaFoco.livro.autoIndexacao)
-				Editor.autoIndexar()
-		}
-		Interface.abrirJanela("janelaBasica", opcoes)
+		InterfacePaginas.abrirOpcaoAutoPaginacao(false)
 	}
 	get("paginas").oncontextmenu = function (evento) {
 		Interface.abrirMenu(evento, "submenuEdicao")
@@ -50,8 +32,7 @@ InterfacePaginas.init = function () {
 		// Verifica se o auto-paginar está desligado
 		if (Interface.abaFoco.livro.autoPaginacao) {
 			InterfacePaginas.montarMiniaturas()
-			get("paginas-opcoes").click()
-			alert(_("autoPaginacao_ativada"))
+			InterfacePaginas.abrirOpcaoAutoPaginacao(true)
 			return
 		}
 		
@@ -79,6 +60,30 @@ InterfacePaginas.init = function () {
 		})
 		el.style.cursor = ""
 	})
+}
+
+// Mostra a janela de opção de auto-indexação
+// erro é um booleano que indica se a mensagem de erro deve ser mostrada
+InterfacePaginas.abrirOpcaoAutoPaginacao = function (erro) {
+	var opcoes = {}
+	opcoes.titulo = _("autoPaginacao")
+	opcoes.conteudo = "<p>"+_(erro ? "autoPaginacao_ativada" : "autoPaginacao_dica")+"</p>"+
+		"<p><input type='checkbox' id='js-check'"+(Interface.abaFoco.livro.autoPaginacao ? " checked" : "")+"> <label for='js-check'>"+_("autoPaginacao_ativar")+"</label></p>"
+	opcoes.onconfirmar = function () {
+		var antes = Interface.abaFoco.livro.autoPaginacao, novo = get("js-check").checked
+		if (novo == antes)
+			return
+		new Acao(novo ? _("autoPaginacao_ativacao") : _("autoPaginacao_desativacao"), function () {
+			Interface.abaFoco.livro.autoPaginacao = novo
+		}, function () {
+			Interface.abaFoco.livro.autoPaginacao = antes
+		})
+		if (Interface.abaFoco.livro.autoPaginacao)
+			Editor.autoPaginar()
+		if (Interface.abaFoco.livro.autoIndexacao)
+			Editor.autoIndexar()
+	}
+	Interface.abrirJanela("janelaBasica", opcoes)
 }
 
 // Remove as páginas selecionadas

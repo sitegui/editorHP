@@ -11,23 +11,7 @@ InterfaceIndices.init = function () {
 	get("indices-remover").onclick = InterfaceIndices.remover
 	get("indices-acrescentar").onclick = InterfaceIndices.adicionar
 	get("indices-opcoes").onclick = function () {
-		var opcoes = {}
-		opcoes.titulo = _("autoIndexacao")
-		opcoes.conteudo = "<p>"+_("autoIndexacao_dica")+"</p>"+
-			"<p><input type='checkbox' id='js-check'"+(Interface.abaFoco.livro.autoIndexacao ? " checked" : "")+"> <label for='js-check'>"+_("autoIndexacao_ativar")+"</label></p>"
-		opcoes.onconfirmar = function () {
-			var antes = Interface.abaFoco.livro.autoIndexacao, novo = get("js-check").checked
-			if (novo == antes)
-				return
-			new Acao(novo ? _("autoIndexacao_ativacao") : _("autoIndexacao_desativacao"), function () {
-				Interface.abaFoco.livro.autoIndexacao = novo
-			}, function () {
-				Interface.abaFoco.livro.autoIndexacao = antes
-			})
-			if (Interface.abaFoco.livro.autoIndexacao)
-				Editor.autoIndexar()
-		}
-		Interface.abrirJanela("janelaBasica", opcoes)
+		InterfaceIndices.abrirOpcaoAutoIndexacao(false)
 	}
 	get("indices").onclick = function (evento) {
 		// Se clicar fora de todos os anexos, deseleciona
@@ -43,8 +27,7 @@ InterfaceIndices.init = function () {
 		// Verifica se o auto-indexar está desligado
 		if (Interface.abaFoco.livro.autoIndexacao) {
 			InterfaceIndices.atualizar()
-			get("indices-opcoes").click()
-			alert(_("erroAlterarIndices"))
+			InterfaceIndices.abrirOpcaoAutoIndexacao(true)
 			return
 		}
 		
@@ -60,6 +43,28 @@ InterfaceIndices.init = function () {
 		})
 	})
 	ordenavel.indices = true
+}
+
+// Mostra a janela de opção de auto-indexação
+// erro é um booleano que indica se a mensagem de erro deve ser mostrada
+InterfaceIndices.abrirOpcaoAutoIndexacao = function (erro) {
+	var opcoes = {}
+	opcoes.titulo = _("autoIndexacao")
+	opcoes.conteudo = "<p>"+_(erro ? "erroAlterarIndices" : "autoIndexacao_dica")+"</p>"+
+		"<p><input type='checkbox' id='js-check'"+(Interface.abaFoco.livro.autoIndexacao ? " checked" : "")+"> <label for='js-check'>"+_("autoIndexacao_ativar")+"</label></p>"
+	opcoes.onconfirmar = function () {
+		var antes = Interface.abaFoco.livro.autoIndexacao, novo = get("js-check").checked
+		if (novo == antes)
+			return
+		new Acao(novo ? _("autoIndexacao_ativacao") : _("autoIndexacao_desativacao"), function () {
+			Interface.abaFoco.livro.autoIndexacao = novo
+		}, function () {
+			Interface.abaFoco.livro.autoIndexacao = antes
+		})
+		if (Interface.abaFoco.livro.autoIndexacao)
+			Editor.autoIndexar()
+	}
+	Interface.abrirJanela("janelaBasica", opcoes)
 }
 
 // Monta o índice a partir das divs na interface
