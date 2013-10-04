@@ -40,7 +40,7 @@ header('Content-type: application/javascript');
 
 // Gera a array de bytes do programa compilado para HP
 // Ignora os 34 primeiros bytes, pois é onde o livre será inserido
-$compiladoStr = str_split(substr(file_get_contents('COMPILADO.HP'), 34));
+$compiladoStr = str_split(substr(file_get_contents('COMPILADO.hp'), 34));
 $compilado = array();
 foreach ($compiladoStr as $c)
 	$compilado[] = ord($c);
@@ -57,5 +57,5 @@ function getCabecalho($nome) {
 
 <?=$js?>
 
-<?=getCabecalho('COMPILADO.HP')?>
+<?=getCabecalho('COMPILADO.hp')?>
 var COMPILADO = new Uint8Array([<?=$compilado?>])
