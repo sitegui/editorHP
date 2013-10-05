@@ -142,14 +142,17 @@ Compilador.compilar = function (livro) {
 	
 	// Compila um índice recursivamente
 	var gerarIndice = function (indice) {
-		var subs, i, pos
+		var subs, i, pos, nome
 		if (indice instanceof FolhaIndice) {
 			return "{"+escapar(indice.nome)+" "+(livro.paginas.indexOf(indice.pagina)+1)+". 1.}"
 		} else {
 			subs = []
 			for (i=0; i<indice.indices.length; i++)
 				subs.push(gerarIndice(indice.indices[i]))
-			return "{"+escapar(indice.nome)+" "+subs.join(" ")+" 0.}"
+			nome = indice.nome.substr(0, 21)
+			while (nome.length < 21) nome += " "
+			nome += ">"
+			return "{"+escapar(nome)+" "+subs.join(" ")+" 0.}"
 		}
 	}
 	
@@ -274,7 +277,7 @@ Compilador.compilar = function (livro) {
 
 // Gera HTML de uma página
 Compilador.gerarHTML = function (pagina) {
-	var i, html, el, getAlinhamento, escaparHTML
+	var i, html, el, getAlinhamento, escaparHTML, erro
 	
 	getAlinhamento = function (elemento) {
 		switch (elemento.alinhamento) {
@@ -293,9 +296,13 @@ Compilador.gerarHTML = function (pagina) {
 		el = pagina.elementos[i]
 		if (el instanceof Texto)
 			html += "<p "+getAlinhamento(el)+">"+escaparHTML(el).replace(/\n/g, "<br>")+"</p>"
-		else if (el instanceof Equacao)
-			html += "<h6 "+getAlinhamento(el)+(Sintaxe.validarEquacao(el.texto) ? "" : " class='erroSintaxe'")+">"+escaparHTML(el)+"</h6>"
-		else if (el instanceof Imagem)
+		else if (el instanceof Equacao) {
+			erro = Sintaxe.validarEquacao(el.texto)
+			if (erro)
+				html += "<h6 "+getAlinhamento(el)+" class='erroSintaxe' title='"+escaparHTML({texto: erro})+"'>"+escaparHTML(el)+"</h6>"
+			else
+				html += "<h6 "+getAlinhamento(el)+">"+escaparHTML(el)+"</h6>"
+		} else if (el instanceof Imagem)
 			html += "<figure><img src='"+el.cacheURL+"' data-imagem='"+el.imagem+
 			"' onclick='InterfaceEdicao.editarImagem(event)' data-filtro='"+el.filtro+"' width='"+(2*el.tamanho)+"px' data-ajuste='"+el.ajuste+
 			"' data-tamanho='"+el.tamanho+"' data-cache='"+el.cache+"'"+(el.desenhado ? " data-desenhado='1'" : "")+"></figure>"

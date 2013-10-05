@@ -186,8 +186,8 @@
 	max-width:25%;
 	max-height:25%;
 	border-top-left-radius:15px;
-	transition:bottom .5s ease;
-	-webkit-transition:bottom .5s ease;
+	transition:bottom 1s cubic-bezier(.25, 0, .25, 1.5);
+	-webkit-transition:bottom 1s cubic-bezier(.25, 0, .25, 1.5);
 	cursor:pointer;
 }
 .janelaDicas-conteudo, .janelaSintaxe-conteudo {
@@ -198,6 +198,33 @@
 	-moz-user-select:none;
 	-webkit-user-select:none;
 	user-select:none;
+}
+@keyframes brilhar {
+	30% {
+		border-color:transparent;
+	}
+	50% {
+		border-color:rgba(0, 0, 255, .5);
+	}
+	70% {
+		border-color:transparent;
+	}
+}
+@-webkit-keyframes brilhar {
+	30% {
+		border-color:transparent;
+	}
+	50% {
+		border-color:rgba(0, 0, 255, .5);
+	}
+	70% {
+		border-color:transparent;
+	}
+}
+.janelaDicas-conteudo {
+	border:7px transparent solid;
+	animation:brilhar 5s ease-in-out 0s infinite;
+	-webkit-animation:brilhar 5s ease-in-out 0s infinite;
 }
 
 /* Janela de dicas de sintaxe */
