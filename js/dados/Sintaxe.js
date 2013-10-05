@@ -1,9 +1,10 @@
 // Permite validar as sintaxes de equações
 var Sintaxe = {}
 
-// Retorna se a string é uma equação válida (de acordo com a sintaxe da HP)
+// Retorna uma string vazia se a string é uma equação válida (de acordo com a sintaxe da HP)
 // Recebe a string que está dentro de uma tag <code>, por exemplo
 // Aceita um subconjunto das sintaxes da HP, voltado somente a expressões, vetores e matrizes
+// Caso a equação contenha um erro, retorna uma string com a explicação do erro
 Sintaxe.validarEquacao = function (str) {
 	var expressao
 	
@@ -13,21 +14,23 @@ Sintaxe.validarEquacao = function (str) {
 		// Infla e interpreta a equação
 		expressao = Sintaxe.inflar(str)
 		Sintaxe.interpretar(expressao)
-		return true
+		Sintaxe.validarEstrutura(expressao)
+		return ""
 	} catch (e) {
-		return false
+		return e
 	}
 }
 
 // Tipos
-Sintaxe.TIPO_OPERADOR = 1
-Sintaxe.TIPO_NUMERO = 2
-Sintaxe.TIPO_VARIAVEL = 3
-Sintaxe.TIPO_PARENTESES = 4
-Sintaxe.TIPO_FUNCAO = 5
-Sintaxe.TIPO_DERIVADA = 6
-Sintaxe.TIPO_VETOR = 7
-Sintaxe.TIPO_EQUACAO = 8
+Sintaxe.TIPO_OPERADOR = 1 // {valor: }
+Sintaxe.TIPO_NUMERO = 2 // {valor: }
+Sintaxe.TIPO_VARIAVEL = 3 // {valor: }
+Sintaxe.TIPO_PARENTESES = 4 // [...args]
+Sintaxe.TIPO_FUNCAO = 5 // [nome, ...args]
+Sintaxe.TIPO_DERIVADA = 6 // {valor: }
+Sintaxe.TIPO_VETOR = 7 // [...args]
+Sintaxe.TIPO_EQUACAO = 8 // [eq]
+Sintaxe.TIPO_LISTA = 9 // [...args]
 
 /*
 
@@ -44,7 +47,7 @@ Sintaxe.inflar = function (str) {
 	len = str.length
 	cache = ""
 	retorno = []
-	retorno.tipo = Sintaxe.TIPO_VETOR
+	retorno.tipo = Sintaxe.TIPO_LISTA
 	retorno.pai = null
 	nivelAtual = retorno
 	equacao = false // Indica se está dentro de uma equação
@@ -68,33 +71,33 @@ Sintaxe.inflar = function (str) {
 				cache = ""
 			}
 			equacao = !equacao
-		} else if (c == "[" && !equacao) {
+		} else if ((c == "[" || c == "{") && !equacao) {
 			// Inicia um novo vetor
 			salvarCache()
 			novo = []
 			novo.pai = nivelAtual
-			novo.tipo = Sintaxe.TIPO_VETOR
+			novo.tipo = c=="[" ? Sintaxe.TIPO_VETOR : Sintaxe.TIPO_LISTA
 			nivelAtual.push(novo)
 			nivelAtual = novo
-		} else if (c == "]" && !equacao) {
+		} else if ((c == "]" || c == "}") && !equacao) {
 			// Finaliza um nível de vetor
 			salvarCache()
-			if (nivelAtual.pai) {
+			if (nivelAtual.pai && nivelAtual.tipo == (c=="]" ? Sintaxe.TIPO_VETOR : Sintaxe.TIPO_LISTA)) {
 				temp = nivelAtual
 				nivelAtual = nivelAtual.pai
 				delete temp.pai
 			} else
-				throw 0
+				throw _("erroSintaxe_fimListaVetorInesperado")
 		} else
 			cache += c
 	}
 	salvarCache()
 	
-	if (nivelAtual.pai == null && i == len) {
+	if (nivelAtual.pai == null && i == len && !equacao) {
 		delete nivelAtual.pai
 		return retorno
 	}
-	throw 0
+	throw _("erroSintaxe_desbalanceamento")
 }
 
 // Infla uma string nos parênteses
@@ -134,7 +137,7 @@ Sintaxe.inflarEquacao = function (str) {
 				nivelAtual = nivelAtual.pai
 				delete temp.pai
 			} else
-				throw 0
+				throw _("erroSintaxe_fimParentesesInesperado")
 		} else if (c == " ")
 			salvarCache()
 		else
@@ -146,14 +149,14 @@ Sintaxe.inflarEquacao = function (str) {
 		delete nivelAtual.pai
 		return retorno
 	}
-	throw 0
+	throw _("erroSintaxe_desbalanceamentoEquacao")
 }
 
 // Separa operadores, variáveis e números de uma string
 // Retorna uma array com objetos com as propriedades valor (string) e tipo (Sintaxe.TIPO_*)
 // Lança uma exceção em caso de erro
 Sintaxe.separar = function (str) {
-	var i, sub, partes = []
+	var i, sub, partes = [], backup = str
 	
 	for (i=str.length; i>0; i--) {
 		sub = str.substr(0, i)
@@ -177,7 +180,7 @@ Sintaxe.separar = function (str) {
 	}
 	
 	if (str != "")
-		throw 0
+		throw _("erroSintaxe_trechoIncorreto", backup)
 	
 	return partes
 }
@@ -187,14 +190,16 @@ Sintaxe.interpretar = function (estrutura) {
 	var i
 	
 	for (i=0; i<estrutura.length; i++) {
-		if (estrutura[i].tipo == Sintaxe.TIPO_VETOR)
+		if (estrutura[i].tipo == Sintaxe.TIPO_VETOR || estrutura[i].tipo == Sintaxe.TIPO_LISTA)
 			Sintaxe.interpretar(estrutura[i])
 		else if (estrutura[i].tipo == Sintaxe.TIPO_EQUACAO)
 			Sintaxe.interpretarEquacao(estrutura[i])
 		else if (estrutura[i].match(/^\d*(\.\d*)?(E[+-]?\d+)?$/))
-			estrutura[i] = {valor: estrutura, tipo: Sintaxe.TIPO_NUMERO}
+			estrutura[i] = {valor: estrutura[i], tipo: Sintaxe.TIPO_NUMERO}
+		else if (estrutura[i].match(/^[$%&?A-Za-z~Σ▶πα→←↓↑γδεηθλρστωΔΠΩµß][$%&0-9?A-Za-z~Σ▶πα→←↓↑γδεηθλρστωΔΠΩµß]*$/))
+			estrutura[i] = {valor: estrutura[i], tipo: Sintaxe.TIPO_VARIAVEL}
 		else
-			throw 0
+			throw _("erroSintaxe_itemInvalido", estrutura[i])
 	}
 }
 
@@ -219,12 +224,12 @@ Sintaxe.interpretarEquacao = function (estrutura) {
 		el = estrutura[i]
 		elDepois = estrutura[i+1]
 		if (el.tipo == Sintaxe.TIPO_DERIVADA)
-			if (elDepois && elDepois.tipo == Sintaxe.TIPO_PARENTESES) {
+			if (elDepois && elDepois.tipo == Sintaxe.TIPO_PARENTESES && elDepois.length == 1) {
 				valor = [el.valor].concat(elDepois)
 				valor.tipo = Sintaxe.TIPO_FUNCAO
 				estrutura.splice(i, 2, valor)
 			} else
-				throw 0
+				throw _("erroSintaxe_derivada")
 		else if (el.tipo == Sintaxe.TIPO_VARIAVEL && elDepois && elDepois.tipo == Sintaxe.TIPO_PARENTESES) {
 			valor = [el.valor].concat(elDepois)
 			valor.tipo = Sintaxe.TIPO_FUNCAO
@@ -268,22 +273,99 @@ Sintaxe.interpretarEquacao = function (estrutura) {
 					estrutura.splice(j-1, 3, valor)
 					i--
 				} else
-					throw 0
+					throw _("erroSintaxe_operador", el.valor)
 			}
 		}
 	}
 	
 	// Aplica os operadores ordem de precedência
-	// TODO: operador de derivada
 	aplicarUnarios(["!"], 1)
 	aplicarUnarios(["+", "-"], -1)
 	aplicarBinarios(["^"], -1)
 	aplicarBinarios(["*", "/"], 1)
 	aplicarBinarios(["+", "-"], 1)
-	aplicarBinarios(["<", "\x89", ">", "\x88"], 1)
-	aplicarBinarios(["==", "\x8A"], 1)
+	aplicarBinarios(["<", "\u2264", ">", "\u2265"], 1)
+	aplicarBinarios(["==", "\u2260"], 1)
 	aplicarBinarios(["="], -1)
 	
 	if (estrutura.length > 1)
-		throw 0
+		throw _("erroSintaxe_equacao")
+}
+
+// Valida regras específicas da estrutura, como não permitir 'A=B=C', 'i(x)' e matrizes não retangulares
+// Lança uma exceção em caso de erro
+Sintaxe.validarEstrutura = function (estrutura) {
+	var validarEquacao = function (el, usouIgual) {
+		var i
+		switch (el.tipo) {
+		case Sintaxe.TIPO_EQUACAO:
+			if (el.length)
+				validarEquacao(el[0], usouIgual)
+			break
+		case Sintaxe.TIPO_FUNCAO:
+			if (el[0] == "=") {
+				if (usouIgual)
+					throw _("erroSintaxe_operadorIgual")
+				usouIgual = true
+			} else if (el[0] == "i" || el[0] == "e")
+				throw _("erroSintaxe_nomeFuncao", el[0])
+			for (i=1; i<el.length; i++)
+				validarEquacao(el[i], usouIgual)
+			break
+		case Sintaxe.TIPO_PARENTESES:
+			for (i=0; i<el.length; i++)
+				validarEquacao(el[i], usouIgual)
+			break
+		}
+	}
+	
+	var validarVetor = function (vetor, raiz) {
+		var i, el, matriz, colunas
+		
+		// Não pode vetor vazio
+		if (vetor.length == 0)
+			throw _("erroSintaxe_vetorVazio")
+		
+		// Verifica se é um vetor simples ou uma matriz
+		matriz = vetor[0].tipo == Sintaxe.TIPO_VETOR
+		colunas = matriz ? vetor[0].length : 0
+		if (matriz && !raiz)
+			// Não pode uma matriz dentro da outra
+			throw _("erroSintaxe_subMatriz")
+		
+		for (i=0; i<vetor.length; i++) {
+			el = vetor[i]
+			if (matriz) {
+				if (el.tipo != Sintaxe.TIPO_VETOR || el.length != colunas)
+					// Todos os elementos de uma matriz devem ser vetores do mesmo tamanho
+					throw _("erroSintaxe_tamanhoMatriz")
+				validarVetor(el, false)
+			} else if (el.tipo == Sintaxe.TIPO_EQUACAO)
+				// Todos os elementos de um vetor não matriz devem ser equação ou número
+				validarEquacao(el)
+			else if (el.tipo != Sintaxe.TIPO_NUMERO)
+				throw _("erroSintaxe_elementoInvalido")
+		}
+	}
+	
+	var validarLista = function (lista) {
+		var i
+		// Simplesmente valida todas as entradas
+		for (i=0; i<lista.length; i++)
+			Sintaxe.validarEstrutura(lista[i])
+	}
+	
+	switch (estrutura.tipo) {
+	case Sintaxe.TIPO_EQUACAO:
+		validarEquacao(estrutura)
+		break
+	case Sintaxe.TIPO_VETOR:
+		validarVetor(estrutura, true)
+		break
+	case Sintaxe.TIPO_LISTA:
+		validarLista(estrutura)
+		break
+	default:
+		// OK
+	}
 }

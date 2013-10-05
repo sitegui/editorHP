@@ -9,7 +9,7 @@ InterfaceEdicao.foco = null
 
 // Atualiza as ferramentas selecionadas
 InterfaceEdicao.atualizarFerramentas = function () {
-	var edicao, no, ferramenta = "", divs, i, alinhamento, e
+	var edicao, no, ferramenta = "", divs, i, alinhamento, e, erro
 	edicao = get("edicao")
 	
 	JanelaSintaxe.fechar(false)
@@ -46,10 +46,14 @@ InterfaceEdicao.atualizarFerramentas = function () {
 		} else if (no.nodeName == "H6") {
 			ferramenta = "ferramenta-equacao"
 			JanelaSintaxe.abrir(false)
-			if (Sintaxe.validarEquacao(Compilador.sanitizar(no.textContent)))
+			erro = Sintaxe.validarEquacao(Compilador.sanitizar(no.textContent))
+			if (!erro) {
 				no.classList.remove("erroSintaxe")
-			else
+				no.title = ""
+			} else {
 				no.classList.add("erroSintaxe")
+				no.title = erro
+			}
 			break
 		} else if (no.nodeName.match(/^H[1-5]$/)) {
 			ferramenta = "ferramenta-"+no.nodeName.toLowerCase()

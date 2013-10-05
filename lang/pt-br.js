@@ -85,7 +85,22 @@ var strs = {
 	semAutoIndexar: "Livro sem auto indexação",
 	semAutoIndexar_conteudo: "Você está salvando um livro com a opção de auto indexar desligada.<br>Deseja reativa-la antes de salvar?",
 	erroRenomearIndice: "Não é possível renomear o índice pois ele não está associado a um cabeçalho",
-	erroAlterarIndices: "Não é possível remover, adicionar ou alterar índices enquanto a auto indexação estiver ativa"
+	erroAlterarIndices: "Não é possível remover, adicionar ou alterar índices enquanto a auto indexação estiver ativa",
+	erroSintaxe_fimListaVetorInesperado: "Caractere } ou ] inesperado",
+	erroSintaxe_desbalanceamento: "Lista, vetor ou equação não devidamente terminado",
+	erroSintaxe_fimParentesesInesperado: "Caractere fechamento de parênteses inesperado",
+	erroSintaxe_desbalanceamentoEquacao: "Parênteses não devidamente terminado",
+	erroSintaxe_trechoIncorreto: "Trecho da equação incorreto: #",
+	erroSintaxe_itemInvalido: "Trecho não reconhecido: #",
+	erroSintaxe_derivada: "Derivada fora do formato",
+	erroSintaxe_operador: "Uso incorreto do operador #",
+	erroSintaxe_equacao: "Equação inválida",
+	erroSintaxe_vetorVazio: "Vetores não podem ser vazios",
+	erroSintaxe_subMatriz: "Vetor inesperado",
+	erroSintaxe_tamanhoMatriz: "Todas as linhas da matriz devem ter a mesma dimensão",
+	erroSintaxe_elementoInvalido: "Elemento inválido dentro de um vetor",
+	erroSintaxe_operadorIgual: "Construções do tipo A=B=C não são permitidas",
+	erroSintaxe_nomeFuncao: "Nome inválido para uma função: #"
 }
 
 // Retorna a tradução correta para o texto

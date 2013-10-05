@@ -85,7 +85,22 @@ var strs = {
 	semAutoIndexar: "Book without auto index",
 	semAutoIndexar_conteudo: "You're trying to save a book with auto index off.<br>Do you want to turn it on again before saving?",
 	erroRenomearIndice: "You can't rename this index because it is not linked with any header",
-	erroAlterarIndices: "You can't add nor remove nor alter indexes while auto index is on"
+	erroAlterarIndices: "You can't add nor remove nor alter indexes while auto index is on",
+	erroSintaxe_fimListaVetorInesperado: "Unexpected character } or ]",
+	erroSintaxe_desbalanceamento: "List, vector or equation was not closed properly",
+	erroSintaxe_fimParentesesInesperado: "Unexpected closing parenthesis",
+	erroSintaxe_desbalanceamentoEquacao: "Parenthesis was not closed properly",
+	erroSintaxe_trechoIncorreto: "Incorrect expression: #",
+	erroSintaxe_itemInvalido: "Unrecognized expression: #",
+	erroSintaxe_derivada: "Ill formatted derivative",
+	erroSintaxe_operador: "Incorrect use of operator #",
+	erroSintaxe_equacao: "Invalid equation",
+	erroSintaxe_vetorVazio: "Empty vectors are not allowed",
+	erroSintaxe_subMatriz: "Unexpected vector",
+	erroSintaxe_tamanhoMatriz: "All rows in a matrix must have the same length",
+	erroSintaxe_elementoInvalido: "Invalid element inside a vector",
+	erroSintaxe_operadorIgual: "Statements like A=B=C are forbidden",
+	erroSintaxe_nomeFuncao: "Invalid name for a function: #"
 }
 
 // Retorna a tradução correta para o texto
