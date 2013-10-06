@@ -57,6 +57,13 @@ InterfaceEdicao.atualizarFerramentas = function () {
 			break
 		} else if (no.nodeName.match(/^H[1-5]$/)) {
 			ferramenta = "ferramenta-"+no.nodeName.toLowerCase()
+			if (Compilador.sanitizar(no.textContent).length <= 33) {
+				no.classList.remove("alerta")
+				no.title = ""
+			} else {
+				no.classList.add("alerta")
+				no.title = _("alerta_tamanhoTitulo")
+			}
 			break
 		}
 		no = no.parentNode

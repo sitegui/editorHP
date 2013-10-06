@@ -282,9 +282,12 @@ Compilador.gerarHTML = function (pagina) {
 			html += "<figure><img src='"+el.cacheURL+"' data-imagem='"+el.imagem+
 			"' onclick='InterfaceEdicao.editarImagem(event)' data-filtro='"+el.filtro+"' width='"+(2*el.tamanho)+"px' data-ajuste='"+el.ajuste+
 			"' data-tamanho='"+el.tamanho+"' data-cache='"+el.cache+"'"+(el.desenhado ? " data-desenhado='1'" : "")+"></figure>"
-		else if (el instanceof Cabecalho)
-			html += "<h"+el.nivel+" "+getAlinhamento(el)+">"+escaparHTML(el)+"</h"+el.nivel+">"
-		else if (el instanceof Regua)
+		else if (el instanceof Cabecalho) {
+			if (el.texto.length <= 33)
+				html += "<h"+el.nivel+" "+getAlinhamento(el)+">"+escaparHTML(el)+"</h"+el.nivel+">"
+			else
+				html += "<h"+el.nivel+" "+getAlinhamento(el)+" class='alerta' title='"+_("alerta_tamanhoTitulo")+"'>"+escaparHTML(el)+"</h"+el.nivel+">"
+		} else if (el instanceof Regua)
 			html += "<hr size='"+el.altura+"' color='black'>"
 	}
 	

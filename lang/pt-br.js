@@ -103,7 +103,8 @@ var strs = {
 	erroSintaxe_nomeFuncao: "Nome inválido para uma função: #",
 	erroSintaxe_integral: "Formato inválido para a integral",
 	erroSintaxe_somatorio: "Formato inválido para o somatório",
-	erroSintaxe_parenteses: "Parênteses inválido"
+	erroSintaxe_parenteses: "Parênteses inválido",
+	alerta_tamanhoTitulo: "Título muito grande. O tamanho ideal é até 22 caracteres"
 }
 
 // Retorna a tradução correta para o texto

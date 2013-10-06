@@ -195,8 +195,7 @@ InterfaceIndices.remover = function () {
 		return
 	
 	if (Interface.abaFoco.livro.autoIndexacao) {
-		get("indices-opcoes").click()
-		alert(_("erroAlterarIndices"))
+		InterfaceIndices.abrirOpcaoAutoIndexacao(true)
 		return
 	}
 	
@@ -230,8 +229,7 @@ InterfaceIndices.adicionar = function () {
 	var indice, opcoes, select, i, pos, arrayPai
 	
 	if (Interface.abaFoco.livro.autoIndexacao) {
-		get("indices-opcoes").click()
-		alert(_("erroAlterarIndices"))
+		InterfaceIndices.abrirOpcaoAutoIndexacao(true)
 		return
 	}
 	

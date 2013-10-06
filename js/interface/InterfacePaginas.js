@@ -92,8 +92,7 @@ InterfacePaginas.remover = function () {
 	
 	// Verifica se o auto-paginar está desligado
 	if (Interface.abaFoco.livro.autoPaginacao) {
-		get("paginas-opcoes").click()
-		alert(_("autoPaginacao_ativada"))
+		InterfacePaginas.abrirOpcaoAutoPaginacao(true)
 		return
 	}
 	
@@ -132,8 +131,7 @@ InterfacePaginas.acrescentar = function () {
 	
 	// Verifica se o auto-paginar está desligado
 	if (Interface.abaFoco.livro.autoPaginacao) {
-		get("paginas-opcoes").click()
-		alert(_("autoPaginacao_ativada"))
+		InterfacePaginas.abrirOpcaoAutoPaginacao(true)
 		return
 	}
 	

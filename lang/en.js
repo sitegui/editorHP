@@ -103,7 +103,8 @@ var strs = {
 	erroSintaxe_nomeFuncao: "Invalid name for a function: #",
 	erroSintaxe_integral: "Invalid format for integral",
 	erroSintaxe_somatorio: "Invalid format for summation",
-	erroSintaxe_parenteses: "Invalid parenthesis"
+	erroSintaxe_parenteses: "Invalid parenthesis",
+	alerta_tamanhoTitulo: "Header to long. The ideal size is up to 22 characters"
 }
 
 // Retorna a tradução correta para o texto
