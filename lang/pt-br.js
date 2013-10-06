@@ -100,7 +100,10 @@ var strs = {
 	erroSintaxe_tamanhoMatriz: "Todas as linhas da matriz devem ter a mesma dimensão",
 	erroSintaxe_elementoInvalido: "Elemento inválido dentro de um vetor",
 	erroSintaxe_operadorIgual: "Construções do tipo A=B=C não são permitidas",
-	erroSintaxe_nomeFuncao: "Nome inválido para uma função: #"
+	erroSintaxe_nomeFuncao: "Nome inválido para uma função: #",
+	erroSintaxe_integral: "Formato inválido para a integral",
+	erroSintaxe_somatorio: "Formato inválido para o somatório",
+	erroSintaxe_parenteses: "Parênteses inválido"
 }
 
 // Retorna a tradução correta para o texto

@@ -104,18 +104,17 @@ Sintaxe.inflar = function (str) {
 // "a^(b*(c+d)-e)+f" => ["a^", ["b*", ["c+d"], "-e"], "+f"]
 // Se houver desbalanceamento de parênteses, lança uma exceção
 Sintaxe.inflarEquacao = function (str) {
-	var i, len, c, nivelAtual, retorno, cache, novo, temp
+	var i, len, c, retorno, cache, novo, temp, niveis
 	
 	len = str.length
 	retorno = []
 	retorno.tipo = Sintaxe.TIPO_EQUACAO
-	retorno.pai = null
 	cache = ""
-	nivelAtual = retorno
+	niveis = [retorno]
 	
 	var salvarCache = function () {
 		if (cache.length) {
-			nivelAtual.push(cache)
+			niveis[niveis.length-1].push(cache)
 			cache = ""
 		}
 	}
@@ -125,19 +124,25 @@ Sintaxe.inflarEquacao = function (str) {
 		c = str[i]
 		if (c == "(") {
 			salvarCache()
-			novo = []
-			nivelAtual.push(novo)
-			novo.pai = nivelAtual
+			novo = [[]]
+			niveis[niveis.length-1].push(novo)
 			novo.tipo = Sintaxe.TIPO_PARENTESES
-			nivelAtual = novo
+			niveis.push(novo)
+			niveis.push(novo[0])
 		} else if (c == ")") {
 			salvarCache()
-			if (nivelAtual.pai) {
-				temp = nivelAtual
-				nivelAtual = nivelAtual.pai
-				delete temp.pai
-			} else
+			if (niveis.length < 3)
 				throw _("erroSintaxe_fimParentesesInesperado")
+			niveis.pop()
+			niveis.pop()
+		} else if (c == ",") {
+			salvarCache()
+			novo = []
+			if (niveis.length < 3)
+				throw _("erroSintaxe_equacao")
+			niveis.pop()
+			niveis[niveis.length-1].push(novo)
+			niveis.push(novo)
 		} else if (c == " ")
 			salvarCache()
 		else
@@ -145,11 +150,9 @@ Sintaxe.inflarEquacao = function (str) {
 	}
 	salvarCache()
 	
-	if (nivelAtual.pai == null && i == len) {
-		delete nivelAtual.pai
-		return retorno
-	}
-	throw _("erroSintaxe_desbalanceamentoEquacao")
+	if (niveis.length != 1)
+		throw _("erroSintaxe_desbalanceamentoEquacao")
+	return retorno
 }
 
 // Separa operadores, variáveis e números de uma string
@@ -164,11 +167,11 @@ Sintaxe.separar = function (str) {
 			partes.push({valor: sub, tipo: Sintaxe.TIPO_DERIVADA})
 			str = str.substr(i)
 			i = str.length+1
-		} else if (["+", "-", "*", "/", "^", "!", "=", "<", "\u2264", ">", "\u2265", "\u2260", "=="].indexOf(sub) != -1) {
+		} else if (["+", "-", "*", "/", "^", "!", "=", "<", "\u2264", ">", "\u2265", "\u2260", "==", "\u221A"].indexOf(sub) != -1) {
 			partes.push({valor: sub, tipo: Sintaxe.TIPO_OPERADOR})
 			str = str.substr(i)
 			i = str.length+1
-		} else if (sub.match(/^[$%&?A-Za-z~Σ▶πα→←↓↑γδεηθλρστωΔΠΩµß][$%&0-9?A-Za-z~Σ▶πα→←↓↑γδεηθλρστωΔΠΩµß]*$/)) {
+		} else if (sub.match(/^[$%&?A-Za-z~Σ▶πα→←↓↑γδεηθλρστωΔΠΩµß∫][$%&0-9?A-Za-z~Σ▶πα→←↓↑γδεηθλρστωΔΠΩµß]*$/)) {
 			partes.push({valor: sub, tipo: Sintaxe.TIPO_VARIAVEL})
 			str = str.substr(i)
 			i = str.length+1
@@ -215,7 +218,14 @@ Sintaxe.interpretarEquacao = function (estrutura) {
 			;[].splice.apply(estrutura, args)
 			i += args.length-3
 		} else
-			Sintaxe.interpretarEquacao(el)
+			for (j=0; j<el.length; j++) {
+				Sintaxe.interpretarEquacao(el[j])
+				if (el[j].length)
+					el[j] = el[j][0]
+				else if (el.length != 1)
+					// Só pode haver itens vazios quando ele é o único
+					throw _("erroSintaxe_equacao")
+			}
 	}
 	
 	// Transforma variável seguido de parênteses em função
@@ -280,7 +290,7 @@ Sintaxe.interpretarEquacao = function (estrutura) {
 	
 	// Aplica os operadores ordem de precedência
 	aplicarUnarios(["!"], 1)
-	aplicarUnarios(["+", "-"], -1)
+	aplicarUnarios(["+", "-", "\u221A"], -1)
 	aplicarBinarios(["^"], -1)
 	aplicarBinarios(["*", "/"], 1)
 	aplicarBinarios(["+", "-"], 1)
@@ -288,33 +298,53 @@ Sintaxe.interpretarEquacao = function (estrutura) {
 	aplicarBinarios(["==", "\u2260"], 1)
 	aplicarBinarios(["="], -1)
 	
-	if (estrutura.length > 1)
+	if (estrutura.length > 1 || (estrutura.length == 1 && estrutura[0].tipo == Sintaxe.TIPO_OPERADOR))
 		throw _("erroSintaxe_equacao")
 }
 
 // Valida regras específicas da estrutura, como não permitir 'A=B=C', 'i(x)' e matrizes não retangulares
 // Lança uma exceção em caso de erro
 Sintaxe.validarEstrutura = function (estrutura) {
-	var validarEquacao = function (el, usouIgual) {
+	var validarEquacao = function (el, raiz) {
 		var i
 		switch (el.tipo) {
 		case Sintaxe.TIPO_EQUACAO:
 			if (el.length)
-				validarEquacao(el[0], usouIgual)
+				validarEquacao(el[0], true)
 			break
 		case Sintaxe.TIPO_FUNCAO:
 			if (el[0] == "=") {
-				if (usouIgual)
+				// Valida expressões com =
+				if (!raiz)
 					throw _("erroSintaxe_operadorIgual")
-				usouIgual = true
+			} else if (el[0] == "\u222B") {
+				// Valida integrais
+				if (el.length != 5 || el[4].tipo != Sintaxe.TIPO_VARIAVEL)
+					throw _("erroSintaxe_integral")
+			} else if (el[0] == "\u03A3") {
+				// Valida somatórios
+				if (el.length != 4
+					|| el[1].tipo != Sintaxe.TIPO_FUNCAO
+					|| el[1][0] != "="
+					|| el[1].length != 3
+					|| el[1][1].tipo != Sintaxe.TIPO_VARIAVEL)
+					throw _("erroSintaxe_somatorio")
+				
+				// Evita de entrar encontrar problema com o "=" no primeiro argumento
+				validarEquacao(el[1][2], false)
+				validarEquacao(el[2], false)
+				validarEquacao(el[3], false)
+				return
 			} else if (el[0] == "i" || el[0] == "e")
 				throw _("erroSintaxe_nomeFuncao", el[0])
 			for (i=1; i<el.length; i++)
-				validarEquacao(el[i], usouIgual)
+				validarEquacao(el[i], false)
 			break
 		case Sintaxe.TIPO_PARENTESES:
+			if (el.length != 1 && el.length != 2)
+				throw _("erroSintaxe_parenteses")
 			for (i=0; i<el.length; i++)
-				validarEquacao(el[i], usouIgual)
+				validarEquacao(el[i], false)
 			break
 		}
 	}
