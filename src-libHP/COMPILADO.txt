@@ -1,19 +1,52 @@
 %%HP: T(3)A(R)F(.);
-\<<
-"O livro vai aqui"
-CLLCD "Abrindo..." 1. DISP
-"Criado em" 2. DISP
-"sitegui.com.br" 3. DISP
-STR\->
 DIR
+  $TITLE "Biblioteca"
+  $EXTPRG Apps
+  $ROMID 937
+  $VISIBLE { SalvarLivro }
+  $HIDDEN { Apps Biblioteca AbrirPasta ExcluirLivros ReceberLivro ABRIRLIVRO ENVIAR COMPILARPAGINA GETPAGINACOMPILADA GVIEW MONTARANEXOS MONTARINDICE MONTARINDICERAIZ PREOBJCABECALHO PREOBJEQ PREOBJIMG PREOBJREGUA PREOBJTXT SUBIRINDICE }
+  $CONFIG 0
+  Biblioteca
+  \<< AbrirPasta \-> path
+    \<< "Biblioteca" Nomes { { "\>> Remover livros" 0. } { "\>> Receber livro" 1. } } +
+      IF 1. CLLCD CHOOSE
+      THEN
+        CASE DUP TYPE 2. ==
+          THEN Nomes SWAP POS 'Dados' SWAP GET
+            IFERR ABRIRLIVRO
+            THEN path EVAL ERRN DOERR
+            END
+          END DUP 0. ==
+          THEN DROP ExcluirLivros Biblioteca
+          END 1. ==
+          THEN ReceberLivro Biblioteca
+          END
+        END
+      END path EVAL
+    \>>
+  \>>
+  Apps
+  \<<
+    IF DUP 0 R~SB ==
+    THEN SWAP DUP SIZE 1. + PUSH -49 CF -50 CF \->STR POP "Biblioteca" +
+      \<< Biblioteca
+      \>> 2. \->LIST 1. \->LIST + SWAP
+    END
+  \>>
+  AbrirPasta
+  \<< PATH HOME
+    IF 'Livros' VTYPE -1 ==
+    THEN Livros CRDIR
+    END Livros
+    IF 'Nomes' VTYPE -1 == 'Dados' VTYPE -1 == OR
+    THEN { } 'Nomes' STO { } 'Dados' STO
+    END
+  \>>
   ABRIRLIVRO
   \<< OBJ\-> DROP 0. { } { } \-> \<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-anexos \<-strings n \<-posIndice \<-cache
     \<<
       IF \<-versao 1. \=/
       THEN "Vers\227o incompat\237vel" DOERR
-      END
-      IFERR SalvarLivro
-      THEN
       END \<-paginas SIZE 'n' STO 1. n
       START 0.
       NEXT n \->LIST '\<-cache' STO 1. MONTARINDICERAIZ
@@ -25,6 +58,25 @@ DIR
     THEN MONTARINDICE
     ELSE MONTARINDICERAIZ
     END
+  \>>
+  SalvarLivro
+  \<< AbrirPasta Nomes \<-nome POS
+    IF DUP
+    THEN DUP 'Nomes' SWAP \<-nome PUT 'Dados' SWAP \<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-anexos \<-strings 7. \->LIST PUT
+    ELSE DROP \<-nome 'Nomes' STO+ \<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-anexos \<-strings 7. \->LIST 1. \->LIST 'Dados' STO+
+    END EVAL
+  \>>
+  ReceberLivro
+  \<< 'TEMP' PURGE
+    IFERR RCLF -33. SF -35. SF RECV TEMP OBJ\-> DROP \-> nomeLivro dado
+      \<< Nomes nomeLivro POS
+        IF DUP
+        THEN DUP 'Nomes' SWAP nomeLivro PUT 'Dados' SWAP dado PUT
+        ELSE DROP nomeLivro 'Nomes' STO+ dado 1. \->LIST 'Dados' STO+
+        END nomeLivro " recebido" + MSGBOX
+      \>>
+    THEN
+    END STOF 'TEMP' PURGE
   \>>
   PREOBJTXT
   \<< SWAP \-> alinhamento
@@ -42,12 +94,19 @@ DIR
   PREOBJEQ
   \<<
     IFERR STR\->
-    THEN DROP "[\019\002\019Erro na equa\231\227o\019\002\019]" 2. \->GROB
+    THEN "'" SWAP + "'" +
+      IFERR STR\->
+      THEN DROP "[\019\002\019Erro na equa\231\227o\019\002\019]" 2. \->GROB
+      ELSE 0. \->GROB
+      END
     ELSE 0. \->GROB
     END DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 1. 0. 4. \->LIST \<-n ROLLD
   \>>
   PREOBJCABECALHO
   \<< SWAP DROP 2. \->GROB DUP SIZE B\->R 6. + '\<-altura' STO+ B\->R \<-largura MAX '\<-largura' STO 1. 0. 4. \->LIST \<-n ROLLD
+  \>>
+  PreCompilar
+  \<< 0 '$CONFIG' STO { Apps Biblioteca AbrirPasta ExcluirLivros ReceberLivro ABRIRLIVRO ENVIAR COMPILARPAGINA GETPAGINACOMPILADA GVIEW MONTARANEXOS MONTARINDICE MONTARINDICERAIZ PREOBJCABECALHO PREOBJEQ PREOBJIMG PREOBJREGUA PREOBJTXT SUBIRINDICE } '$HIDDEN' STO { SalvarLivro } '$VISIBLE' STO 937 '$ROMID' STO 'Apps' '$EXTPRG' STO "Biblioteca" '$TITLE' STO
   \>>
   MONTARINDICERAIZ
   \<< \<-indice 1.
@@ -158,6 +217,18 @@ DIR
       END DUP PICT STO GVIEW
     END
   \>>
+  ExcluirLivros
+  \<< "Excluir" { { "\<< Voltar" 0. } } Nomes +
+    IF 1. CLLCD CHOOSE
+    THEN
+      IF DUP 0. \=/
+      THEN Nomes SWAP POS Nomes SIZE \-> n len
+        \<< Nomes OBJ\-> DROP len n - 1. + ROLL DROP len 1. - \->LIST 'Nomes' STO Dados OBJ\-> DROP len n - 1. + ROLL DROP len 1. - \->LIST 'Dados' STO
+        \>> ExcluirLivros
+      ELSE DROP
+      END
+    END
+  \>>
   ENVIAR
   \<< \<-nome \<-versao \<-nome \<-opcoes \<-indice \<-paginas \<-anexos \<-strings 7. \->LIST 2. \->LIST 'TEMP' STO RCLF -33. SF -35. SF
     IFERR 'TEMP' SEND
@@ -205,15 +276,9 @@ DIR
       NEXT
     \>>
   \>>
+  Compilar
+  \<< CRLIB { $TITLE $EXTPRG $ROMID $VISIBLE $HIDDEN $CONFIG Compilar Biblioteca Apps SalvarLivro AbrirPasta ExcluirLivros ReceberLivro ABRIRLIVRO ENVIAR COMPILARPAGINA GETPAGINACOMPILADA GVIEW MONTARANEXOS MONTARINDICE MONTARINDICERAIZ PREOBJCABECALHO PREOBJEQ PREOBJIMG PREOBJREGUA PREOBJTXT SUBIRINDICE } PURGE :1: 937 PURGE DUP :1: 937 STO 'EditorHP' STO PUSH HOME 937 ATTACH POP
+    \<< PUSH HOME 937 DETACH POP 'Desinstalar' PURGE
+    \>> 'Desinstalar' STO
+  \>>
 END
-'TEMPLIVRO' PGDIR
-'TEMPLIVRO' STO
-TEMPLIVRO
-IFERR ABRIRLIVRO THEN
-	UPDIR
-	'TEMPLIVRO' PGDIR
-	ERRN DOERR
-END
-UPDIR
-'TEMPLIVRO' PGDIR
-\>>

@@ -131,7 +131,7 @@ Compilador.inflar = function (str) {
 
 // Compila um livro para um string
 Compilador.compilar = function (livro) {
-	var paginas, elementos, elementos2, elemento, alinhamento, indices, anexos, strings, texto
+	var paginas, elementos, elemento, alinhamento, indices, anexos, texto
 	var i, j
 	var obj = []
 	
@@ -144,35 +144,16 @@ Compilador.compilar = function (livro) {
 	var gerarIndice = function (indice) {
 		var subs, i, pos, nome
 		if (indice instanceof FolhaIndice) {
-			return "{"+escapar(indice.nome)+" "+(livro.paginas.indexOf(indice.pagina)+1)+". 1.}"
+			return "{"+escapar(indice.nome)+" "+(livro.paginas.indexOf(indice.pagina)+1)+" 1}"
 		} else {
 			subs = []
 			for (i=0; i<indice.indices.length; i++)
 				subs.push(gerarIndice(indice.indices[i]))
-			nome = indice.nome.substr(0, 21)
-			while (nome.length < 21) nome += " "
+			nome = indice.nome.substr(0, 20)
+			while (nome.length < 20) nome += " "
 			nome += ">"
-			return "{"+escapar(nome)+" "+subs.join(" ")+" 0.}"
+			return "{"+escapar(nome)+" "+subs.join(" ")+" 0}"
 		}
-	}
-	
-	// Gera um string de busca para uma string
-	var gerarBusca = function (str) {
-		return str
-		.replace(/[ÁÀÂÃÄÅ]/gi, "A")
-		.replace(/Æ/gi, "AE")
-		.replace(/Ç/gi, "C")
-		.replace(/[ÈÉÊË]/gi, "E")
-		.replace(/[ÌÍÎÏ]/gi, "I")
-		.replace(/Ð/gi, "D")
-		.replace(/Ñ/gi, "N")
-		.replace(/[ÒÓÔÕÖ]/gi, "O")
-		.replace(/[ÙÚÛÜ]/gi, "U")
-		.replace(/Ý/gi, "Y")
-		.replace(/[a-z]+/g, function (str) {
-			return str.toUpperCase()
-		})
-		.replace(/\s+/g, " ")
 	}
 	
 	// Quebra o texto em linhas
@@ -217,7 +198,7 @@ Compilador.compilar = function (livro) {
 	}
 	
 	// Dados básicos
-	obj[0] = "1."
+	obj[0] = "1"
 	obj[1] = escapar(livro.nome)
 	obj[2] = "{"+livro.criacao+" "+livro.modificacao+" "+Number(livro.autoPaginacao)+" "+Number(livro.autoIndexacao)+"}"
 	
@@ -227,26 +208,23 @@ Compilador.compilar = function (livro) {
 		indices.push(gerarIndice(livro.indices[i]))
 	obj[3] = "{"+indices.join(" ")+"}"
 	
-	// Monta as páginas e as strings de busca
+	// Monta as páginas
 	paginas = []
-	strings = []
 	for (i=0; i<livro.paginas.length; i++) {
 		elementos = []
-		elementos2 = []
 		for (j=0; j<livro.paginas[i].elementos.length; j++) {
 			elemento = livro.paginas[i].elementos[j]
-			alinhamento = "-1."
+			alinhamento = "-1"
 			switch (elemento.alinhamento) {
-				case 0: alinhamento = "0."; break
-				case 1: alinhamento = "1."; break
+				case 0: alinhamento = "0"; break
+				case 1: alinhamento = "1"; break
 			}
 			if (elemento instanceof Texto) {
-				elementos.push("{"+alinhamento+" "+quebrarTexto(elemento.texto)+" 0.}")
-				elementos2.push(gerarBusca(elemento.texto))
+				elementos.push("{"+alinhamento+" "+quebrarTexto(elemento.texto)+" 0}")
 			} else if (elemento instanceof Equacao)
-				elementos.push("{"+alinhamento+" "+escapar(elemento.texto)+" 1.}")
+				elementos.push("{"+alinhamento+" "+escapar(elemento.texto)+" 1}")
 			else if (elemento instanceof Imagem)
-				elementos.push("{"+elemento.cache+" 2.}")
+				elementos.push("{"+elemento.cache+" 2}")
 			else if (elemento instanceof Cabecalho) {
 				texto = elemento.texto
 				switch (elemento.nivel) {
@@ -255,16 +233,14 @@ Compilador.compilar = function (livro) {
 					case 3: texto = "\x13\x03\x13"+texto+"\x13\x03\x13"; break
 					case 5: texto = "\x13\x02\x13"+texto+"\x13\x02\x13"; break
 				}
-				elementos.push("{"+alinhamento+" "+elemento.nivel+". "+escapar(texto)+" 3.}")
-				elementos2.push(gerarBusca(elemento.texto))
+				elementos.push("{"+alinhamento+" "+elemento.nivel+". "+escapar(texto)+" 3}")
 			} else if (elemento instanceof Regua)
-				elementos.push("{"+elemento.altura+". 4.}")
+				elementos.push("{"+elemento.altura+". 4}")
 		}
 		paginas.push("{"+elementos.join(" ")+"}")
-		strings.push(escapar(elementos2.join(";")))
 	}
 	obj[4] = "{"+paginas.join(" ")+"}"
-	obj[6] = "{"+strings.join(" ")+"}"
+	obj[6] = "{}"
 	
 	// Monta os anexos
 	anexos = []

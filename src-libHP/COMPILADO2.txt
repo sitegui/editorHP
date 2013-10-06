@@ -1,0 +1,284 @@
+%%HP: T(3)A(R)F(.);
+DIR
+  $TITLE "Biblioteca"
+  $EXTPRG Apps
+  $ROMID 937
+  $VISIBLE { SalvarLivro }
+  $HIDDEN { Apps Biblioteca AbrirPasta ExcluirLivros ReceberLivro ~0 ~4 ~2 ~5 ~6 ~c ~d ~e ~f ~g ~h ~i ~j ~m }
+  $CONFIG 0
+  Biblioteca
+  \<< AbrirPasta \-> path
+    \<< "Biblioteca" Nomes { { "\>> Remover livros" 0 } { "\>> Receber livro" 1 } } +
+      IF 1 CLLCD CHOOSE
+      THEN
+        CASE DUP TYPE 2 ==
+          THEN Nomes SWAP POS 'Dados' SWAP GET
+            IFERR ~0
+            THEN path EVAL ERRN DOERR
+            END
+          END DUP 0 ==
+          THEN DROP ExcluirLivros Biblioteca
+          END 1 ==
+          THEN ReceberLivro Biblioteca
+          END
+        END
+      END path EVAL
+    \>>
+  \>>
+  Apps
+  \<<
+    IF DUP 0 R~SB ==
+    THEN SWAP DUP SIZE 1 + PUSH -49 CF -50 CF \->STR POP "Biblioteca" +
+      \<< Biblioteca
+      \>> 2 \->LIST 1 \->LIST + SWAP
+    END
+  \>>
+  AbrirPasta
+  \<< PATH HOME
+    IF 'Livros' VTYPE -1 ==
+    THEN Livros CRDIR
+    END Livros
+    IF 'Nomes' VTYPE -1 == 'Dados' VTYPE -1 == OR
+    THEN { } 'Nomes' STO { } 'Dados' STO
+    END
+  \>>
+  ~0
+  \<< OBJ\-> DROP 0 { } { } \-> \<-a \<-5 \<-6 \<-3 \<-7 \<-1 \<-9 n \<-8 \<-2
+    \<<
+      IF \<-a 1 \=/
+      THEN "Vers\227o incompat\237vel" DOERR
+      END \<-7 SIZE 'n' STO 1 n
+      START 0
+      NEXT n \->LIST '\<-2' STO 1 ~e
+    \>>
+  \>>
+  ~m
+  \<< \<-8 DUP HEAD SWAP TAIL DUP '\<-8' STO
+    IF SIZE
+    THEN ~d
+    ELSE ~e
+    END
+  \>>
+  SalvarLivro
+  \<< AbrirPasta Nomes \<-5 POS
+    IF DUP
+    THEN DUP 'Nomes' SWAP \<-5 PUT 'Dados' SWAP \<-a \<-5 \<-6 \<-3 \<-7 \<-1 \<-9 7 \->LIST PUT
+    ELSE DROP \<-5 'Nomes' STO+ \<-a \<-5 \<-6 \<-3 \<-7 \<-1 \<-9 7 \->LIST 1 \->LIST 'Dados' STO+
+    END EVAL
+  \>>
+  ReceberLivro
+  \<< '~n' PURGE
+    IFERR RCLF -33 SF -35 SF RECV ~n OBJ\-> DROP \-> nomeLivro dado
+      \<< Nomes nomeLivro POS
+        IF DUP
+        THEN DUP 'Nomes' SWAP nomeLivro PUT 'Dados' SWAP dado PUT
+        ELSE DROP nomeLivro 'Nomes' STO+ dado 1 \->LIST 'Dados' STO+
+        END nomeLivro " recebido" + MSGBOX
+      \>>
+    THEN
+    END STOF '~n' PURGE
+  \>>
+  ~j
+  \<< SWAP \-> ~1
+    \<< OBJ\-> DUP 1 - '\<-n' STO+ 1 SWAP
+      FOR j 1 \->GROB DUP SIZE B\->R '\<-0' STO+ B\->R \<-4 MAX '\<-4' STO ~1 SWAP 1 j == 0 4 \->LIST \<-n ROLLD
+      NEXT 6 '\<-0' STO+
+    \>>
+  \>>
+  ~i
+  \<< DUP 6 + '\<-0' STO+ 1 2 \->LIST \<-n ROLLD
+  \>>
+  ~h
+  \<< DUP SIZE B\->R 6 + '\<-0' STO+ B\->R \<-4 MAX '\<-4' STO 0 SWAP 1 0 4 \->LIST \<-n ROLLD
+  \>>
+  ~g
+  \<<
+    IFERR STR\->
+    THEN "'" SWAP + "'" +
+      IFERR STR\->
+      THEN DROP "[\019\002\019Erro na equa\231\227o\019\002\019]" 2 \->GROB
+      ELSE 0 \->GROB
+      END
+    ELSE 0 \->GROB
+    END DUP SIZE B\->R 6 + '\<-0' STO+ B\->R \<-4 MAX '\<-4' STO 1 0 4 \->LIST \<-n ROLLD
+  \>>
+  ~f
+  \<< SWAP DROP 2 \->GROB DUP SIZE B\->R 6 + '\<-0' STO+ B\->R \<-4 MAX '\<-4' STO 1 0 4 \->LIST \<-n ROLLD
+  \>>
+  PreCompilar
+  \<< 0 '$CONFIG' STO { Apps Biblioteca AbrirPasta ExcluirLivros ReceberLivro ~0 ~4 ~2 ~5 ~6 ~c ~d ~e ~f ~g ~h ~i ~j ~m } '$HIDDEN' STO { SalvarLivro } '$VISIBLE' STO 937 '$ROMID' STO 'Apps' '$EXTPRG' STO "Biblioteca" '$TITLE' STO
+  \>>
+  ~e
+  \<< \<-3 1
+    \<< 1 GET NSUB 2 \->LIST
+    \>> DOSUBS
+    IF \<-1 SIZE
+    THEN { { "\>> Anexos" 0 } } +
+    END { { "\>> Enviar livro" -1 } } + \<-5 SWAP ROT
+    IF CLLCD CHOOSE
+    THEN
+      IF DUP -1 ==
+      THEN DROP ~4 1 ~e
+      ELSE
+        IF DUP
+        THEN '\<-8' STO+ 2 ~d
+        ELSE DROP ~c
+        END
+      END
+    END
+  \>>
+  ~d
+  \<< 0 0 { } \-> ~8 ~l n ~a
+    \<< \<-3 '~l' STO \<-8 OBJ\-> 1 SWAP
+      START ~l SWAP GET '~l' STO
+      NEXT ~l OBJ\-> 2 - 'n' STO
+      IF
+      THEN SWAP DROP ~5 ~m
+      ELSE 1 n
+        FOR j 1 GET n 2 + j - 2 \->LIST 1 \->LIST '~a' STO+
+        NEXT { { ".." 0 } } '~a' STO+
+        IF ~a ~8 CLLCD CHOOSE
+        THEN
+          IF DUP
+          THEN '\<-8' STO+ 2 ~d
+          ELSE DROP ~m
+          END
+        END
+      END
+    \>>
+  \>>
+  ~c
+  \<<
+    IF "Anexos" \<-1 0 CLLCD CHOOSE
+    THEN
+      IFERR STR\->
+      THEN "Formato inv\225lido" MSGBOX
+      END
+    ELSE 1 ~e
+    END
+  \>>
+  ~6
+  \<< DUP SIZE # 0h # 0h 1 \-> ~7 mX mY x y ~b
+    \<< ~7 \->LCD
+      WHILE ~b
+      REPEAT
+        IFERR 0 WAIT
+        THEN 0 '~b' STO
+        END
+        CASE DUP 25.1 ==
+          THEN
+            IF y # 28h \>=
+            THEN y # 28h - 'y' STO
+            END
+          END DUP 25.3 ==
+          THEN # 0h 'y' STO
+          END DUP 36.1 ==
+          THEN
+            IF x # 42h + mX <
+            THEN x # 42h + 'x' STO
+            END
+          END DUP 36.3 ==
+          THEN
+            IF mX # 42h <
+            THEN # 0h
+            ELSE mX # 42h -
+            END 'x' STO
+          END DUP 35.1 ==
+          THEN
+            IF y # 28h + mY <
+            THEN y # 28h + 'y' STO
+            END
+          END DUP 35.3 ==
+          THEN
+            IF mY # 28h <
+            THEN # 0h
+            ELSE mY # 28h -
+            END 'y' STO
+          END DUP 34.1 ==
+          THEN
+            IF x # 42h \>=
+            THEN x # 42h - 'x' STO
+            END
+          END DUP 34.3 ==
+          THEN # 0h 'x' STO
+          END
+        END DROP ~7 x y 2 \->LIST mX mY 2 \->LIST SUB \->LCD
+      END
+    \>>
+  \>>
+  ~5
+  \<<
+    IF DUP 0 ==
+    THEN DROP "\205ndice inv\225lido" MSGBOX
+    ELSE '\<-2' OVER GET
+      IF DUP 0 ==
+      THEN DROP '\<-7' OVER GET ~2 PICT RCL DUP ROT SWAP '\<-2' UNROT PUT
+      ELSE SWAP DROP
+      END DUP PICT STO ~6
+    END
+  \>>
+  ExcluirLivros
+  \<< "Excluir" { { "\<< Voltar" 0 } } Nomes +
+    IF 1 CLLCD CHOOSE
+    THEN
+      IF DUP 0 \=/
+      THEN Nomes SWAP POS Nomes SIZE \-> n len
+        \<< Nomes OBJ\-> DROP len n - 1 + ROLL DROP len 1 - \->LIST 'Nomes' STO Dados OBJ\-> DROP len n - 1 + ROLL DROP len 1 - \->LIST 'Dados' STO
+        \>> ExcluirLivros
+      ELSE DROP
+      END
+    END
+  \>>
+  ~4
+  \<< \<-5 \<-a \<-5 \<-6 \<-3 \<-7 \<-1 \<-9 7 \->LIST 2 \->LIST '~n' STO RCLF -33 SF -35 SF
+    IFERR '~n' SEND
+    THEN DROP
+    END STOF '~n' PURGE
+  \>>
+  ~2
+  \<< 0 131 0 0 0 \-> \<-n \<-4 ~p \<-0 \<-y
+    \<< OBJ\-> '\<-n' STO "Gerando..." 1 DISP 1 \<-n
+      FOR j OBJ\-> DROP '~p' STO
+        CASE ~p 0 ==
+          THEN ~j
+          END ~p 1 ==
+          THEN ~g
+          END ~p 2 ==
+          THEN ~h
+          END ~p 3 ==
+          THEN ~f
+          END ~p 4 ==
+          THEN ~i
+          END
+        END \<-n j - 2 DISP
+      NEXT \<-4 R\->B \<-0 R\->B BLANK PICT STO "Montando..." 1 DISP 0 \<-n 1 -
+      FOR j \<-n j - 2 DISP
+        IF \<-n j - ROLL OBJ\-> DROP
+        THEN \-> h
+          \<< \<-4 R\->B h R\->B BLANK NEG PICT SWAP 0 R\->B \<-y R\->B 2 \->LIST SWAP GOR '\<-y' h 6 + STO+
+          \>>
+        ELSE 0 0 \-> ~9 ~7 ~3 w h
+          \<< ~7 SIZE B\->R 'h' STO B\->R 'w' STO
+            CASE ~9 -1 ==
+              THEN 0
+              END ~9 0 ==
+              THEN \<-4 w - 2 / FLOOR
+              END ~9 1 ==
+              THEN \<-4 w -
+              END
+            END R\->B \<-y R\->B 2 \->LIST PICT SWAP ~7 GOR '\<-y' h
+            IF ~3
+            THEN 6
+            ELSE 0
+            END + STO+
+          \>>
+        END
+      NEXT
+    \>>
+  \>>
+  Compilar
+  \<< CRLIB { $TITLE $EXTPRG $ROMID $VISIBLE $HIDDEN $CONFIG Compilar Biblioteca Apps SalvarLivro AbrirPasta ExcluirLivros ReceberLivro ~0 ~4 ~2 ~5 ~6 ~c ~d ~e ~f ~g ~h ~i ~j ~m } PURGE :1: 937 PURGE DUP :1: 937 STO 'EditorHP' STO PUSH HOME 937 ATTACH POP
+    \<< PUSH HOME 937 DETACH POP 'Desinstalar' PURGE
+    \>> 'Desinstalar' STO
+  \>>
+END

@@ -12,24 +12,12 @@ IF \<-anexos SIZE THEN
 	{{"\>> Anexos" 0.}} +
 END
 
-{{"\>> Buscar" -1.}} +
-
-{{"\>> Enviar livro" -2.}} +
+{{"\>> Enviar livro" -1.}} +
 
 \<-nome SWAP ROT
 
 IF CLLCD CHOOSE THEN
 	IF DUP -1. == THEN
-		@ Faz uma busca
-		DROP
-		"Digite o termo\010a ser buscado" ""
-		IFERR INPUT THEN
-			DROP DROP
-		ELSE
-			BUSCAR
-		END
-		1. MONTARINDICERAIZ
-	ELSE IF DUP -2. == THEN
 		@ Envia para a outra calculadora
 		DROP
 		ENVIAR
@@ -40,6 +28,6 @@ IF CLLCD CHOOSE THEN
 		ELSE
 			DROP MONTARANEXOS
 		END
-	END END
+	END
 END
 \>>

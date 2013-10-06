@@ -2,24 +2,24 @@
 \<<
 @ Deixa a calculadora apta a receber um livro de outra por infra vermelho
 
-@ Recebe o livro no formato {nome dado}
+@ Recebe o livro no formato {nomeLivro dado}
 'TEMP' PURGE
 IFERR
 	RCLF -33. SF -35. SF
-	RECV TEMP OBJ\-> DROP \-> nome dado \<<
+	RECV TEMP OBJ\-> DROP \-> nomeLivro dado \<<
 	@ Salva na lista
-	Nomes nome POS
+	Nomes nomeLivro POS
 	IF DUP THEN
-		DUP 'Nomes' SWAP nome PUT
+		DUP 'Nomes' SWAP nomeLivro PUT
 		'Dados' SWAP dado PUT
 	ELSE
 		DROP
-		nome 'Nomes' STO+
+		nomeLivro 'Nomes' STO+
 		dado 1. \->LIST 'Dados' STO+
 	END
 	
 	@ Alerta
-	nome " recebido" + MSGBOX
+	nomeLivro " recebido" + MSGBOX
 \>>
 THEN END
 STOF
