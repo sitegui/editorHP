@@ -11,7 +11,7 @@ JanelaAbrir.init = function () {
 	}
 	get("janelaAbrir-upload-arquivo").onchange = get("janelaAbrir-upload-abrir").onclick = function () {
 		// Inicia a abertura
-		Compilador.file2string(get("janelaAbrir-upload-arquivo").files.item(0), function (str) {
+		var abrindo = Compilador.file2string(get("janelaAbrir-upload-arquivo").files.item(0), function (str) {
 			var livro, aba
 			
 			Interface.fecharJanela()
@@ -32,7 +32,8 @@ JanelaAbrir.init = function () {
 				Editor.numNovosLivros--
 			}
 		})
-		Interface.carregando = true
+		if (abrindo)
+			Interface.carregando = true
 	}
 }
 

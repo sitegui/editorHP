@@ -107,6 +107,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- Submenus dos menus -->
 <div id="submenuAbrir" class="submenu" style="display:none">
+	<div class="submenu-item" id="submenuAbrir-recentes" title="Ctrl+O"><?=get('recentes')?></div>
 	<div class="submenu-item" id="submenuAbrir-upload"><?=get('upload')?></div>
 	<div class="submenu-item" id="submenuAbrir-novo" title="Ctrl+N"><?=get('novo')?></div>
 </div>
@@ -324,11 +325,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	</div>
 </div>
 
+<!-- Janela de feedback -->
+<div id="janelaFeedback" class="janelaMaior" style="display:none">
+	<div class="janela-titulo"><?=get('feedback')?></div>
+	<div class="janela-fechar minibotao-vermelho">&times;</div>
+	<div class="janelaMaior-conteudo">
+		<p><?=get('feedback-intro')?></p>
+		<p><?=get('email')?>: <input type="email" size="40" required id="janelaFeedback-email"><br>
+		<input type="checkbox" id="janelaFeedback-anon"> <label for="janelaFeedback-anon" style="font-size:small"><?=get('feedback-anon')?></label></p>
+		<p><?=get('mensagem')?>:<br><textarea style="width:750px;height:170px" id="janelaFeedback-msg"></textarea></p>
+		<p><?=get('feedback-userAgent')?>: <span id="janelaFeedback-userAgent" style="font-size:smaller"></span></p>
+		<p><input type="checkbox" id="janelaFeedback-arquivo"> <label for="janelaFeedback-arquivo"><?=get('feedback-arquivo')?></label></p>
+		<div class="janelaMaior-botoes">
+			<div class="botao-vermelho" id="janelaFeedback-cancelar"><?=get('cancelar')?></div>
+			<div class="janelaMaior-confirmar botao-verde" id="janelaFeedback-enviar"><?=get('enviar')?></div>
+		</div>
+	</div>
+</div>
+
 <!-- Janela de ajuste da imagem -->
 <div id="janelaImagem" class="janelaMaior" style="display:none">
 	<div class="janela-titulo"><?=get('ajustarImagem')?></div>
 	<div class="janela-fechar minibotao-vermelho" id="janelaImagem-fechar">&times;</div>
-	<div class="janelaImagem-conteudo">
+	<div class="janelaMaior-conteudo">
 		<div id="janelaImagem-opcoes">
 			<p><?=get('filtro')?>: <select id="janelaImagem-filtro">
 				<option value="basico"><?=get('basico')?></option>
@@ -343,11 +362,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<div style="text-align:center;margin:25px">
 			<canvas id="janelaImagem-canvas"></canvas>
 		</div>
-		<div class="janelaImagem-botoes">
+		<div class="janelaMaior-botoes">
 			<div class="botao-vermelho" id="janelaImagem-cancelar"><?=get('cancelar')?></div>
 			<div class="botao-azul" id="janelaImagem-trocar"><?=get('trocar')?></div>
 			<div class="botao-azul" id="janelaImagem-remover"><?=get('remover')?></div>
-			<div class="janelaImagem-confirmar botao-verde" id="janelaImagem-confirmar"><?=get('confirmar')?></div>
+			<div class="janelaMaior-confirmar botao-verde" id="janelaImagem-confirmar"><?=get('confirmar')?></div>
 		</div>
 	</div>
 </div>
@@ -356,7 +375,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div id="janelaDesenho" class="janelaMaior" style="display:none">
 	<div class="janela-titulo"><?=get('criarDesenho')?></div>
 	<div class="janela-fechar minibotao-vermelho" id="janelaDesenho-fechar">&times;</div>
-	<div class="janelaDesenho-conteudo">
+	<div class="janelaMaior-conteudo">
 		<p><?=get('avisoCores')?></p>
 		<div class="janelaDesenho-grupoCores">
 			<div class="janelaDesenho-cor" title="<?=get('preto')?>" id="janelaDesenho-cor-000"></div>
@@ -382,8 +401,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<div style="text-align:center;margin:15px">
 			<canvas id="janelaDesenho-canvas" class="janelaDesenho-canvas" width="393" height="240"></canvas>
 		</div>
-		<div class="botao-vermelho janelaBasica-cancelar" id="janelaDesenho-cancelar"><?=get('cancelar')?></div>
-		<div class="janelaBasica-confirmar botao-verde" id="janelaDesenho-confirmar"><?=get('confirmar')?></div>
+		<div class="janelaMaior-botoes">
+			<div class="botao-vermelho" id="janelaDesenho-cancelar"><?=get('cancelar')?></div>
+			<div class="janelaMaior-confirmar botao-verde" id="janelaDesenho-confirmar"><?=get('confirmar')?></div>
+		</div>
 	</div>
 </div>
 

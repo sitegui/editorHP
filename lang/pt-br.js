@@ -104,7 +104,13 @@ var strs = {
 	erroSintaxe_integral: "Formato inválido para a integral",
 	erroSintaxe_somatorio: "Formato inválido para o somatório",
 	erroSintaxe_parenteses: "Parênteses inválido",
-	alerta_tamanhoTitulo: "Título muito grande. O tamanho ideal é até 22 caracteres"
+	alerta_tamanhoTitulo: "Título muito grande. O tamanho ideal é até 22 caracteres",
+	erro_email: "Email inválido",
+	erro_mensagem: "Mensagem inválida",
+	feedback_enviando: "Enviando feedback...",
+	feedback_enviado: "Dados enviados, obrigado",
+	feedback_erroEnvio: "Erro no envio, tente novamente mais tarde",
+	upload_invalido: "Arquivo selecionado é inválido"
 }
 
 // Retorna a tradução correta para o texto

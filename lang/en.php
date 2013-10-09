@@ -5,7 +5,7 @@ $strs = array(
 	'abrir' => 'Open',
 	'salvar' => 'Save',
 	'ajuda' => 'Help',
-	'bug' => 'Report bug (opens new window)',
+	'bug' => 'Report bug',
 	'novaAba' => 'New book (Ctrl+N)',
 	'upload' => 'Upload',
 	'novo' => 'New',
@@ -112,5 +112,13 @@ $strs = array(
 		<li>Go to FILES (white shift + APPS)</li>
 		<li>Select the 3:SD port and press the right key</li>
 		<li>Select it in the list and press the EVAL option in the screen (F5)</li>
-		</ol></div>'
+		</ol></div>',
+	'feedback' => 'Contact us',
+	'enviar' => 'Send',
+	'feedback-intro' => 'Write your question, complain or compliment bellow and, if possible, <u>inform your name and email address</u> in order to be answered',
+	'email' => 'Email',
+	'feedback-anon' => 'I don\'t want to inform my email address and therefore I\'ll not be answered',
+	'mensagem' => 'Message',
+	'feedback-userAgent' => 'Your browser data',
+	'feedback-arquivo' => 'I also want to send the current opened file so that we can analise better your problem'
 );

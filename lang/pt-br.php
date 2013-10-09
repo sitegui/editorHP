@@ -5,7 +5,7 @@ $strs = array(
 	'abrir' => 'Abrir',
 	'salvar' => 'Salvar',
 	'ajuda' => 'Ajuda',
-	'bug' => 'Informar bug (abre em nova janela)',
+	'bug' => 'Informar bug',
 	'novaAba' => 'Novo livro (Ctrl+N)',
 	'upload' => 'Upload',
 	'novo' => 'Novo',
@@ -115,5 +115,13 @@ $strs = array(
 		<li>Vá em FILES (shift branco + APPS)</li>
 		<li>Selecione a porta 3:SD e pressione a seta da direita</li>
 		<li>Selecione-o na lista e pressione a opção EVAL da tela (F5)</li>
-		</ol></div>'
+		</ol></div>',
+	'feedback' => 'Entre em contato',
+	'enviar' => 'Enviar',
+	'feedback-intro' => 'Escreva sua dúvida, reclamação ou elogio abaixo e, se possível, <u>diga seu nome e email</u> para podermos responder',
+	'email' => 'Email',
+	'feedback-anon' => 'Não desejo informar meu email e estou ciente de que não serei respondido',
+	'mensagem' => 'Mensagem',
+	'feedback-userAgent' => 'Dados do seu navegador',
+	'feedback-arquivo' => 'Desejo enviar também o arquivo atualmente aberto para analisarmos melhor seu problema'
 );

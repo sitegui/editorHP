@@ -60,6 +60,7 @@ Interface.init = function () {
 	JanelaImagem.init()
 	JanelaDesenho.init()
 	JanelaDownload.init()
+	JanelaFeedback.init()
 }
 
 // Controla atalhos
@@ -212,6 +213,9 @@ Interface.abrirJanela = function (janela, argumento) {
 			break
 		case "janelaDownload":
 			JanelaDownload.onabrir(argumento)
+			break
+		case "janelaFeedback":
+			JanelaFeedback.onabrir()
 			break
 	}
 }

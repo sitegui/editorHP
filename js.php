@@ -27,6 +27,7 @@ $arquivos = array(
 	'interface/JanelaSintaxe.js',
 	'interface/JanelaDesenho.js',
 	'interface/JanelaDownload.js',
+	'interface/JanelaFeedback.js',
 	'interface/Ordenavel.js',
 	'editor.js'
 );

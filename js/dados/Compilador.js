@@ -465,26 +465,44 @@ Compilador.string2file = function (string) {
 
 // Converte um File em uma string compilada
 // Função assíncrona, executa onsucesso quando acabar (a string compilada vai como argumento)
+// Retorna true se o carregamento foi iniciado (false em caso de erro)
 Compilador.file2string = function (file, onsucesso) {
-	var fr
-	fr = new FileReader
-	fr.onload = function () {
-		var string, tamanho, buffer, i
-		
-		string = ""
-		buffer = new Uint8Array(fr.result)
-		
-		// Pega o tamanho
-		tamanho = (buffer[15]>>4)+(buffer[16]<<4)+(buffer[17]<<12)
-		tamanho = (tamanho-5)/2
-		
-		// Pega a string
-		for (i=0; i<tamanho; i++)
-			string += Compilador.mapaHP2PC[buffer[18+i]]
-		
-		onsucesso(string)
+	var fr, binary
+	
+	// Valida o tipo do arquivo
+	if (file.name.substr(-3).toLowerCase() == ".hp")
+		binary = true
+	else if (file.name.substr(-4).toLowerCase() == ".txt")
+		binary = false
+	else {
+		alert(_("upload_invalido"))
+		return false
 	}
-	fr.readAsArrayBuffer(file)
+	
+	fr = new FileReader
+	if (binary) {
+		fr.onload = function () {
+			var string, tamanho, buffer, i
+			
+			string = ""
+			buffer = new Uint8Array(fr.result)
+			
+			// Pega o tamanho e a string
+			tamanho = (buffer[15]>>4)+(buffer[16]<<4)+(buffer[17]<<12)
+			tamanho = (tamanho-5)/2
+			for (i=0; i<tamanho; i++)
+				string += Compilador.mapaHP2PC[buffer[18+i]]
+			
+			onsucesso(string)
+		}
+		fr.readAsArrayBuffer(file)
+	} else {
+		fr.onload = function () {
+			onsucesso(fr.result)
+		}
+		fr.readAsText(file)
+	}
+	return true
 }
 
 // Sanitiza uma string do PC (troca os tri-graphs e remove caracteres inválidos)

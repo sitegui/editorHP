@@ -104,7 +104,13 @@ var strs = {
 	erroSintaxe_integral: "Invalid format for integral",
 	erroSintaxe_somatorio: "Invalid format for summation",
 	erroSintaxe_parenteses: "Invalid parenthesis",
-	alerta_tamanhoTitulo: "Header to long. The ideal size is up to 22 characters"
+	alerta_tamanhoTitulo: "Header to long. The ideal size is up to 22 characters",
+	erro_email: "Invalid email",
+	erro_mensagem: "Invalid message",
+	feedback_enviando: "Sending feedback...",
+	feedback_enviado: "Feedback sent, thank you",
+	feedback_erroEnvio: "Error sending the form, try again later",
+	upload_invalido: "Invalid file selected"
 }
 
 // Retorna a tradução correta para o texto

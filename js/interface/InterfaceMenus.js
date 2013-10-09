@@ -10,6 +10,9 @@ InterfaceMenus.init = function () {
 		else
 			Interface.abrirJanela("janelaAbrir", "recentes")
 	}
+	get("submenuAbrir-recentes").onclick = function () {
+		Interface.abrirJanela("janelaAbrir", "recentes")
+	}
 	get("submenuAbrir-upload").onclick = function () {
 		Interface.abrirJanela("janelaAbrir", "upload")
 	}
@@ -110,7 +113,7 @@ InterfaceMenus.init = function () {
 	
 	// Avisa bug
 	get("menuBug").onclick = function () {
-		open("/fale_conosco/?assunto=editorHP-bug", "janelaFaleConosco", "width=500,height=500")
+		Interface.abrirJanela("janelaFeedback")
 	}
 	
 	// Muda a língua

@@ -27,10 +27,10 @@
 	width:50%;
 }
 .janelaMaior {
-	top:15%;
-	height:70%;
-	left:15%;
-	width:70%;
+	top:10%;
+	height:80%;
+	left:10%;
+	width:80%;
 }
 .janela-titulo {
 	position:absolute;
@@ -117,7 +117,7 @@
 }
 
 /* Janela imagem e de desenho */
-.janelaImagem-conteudo, .janelaDesenho-conteudo {
+.janelaMaior-conteudo {
 	background-color:rgba(255,255,255,.5);
 	position:absolute;
 	padding:15px 25px;
@@ -127,10 +127,10 @@
 	height:85%;
 	overflow:auto;
 }
-.janelaImagem-botoes {
-	margin-bottom: 25px;
+.janelaMaior-botoes {
+	margin-bottom:15px;
 }
-.janelaImagem-confirmar {
+.janelaMaior-confirmar {
 	float:right;
 }
 
