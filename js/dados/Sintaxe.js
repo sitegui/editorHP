@@ -163,7 +163,7 @@ Sintaxe.separar = function (str) {
 	
 	for (i=str.length; i>0; i--) {
 		sub = str.substr(0, i)
-		if (sub.match(/^∂[A-Za-zΣ▶πα→←↓↑γδεηθλρστωΔΠΩµß][A-Za-z0-9Σ▶πα→←↓↑γδεηθλρστωΔΠΩµß]*$/)) {
+		if (sub.match(/^∂[A-Za-zΣ▶π∞α→←↓↑γδεηθλρστωΔΠΩµß][A-Za-z0-9Σ▶π∞α→←↓↑γδεηθλρστωΔΠΩµß]*$/)) {
 			partes.push({valor: sub, tipo: Sintaxe.TIPO_DERIVADA})
 			str = str.substr(i)
 			i = str.length+1
@@ -171,7 +171,7 @@ Sintaxe.separar = function (str) {
 			partes.push({valor: sub, tipo: Sintaxe.TIPO_OPERADOR})
 			str = str.substr(i)
 			i = str.length+1
-		} else if (sub.match(/^[$%&?A-Za-z~Σ▶πα→←↓↑γδεηθλρστωΔΠΩµß∫][$%&0-9?A-Za-z~Σ▶πα→←↓↑γδεηθλρστωΔΠΩµß]*$/)) {
+		} else if (sub.match(/^[$%&?A-Za-z~Σ▶π∞α→←↓↑γδεηθλρστωΔΠΩµß∫][$%&0-9?A-Za-z~Σ▶π∞α→←↓↑γδεηθλρστωΔΠΩµß]*$/)) {
 			partes.push({valor: sub, tipo: Sintaxe.TIPO_VARIAVEL})
 			str = str.substr(i)
 			i = str.length+1
